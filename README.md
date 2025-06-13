@@ -39,12 +39,12 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (0):
-   
-filters (0):
-   
-writers (0):
-   
+readers (4):
+   from-adams, from-multi, from-pyfunc, poll-dir
+filters (1):
+   max-records
+writers (3):
+   to-adams, to-multi, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit
