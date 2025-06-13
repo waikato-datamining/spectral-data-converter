@@ -25,16 +25,16 @@ options:
   --keep_format         Will keep the format that the reader determines rather
                         than the supplied one. (default: False)
   -i [INPUT ...], --input [INPUT ...]
-                        Path to the report file(s) to read; glob syntax is
+                        Path to the spectral file(s) to read; glob syntax is
                         supported; Supported placeholders: {HOME}, {CWD},
                         {TMP} (default: None)
   -I [INPUT_LIST ...], --input_list [INPUT_LIST ...]
-                        Path to the text file(s) listing the report files to
+                        Path to the text file(s) listing the spectral files to
                         use; Supported placeholders: {HOME}, {CWD}, {TMP}
                         (default: None)
   --resume_from RESUME_FROM
                         Glob expression matching the file to resume from,
-                        e.g., '*/012345.report' (default: None)
+                        e.g., '*/012345.spec' (default: None)
 ```
 
 Available placeholders:
