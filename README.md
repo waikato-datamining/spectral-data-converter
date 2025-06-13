@@ -41,8 +41,11 @@ Tool for converting between spectral data formats.
 
 readers (4):
    from-adams, from-multi, from-pyfunc, poll-dir
-filters (1):
-   max-records
+filters (15):
+   check-duplicate-filenames, discard-by-name, max-records, metadata, 
+   metadata-from-name, metadata-to-placeholder, passthrough, 
+   pyfunc-filter, randomize-records, record-window, rename, sample, 
+   set-placeholder, split-records, tee
 writers (3):
    to-adams, to-multi, to-pyfunc
 
