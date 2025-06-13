@@ -23,6 +23,7 @@ The following dataset formats are supported:
 | Format                    | Read                       | Write                    | 
 |:--------------------------|:---------------------------|:-------------------------| 
 | [ADAMS](formats/adams.md) | [Y](plugins/from-adams.md) | [Y](plugins/to-adams.md) | 
+| [ASC](formats/asc.md)     | [Y](plugins/from-asc.md)   | [Y](plugins/to-asc.md)   | 
 
 
 ## Tools
@@ -39,15 +40,15 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (4):
-   from-adams, from-multi, from-pyfunc, poll-dir
+readers (5):
+   from-adams, from-asc, from-multi, from-pyfunc, poll-dir
 filters (15):
    check-duplicate-filenames, discard-by-name, max-records, metadata, 
    metadata-from-name, metadata-to-placeholder, passthrough, 
    pyfunc-filter, randomize-records, record-window, rename, sample, 
    set-placeholder, split-records, tee
-writers (3):
-   to-adams, to-multi, to-pyfunc
+writers (4):
+   to-adams, to-asc, to-multi, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit

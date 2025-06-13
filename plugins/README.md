@@ -1,6 +1,7 @@
 # spectral-data-converter plugins
 ## Readers
 * [from-adams](from-adams.md)
+* [from-asc](from-asc.md)
 * [from-multi](from-multi.md)
 * [from-pyfunc](from-pyfunc.md)
 * [poll-dir](poll-dir.md)
@@ -24,5 +25,6 @@
 
 ## Writers
 * [to-adams](to-adams.md)
+* [to-asc](to-asc.md)
 * [to-multi](to-multi.md)
 * [to-pyfunc](to-pyfunc.md)

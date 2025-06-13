@@ -82,6 +82,83 @@ class Reader(seppl.io.Reader, Initializable):
         return result
 
 
+def add_locale_option(parser: argparse.ArgumentParser):
+    """
+    Adds the locale option to the parser.
+
+    :param parser: the parser to update
+    :type parser: argparse.ArgumentParser
+    """
+    parser.add_argument("--locale", type=str, help="The locale to use for parsing/formatting numbers", required=False, default="en_US")
+
+
+class ReaderWithLocaleSupport(Reader):
+    """
+    Ancestor for dataset readers that support locales.
+    """
+
+    def __init__(self, instrument: str = None, format: str = None, keep_format: bool = None, locale: str = None,
+                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
+        """
+        Initializes the reader.
+
+        :param instrument: the instrument name to use
+        :type instrument: str
+        :param format: the spectral format
+        :type format: str
+        :param keep_format: whether to keep the format determined by the reader
+        :type keep_format: bool
+        :param locale: the locale to use for parsing numbers
+        :type locale: str
+        :param logger_name: the name to use for the logger
+        :type logger_name: str
+        :param logging_level: the logging level to use
+        :type logging_level: str
+        """
+        super().__init__(instrument=instrument, format=format, keep_format=keep_format, logger_name=logger_name, logging_level=logging_level)
+        self.locale = locale
+
+    def _create_argparser(self) -> argparse.ArgumentParser:
+        """
+        Creates an argument parser. Derived classes need to fill in the options.
+
+        :return: the parser
+        :rtype: argparse.ArgumentParser
+        """
+        parser = super()._create_argparser()
+        add_locale_option(parser)
+        return parser
+
+    def _apply_args(self, ns: argparse.Namespace):
+        """
+        Initializes the object with the arguments of the parsed namespace.
+
+        :param ns: the parsed arguments
+        :type ns: argparse.Namespace
+        """
+        super()._apply_args(ns)
+        self.locale = ns.locale
+
+    def initialize(self):
+        """
+        Initializes the processing, e.g., for opening files or databases.
+        """
+        super().initialize()
+        if self.locale is None:
+            self.locale = "en_US"
+
+    def _compile_options(self) -> List[str]:
+        """
+        Compiles the options for initializing the underlying reader.
+
+        :return: the list of options to use
+        :rtype: list
+        """
+        result = super()._compile_options()
+        result.extend(["--locale", self.locale])
+        return result
+
+
 def parse_reader(reader: str) -> Reader:
     """
     Parses the command-line and instantiates the reader.
