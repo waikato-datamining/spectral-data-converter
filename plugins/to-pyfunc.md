@@ -1,6 +1,6 @@
 # to-pyfunc
 
-* accepts: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
 
 Processes the spectra via the declared Python function. The function must take an Spectrum2D container as input and an optional 'split' string parameter.
 

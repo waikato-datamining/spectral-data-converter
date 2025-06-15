@@ -1,6 +1,6 @@
 # rename
 
-* accepts: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
 * generates: seppl.AnyData
 
 Renames files using a user-supplied format.

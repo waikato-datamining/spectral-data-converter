@@ -1,6 +1,6 @@
 # from-multi
 
-* generates: sdc.api.Spectrum2D
+* generates: sdc.api.Spectrum
 
 Reads data using the specified base readers and combines their output.
 

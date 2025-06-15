@@ -1,4 +1,5 @@
-from ._data import Spectrum2D, make_list, flatten_list
+from ._data import Spectrum, make_list, flatten_list
+from ._2d import Spectrum2D
 from ._filter import parse_filter, Filter
 from ._generator import Generator, SingleVariableGenerator
 from ._reader import Reader, ReaderWithLocaleSupport, add_locale_option, parse_reader

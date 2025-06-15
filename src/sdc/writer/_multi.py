@@ -4,7 +4,7 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 
 from seppl import Plugin
-from sdc.api import Spectrum2D, StreamWriter, BatchWriter, make_list
+from sdc.api import Spectrum, StreamWriter, BatchWriter, make_list
 
 
 class MultiWriter(StreamWriter):
@@ -70,7 +70,7 @@ class MultiWriter(StreamWriter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def _parse_commandline(self, cmdline: str) -> List[Plugin]:
         """

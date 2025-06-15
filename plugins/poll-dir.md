@@ -1,6 +1,6 @@
 # poll-dir
 
-* generates: sdc.api.Spectrum2D
+* generates: sdc.api.Spectrum
 
 Polls a directory for files and presents them to the base reader.
 

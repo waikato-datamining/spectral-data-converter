@@ -1,6 +1,6 @@
 # check-duplicate-filenames
 
-* accepts: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
 * generates: seppl.AnyData
 
 Ensures that file names are unique (raises an exception if not).

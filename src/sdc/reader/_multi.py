@@ -4,7 +4,7 @@ from typing import List, Iterable
 from seppl import Plugin
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum2D, Reader
+from sdc.api import Spectrum, Reader
 
 READ_ORDER_SEQUENTIAL = "sequential"
 READ_ORDER_INTERLEAVED = "interleaved"
@@ -84,7 +84,7 @@ class MultiReader(Reader):
         :rtype: list
         """
         if self._readers is None:
-            return [Spectrum2D]
+            return [Spectrum]
         else:
             result = []
             for r in self._readers:

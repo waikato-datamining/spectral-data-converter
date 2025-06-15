@@ -1,6 +1,6 @@
 # discard-by-name
 
-* accepts: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
 * generates: seppl.AnyData
 
 Discards files based on list of image names, list of paths and/or regular expressions that image names must match.

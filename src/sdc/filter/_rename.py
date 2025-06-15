@@ -4,7 +4,7 @@ from typing import List
 
 from seppl import AnyData
 from wai.logging import LOGGING_WARNING
-from sdc.api import Spectrum2D, flatten_list, make_list, Filter
+from sdc.api import Spectrum, flatten_list, make_list, Filter
 
 RENAME_PH_NAME = "{name}"
 RENAME_PH_NAME_LOWERCASE = "{lname}"
@@ -103,7 +103,7 @@ class Rename(Filter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def generates(self) -> List:
         """

@@ -3,7 +3,7 @@ from typing import List
 
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, load_function
+from sdc.api import Spectrum, SplittableStreamWriter, make_list, load_function
 
 
 class PythonFunctionWriter(SplittableStreamWriter):
@@ -77,7 +77,7 @@ class PythonFunctionWriter(SplittableStreamWriter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def initialize(self):
         """
@@ -93,7 +93,7 @@ class PythonFunctionWriter(SplittableStreamWriter):
         :param data: the data to write (single record or iterable of records)
         """
         for item in make_list(data):
-            if issubclass(type(item), Spectrum2D):
+            if issubclass(type(item), Spectrum):
                 split = None
                 if self.splitter is not None:
                     split = self.splitter.next(item=item.spectrum_name)

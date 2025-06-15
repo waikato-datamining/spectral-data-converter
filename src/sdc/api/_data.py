@@ -1,9 +1,11 @@
+import abc
 import copy
 import logging
 import os.path
 from typing import Dict, Optional, List, Any
 
 from seppl import MetaDataHandler, LoggingHandler
+from wai.common.file.spec import Spectrum as WaiSpectrum
 from wai.logging import set_logging_level, LOGGING_INFO
 
 from sdc.api._utils import safe_deepcopy
@@ -25,9 +27,9 @@ def logger() -> logging.Logger:
     return _logger
 
 
-class Spectrum2D(MetaDataHandler, LoggingHandler):
+class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
 
-    def __init__(self, source: str = None, spectrum_name: str = None, 
+    def __init__(self, source: str = None, spectrum_name: str = None,
                  spectrum: Any = None, metadata: Dict = None):
         self._logger = None
         """ for logging. """
@@ -96,33 +98,6 @@ class Spectrum2D(MetaDataHandler, LoggingHandler):
         """
         self._spectrum_name = s
 
-    def has_metadata(self) -> bool:
-        """
-        Returns whether meta-data is present.
-
-        :return: True if meta-data present
-        :rtype: bool
-        """
-        return self._metadata is not None
-
-    def get_metadata(self) -> Optional[Dict]:
-        """
-        Returns the meta-data.
-
-        :return: the meta-data, None if not available
-        :rtype: dict
-        """
-        return self._metadata
-
-    def set_metadata(self, metadata: Optional[Dict]):
-        """
-        Sets the meta-data to use.
-
-        :param metadata: the new meta-data, can be None
-        :type metadata: dict
-        """
-        self._metadata = metadata
-
     def duplicate(self, source: str = None, force_no_source: bool = None,
                   name: str = None, spectrum: Any = None, metadata: Dict = None):
         """
@@ -179,7 +154,7 @@ class Spectrum2D(MetaDataHandler, LoggingHandler):
         return result
 
 
-def make_list(data, cls=Spectrum2D) -> List:
+def make_list(data, cls=Spectrum) -> List:
     """
     Wraps the data item in a list if not already a list.
 

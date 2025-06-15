@@ -1,6 +1,6 @@
 # from-pyfunc
 
-* generates: sdc.api.Spectrum2D
+* generates: sdc.api.Spectrum
 
 Loads the spectra via the declared function and forwards them. The function must take a string as input and output an iterable of Spectrum2D containers.
 

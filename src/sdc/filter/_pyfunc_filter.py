@@ -4,7 +4,7 @@ from typing import List
 from seppl.io import Filter
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import flatten_list, make_list, Spectrum2D, load_function
+from sdc.api import flatten_list, make_list, Spectrum, load_function
 
 
 class PythonFunctionFilter(Filter):
@@ -53,7 +53,7 @@ class PythonFunctionFilter(Filter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def generates(self) -> List:
         """
@@ -62,7 +62,7 @@ class PythonFunctionFilter(Filter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
@@ -113,8 +113,8 @@ class PythonFunctionFilter(Filter):
                     if issubclass(type(item), self._output_cls):
                         result.append(new_item)
                     else:
-                        self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum2D, type(item)))
+                        self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum, type(item)))
             else:
-                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (Spectrum2D, type(item)))
+                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (Spectrum, type(item)))
 
         return flatten_list(result)

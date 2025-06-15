@@ -1,7 +1,7 @@
 # pyfunc-filter
 
-* accepts: sdc.api.Spectrum2D
-* generates: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
+* generates: sdc.api.Spectrum
 
 The declared Python function processes spectrum containers. The function must handle a single spectrum container or an iterable of spectrum containers and return a single spectrum container or an iterable of spectrum containers.
 

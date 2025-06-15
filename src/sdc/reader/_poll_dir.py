@@ -8,7 +8,7 @@ from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from seppl import Initializable, init_initializable
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum2D, Reader, parse_reader
+from sdc.api import Spectrum, Reader, parse_reader
 
 GLOB_NAME_PLACEHOLDER = "{NAME}"
 """ The glob placeholder for identifying other input files. """
@@ -125,7 +125,7 @@ class PollDir(Reader, PlaceholderSupporter):
         :rtype: list
         """
         if self.base_reader is None:
-            return [Spectrum2D]
+            return [Spectrum]
         else:
             return [self.base_reader.generates()]
 

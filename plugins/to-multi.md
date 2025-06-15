@@ -1,6 +1,6 @@
 # to-multi
 
-* accepts: sdc.api.Spectrum2D
+* accepts: sdc.api.Spectrum
 
 Forwards the incoming data to all the base writers.
 

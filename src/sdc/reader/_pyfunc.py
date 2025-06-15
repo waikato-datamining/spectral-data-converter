@@ -5,7 +5,7 @@ from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from seppl.io import locate_files
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum2D, Reader, load_function
+from sdc.api import Spectrum, Reader, load_function
 
 
 class PythonFunctionReader(Reader, PlaceholderSupporter):
@@ -88,7 +88,7 @@ class PythonFunctionReader(Reader, PlaceholderSupporter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum2D]
+        return [Spectrum]
 
     def initialize(self):
         """
@@ -109,10 +109,10 @@ class PythonFunctionReader(Reader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
         for item in self._function(self.session.current_input):
-            if issubclass(type(item), Spectrum2D):
+            if issubclass(type(item), Spectrum):
                 yield item
             else:
-                self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum2D, type(item)))
+                self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum, type(item)))
 
     def has_finished(self) -> bool:
         """
