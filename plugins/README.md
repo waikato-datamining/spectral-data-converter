@@ -10,6 +10,7 @@
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [discard-by-name](discard-by-name.md)
 * [downsample](downsample.md)
+* [equi-distance](equi-distance.md)
 * [max-records](max-records.md)
 * [metadata](metadata.md)
 * [metadata-from-name](metadata-from-name.md)
