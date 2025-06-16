@@ -12,7 +12,7 @@ class DownSample(Filter):
     Picks every n-th wave number.
     """
 
-    def __init__(self, start_index: int = 0, step: int = None,
+    def __init__(self, start_index: int = None, step: int = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the filter.
