@@ -63,13 +63,31 @@ def spectrum_to_matrix(sp: Union[Spectrum2D, WaiSpectrum], add_waveno: bool = Tr
     return result
 
 
+def spectra_to_matrix(sp: List[Union[Spectrum2D, WaiSpectrum]]) -> Matrix:
+    """
+    Turns the spectra into a wai.ma matrix.
+
+    :param sp: the spectrum to convert
+    :type sp: Spectrum2D or WaiSpectrum
+    :return: the matrix generated from the spectrum
+    :rtype: Matrix
+    """
+    spectra = []
+    for s in sp:
+        if isinstance(s, Spectrum2D):
+            s = s.spectrum
+        spectra.append(np.asarray(s.amplitudes))
+    result = Matrix(np.array(spectra))
+    return result
+
+
 def matrix_to_spectrum(matrix: Matrix, waveno: List[float] = None, sample_id: str = None, sample_data: Dict[str, Any] = None) -> WaiSpectrum:
     """
     Turns the matrix back into a spectrum data structure.
 
     :param matrix: the matrix to convert
     :type matrix: Matrix
-    :param waveno: the wave numbers to use, automatically assumes the first row to be the amplitudes
+    :param waveno: the wave numbers to use, automatically assumes the first row to be the amplitudes if None
     :type waveno: list
     :param sample_id: the sample ID to use
     :type sample_id: str
@@ -87,4 +105,22 @@ def matrix_to_spectrum(matrix: Matrix, waveno: List[float] = None, sample_id: st
     result = WaiSpectrum(waves=w, amplitudes=a, sample_data=sample_data)
     if sample_id is not None:
         result.id = sample_id
+    return result
+
+
+def matrix_to_spectra(matrix: Matrix, waveno: List[float]) -> List[WaiSpectrum]:
+    """
+    Turns the matrix back into a spectrum data structure.
+
+    :param matrix: the matrix to convert
+    :type matrix: Matrix
+    :param waveno: the wave numbers to use
+    :type waveno: list
+    :return: the generated spectrum
+    :rtype: WaiSpectrum
+    """
+    result = []
+    for i in range(len(matrix.data)):
+        a = [float(x) for x in matrix.data[i]]
+        result.append(WaiSpectrum(waves=waveno, amplitudes=a))
     return result
