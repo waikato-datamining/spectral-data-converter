@@ -1,14 +1,27 @@
 from typing import List
 
+from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import Center as WaiCenter
 
-from sdc.api import flatten_list, Filter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from sdc.api import flatten_list, TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
 
 
-class Center(Filter):
+class Center(TrainableBatchFilter):
     """
     Subtracts the column mean from the columns. Requires multiple spectra as input.
     """
+
+    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+        """
+        Initializes the handler.
+
+        :param logger_name: the name to use for the logger
+        :type logger_name: str
+        :param logging_level: the logging level to use
+        :type logging_level: str
+        """
+        super().__init__(logger_name=logger_name, logging_level=logging_level)
+        self._trans = None
 
     def name(self) -> str:
         """
@@ -46,15 +59,6 @@ class Center(Filter):
         """
         return [Spectrum2D]
 
-    def _requires_list_input(self) -> bool:
-        """
-        Returns whether lists are expected as input for the _process method.
-
-        :return: True if list inputs are expected by the filter
-        :rtype: bool
-        """
-        return True
-
     def _do_process(self, data):
         """
         Processes the data record(s).
@@ -62,9 +66,11 @@ class Center(Filter):
         :param data: the record(s) to process
         :return: the potentially updated record(s)
         """
-        trans = WaiCenter()
+        if not self._trained:
+            self._trained = True
+            self._trans = WaiCenter()
         mat = spectra_to_matrix(data)
-        mat_new = trans.transform(mat)
+        mat_new = self._trans.transform(mat)
         sp_new = matrix_to_spectra(mat_new, safe_deepcopy(data[0].spectrum.waves))
 
         result = []

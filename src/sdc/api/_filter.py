@@ -1,20 +1,53 @@
-from typing import List
+import abc
 from seppl.io import Filter as SFilter
+from wai.logging import LOGGING_WARNING
 
 
-class Filter(SFilter):
+class Filter(SFilter, abc.ABC):
     """
     Ancestor for filters.
     """
+    pass
 
-    def _compile_options(self) -> List[str]:
-        """
-        Compiles the options for initializing the underlying writer.
 
-        :return: the list of options to use
-        :rtype: list
+class BatchFilter(Filter, abc.ABC):
+    """
+    Ancestor for filters that work on batches.
+    """
+
+    def _requires_list_input(self) -> bool:
         """
-        return []
+        Returns whether lists are expected as input for the _process method.
+
+        :return: True if list inputs are expected by the filter
+        :rtype: bool
+        """
+        return True
+
+
+class TrainableBatchFilter(BatchFilter, abc.ABC):
+    """
+    Batch filter that get trained with first batch.
+    """
+
+    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+        """
+        Initializes the handler.
+
+        :param logger_name: the name to use for the logger
+        :type logger_name: str
+        :param logging_level: the logging level to use
+        :type logging_level: str
+        """
+        super().__init__(logger_name=logger_name, logging_level=logging_level)
+        self._trained = False
+
+    def initialize(self):
+        """
+        Initializes the processing, e.g., for opening files or databases.
+        """
+        super().initialize()
+        self._trained = False
 
 
 def parse_filter(filter_: str) -> Filter:

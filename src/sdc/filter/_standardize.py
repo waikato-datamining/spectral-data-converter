@@ -1,14 +1,27 @@
 from typing import List
 
+from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import Standardize as WaiStandardize
 
-from sdc.api import flatten_list, Filter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from sdc.api import flatten_list, TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
 
 
-class Standardize(Filter):
+class Standardize(TrainableBatchFilter):
     """
     Column-wise subtracts the column mean and divides by the column stdev.
     """
+
+    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+        """
+        Initializes the handler.
+
+        :param logger_name: the name to use for the logger
+        :type logger_name: str
+        :param logging_level: the logging level to use
+        :type logging_level: str
+        """
+        super().__init__(logger_name=logger_name, logging_level=logging_level)
+        self._trans = None
 
     def name(self) -> str:
         """
@@ -62,9 +75,11 @@ class Standardize(Filter):
         :param data: the record(s) to process
         :return: the potentially updated record(s)
         """
-        trans = WaiStandardize()
+        if not self._trained:
+            self._trained = True
+            self._trans = WaiStandardize()
         mat = spectra_to_matrix(data)
-        mat_new = trans.transform(mat)
+        mat_new = self._trans.transform(mat)
         sp_new = matrix_to_spectra(mat_new, safe_deepcopy(data[0].spectrum.waves))
 
         result = []
