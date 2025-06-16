@@ -98,7 +98,7 @@ class ASCReader(ReaderWithLocaleSupport, PlaceholderSupporter):
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.spec", resume_from=self.resume_from)
+        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.asc", resume_from=self.resume_from)
 
     def read(self) -> Iterable:
         """
