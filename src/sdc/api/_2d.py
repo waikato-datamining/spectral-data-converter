@@ -1,6 +1,6 @@
 import numpy as np
 
-from typing import Dict, Optional, Union, Any
+from typing import Dict, Optional, Union, Any, List
 from ._data import Spectrum
 from wai.spectralio.api import Spectrum as WaiSpectrum
 from wai.ma.core.matrix import Matrix
@@ -63,12 +63,14 @@ def spectrum_to_matrix(sp: Union[Spectrum2D, WaiSpectrum], add_waveno: bool = Tr
     return result
 
 
-def matrix_to_spectrum(matrix: Matrix, sample_id: str = None, sample_data: Dict[str, Any] = None) -> WaiSpectrum:
+def matrix_to_spectrum(matrix: Matrix, waveno: List[float] = None, sample_id: str = None, sample_data: Dict[str, Any] = None) -> WaiSpectrum:
     """
     Turns the matrix back into a spectrum data structure.
 
     :param matrix: the matrix to convert
     :type matrix: Matrix
+    :param waveno: the wave numbers to use, automatically assumes the first row to be the amplitudes
+    :type waveno: list
     :param sample_id: the sample ID to use
     :type sample_id: str
     :param sample_data: the sample data to use
@@ -76,9 +78,13 @@ def matrix_to_spectrum(matrix: Matrix, sample_id: str = None, sample_data: Dict[
     :return: the generated spectrum
     :rtype: WaiSpectrum
     """
-    w_new = [float(x) for x in matrix.data[0]]
-    a_new = [float(x) for x in matrix.data[1]]
-    result = WaiSpectrum(waves=w_new, amplitudes=a_new, sample_data=sample_data)
+    if waveno is None:
+        w = [float(x) for x in matrix.data[0]]
+        a = [float(x) for x in matrix.data[1]]
+    else:
+        w = waveno
+        a = [float(x) for x in matrix.data[0]]
+    result = WaiSpectrum(waves=w, amplitudes=a, sample_data=sample_data)
     if sample_id is not None:
         result.id = sample_id
     return result

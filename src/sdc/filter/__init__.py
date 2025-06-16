@@ -11,6 +11,7 @@ from ._randomize_records import RandomizeRecords
 from ._record_window import RecordWindow
 from ._rename import Rename
 from ._sample import Sample
+from ._savitzkygolay import SavitzkyGolay
 from ._set_placeholder import SetPlaceholder
 from ._split_records import SplitRecords
 from ._tee import Tee

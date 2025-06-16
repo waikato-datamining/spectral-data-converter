@@ -20,6 +20,7 @@
 * [record-window](record-window.md)
 * [rename](rename.md)
 * [sample](sample.md)
+* [savitzky-golay](savitzky-golay.md)
 * [set-placeholder](set-placeholder.md)
 * [split-records](split-records.md)
 * [tee](tee.md)
