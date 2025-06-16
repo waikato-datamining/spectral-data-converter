@@ -109,7 +109,7 @@ class SavitzkyGolay(Filter):
         if self.polynomial_order is None:
             self.polynomial_order = 2
         if self.polynomial_order < 2:
-            raise Exception("Polynominals has to be >=2, provided: %s" % str(self.polynomial_order))
+            raise Exception("Polynomial order has to be >=2, provided: %s" % str(self.polynomial_order))
         if self.derivative_order is None:
             self.derivative_order = 1
         if self.derivative_order < 0:
