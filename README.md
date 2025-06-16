@@ -42,12 +42,12 @@ Tool for converting between spectral data formats.
 
 readers (5):
    from-adams, from-asc, from-multi, from-pyfunc, poll-dir
-filters (18):
+filters (19):
    check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 
    metadata-to-placeholder, passthrough, pyfunc-filter, 
    randomize-records, record-window, rename, sample, savitzky-golay, 
-   set-placeholder, split-records, tee
+   savitzky-golay2, set-placeholder, split-records, tee
 writers (4):
    to-adams, to-asc, to-multi, to-pyfunc
 

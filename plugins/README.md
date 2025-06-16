@@ -22,6 +22,7 @@
 * [rename](rename.md)
 * [sample](sample.md)
 * [savitzky-golay](savitzky-golay.md)
+* [savitzky-golay2](savitzky-golay2.md)
 * [set-placeholder](set-placeholder.md)
 * [split-records](split-records.md)
 * [tee](tee.md)

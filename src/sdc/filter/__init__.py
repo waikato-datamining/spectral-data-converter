@@ -13,6 +13,7 @@ from ._record_window import RecordWindow
 from ._rename import Rename
 from ._sample import Sample
 from ._savitzkygolay import SavitzkyGolay
+from ._savitzkygolay2 import SavitzkyGolay2
 from ._set_placeholder import SetPlaceholder
 from ._split_records import SplitRecords
 from ._tee import Tee
