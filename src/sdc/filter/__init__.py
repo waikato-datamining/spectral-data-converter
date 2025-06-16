@@ -11,6 +11,7 @@ from ._pyfunc_filter import PythonFunctionFilter
 from ._randomize_records import RandomizeRecords
 from ._record_window import RecordWindow
 from ._rename import Rename
+from ._rownorm import RowNorm
 from ._sample import Sample
 from ._savitzkygolay import SavitzkyGolay
 from ._savitzkygolay2 import SavitzkyGolay2

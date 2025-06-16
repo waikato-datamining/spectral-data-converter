@@ -20,6 +20,7 @@
 * [randomize-records](randomize-records.md)
 * [record-window](record-window.md)
 * [rename](rename.md)
+* [row-norm](row-norm.md)
 * [sample](sample.md)
 * [savitzky-golay](savitzky-golay.md)
 * [savitzky-golay2](savitzky-golay2.md)
