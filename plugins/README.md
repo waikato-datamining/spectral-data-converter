@@ -7,6 +7,7 @@
 * [poll-dir](poll-dir.md)
 
 ## Filters
+* [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [discard-by-name](discard-by-name.md)
 * [downsample](downsample.md)
@@ -26,6 +27,7 @@
 * [savitzky-golay2](savitzky-golay2.md)
 * [set-placeholder](set-placeholder.md)
 * [split-records](split-records.md)
+* [standardize](standardize.md)
 * [tee](tee.md)
 
 ## Writers
