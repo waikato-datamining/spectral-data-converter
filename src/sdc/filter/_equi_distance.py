@@ -103,12 +103,12 @@ class EquiDistance(Filter):
         """
         result = []
 
-        eq = Equidistance(num_samples=self.num_wavenos)
+        flt = Equidistance(num_samples=self.num_wavenos)
 
         for item in make_list(data):
             sp = item.spectrum
             mat = spectrum_to_matrix(sp, add_waveno=True)
-            mat_new = eq.transform(mat)
+            mat_new = flt.transform(mat)
             sp_new = matrix_to_spectrum(mat_new, sample_id=sp.id, sample_data=safe_deepcopy(sp.sample_data))
             item_new = Spectrum2D(spectrum_name=item.spectrum_name, spectrum=sp_new)
             result.append(item_new)

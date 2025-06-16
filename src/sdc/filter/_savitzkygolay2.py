@@ -124,17 +124,17 @@ class SavitzkyGolay2(Filter):
         """
         result = []
 
-        sg = WaiSavitzkyGolay2()
-        sg.polynomial_order = self.polynomial_order
-        sg.derivative_order = self.derivative_order
-        sg.num_points = self.num_points // 2
+        trans = WaiSavitzkyGolay2()
+        trans.polynomial_order = self.polynomial_order
+        trans.derivative_order = self.derivative_order
+        trans.num_points = self.num_points // 2
 
         for item in make_list(data):
             sp = item.spectrum
             mat = spectrum_to_matrix(sp, add_waveno=False)
-            sg.configure(mat)
-            self.logger().info("coefficients: %s" % str(sg.coefficients))
-            mat_new = sg.transform(mat)
+            trans.configure(mat)
+            self.logger().info("coefficients: %s" % str(trans.coefficients))
+            mat_new = trans.transform(mat)
             w_new = sp.waves[self.num_points // 2:-(self.num_points // 2)]
             sp_new = matrix_to_spectrum(mat_new, sample_id=sp.id, waveno=w_new, sample_data=safe_deepcopy(sp.sample_data))
             item_new = Spectrum2D(spectrum_name=item.spectrum_name, spectrum=sp_new)

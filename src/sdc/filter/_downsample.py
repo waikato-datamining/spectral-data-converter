@@ -112,14 +112,14 @@ class DownSample(Filter):
         """
         result = []
 
-        ds = Downsample()
-        ds.start_index = self.start_index
-        ds.step = self.step
+        flt = Downsample()
+        flt.start_index = self.start_index
+        flt.step = self.step
 
         for item in make_list(data):
             sp = item.spectrum
             mat = spectrum_to_matrix(sp, add_waveno=True)
-            mat_new = ds.transform(mat)
+            mat_new = flt.transform(mat)
             sp_new = matrix_to_spectrum(mat_new, sample_id=sp.id, sample_data=safe_deepcopy(sp.sample_data))
             item_new = Spectrum2D(spectrum_name=item.spectrum_name, spectrum=sp_new)
             result.append(item_new)
