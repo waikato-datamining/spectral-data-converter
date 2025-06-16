@@ -35,6 +35,7 @@ setup(
         "wai_logging",
         "wai_common>=0.0.45",
         "wai_spectralio",
+        "wai_ma",
     ],
     version="0.0.1",
     author='Peter Reutemann',
