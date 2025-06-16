@@ -7,7 +7,7 @@ Column-wise subtracts the column mean and divides by the column stdev.
 
 ```
 usage: standardize [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                   [-N LOGGER_NAME] [--skip]
+                   [-N LOGGER_NAME] [--skip] [-k METADATA_KEY]
 
 Column-wise subtracts the column mean and divides by the column stdev.
 
@@ -20,4 +20,8 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
+  -k METADATA_KEY, --metadata_key METADATA_KEY
+                        The key in the meta-data that identifies the batches.
+                        NB: sorts the batch names alphabetically. (default:
+                        None)
 ```

@@ -11,16 +11,18 @@ class Center(TrainableBatchFilter):
     Subtracts the column mean from the columns. Requires multiple spectra as input.
     """
 
-    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+    def __init__(self, metadata_key: str = None, logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the handler.
 
+        :param metadata_key: the key in the metadata that identifies the batches
+        :type metadata_key: str
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
         :type logging_level: str
         """
-        super().__init__(logger_name=logger_name, logging_level=logging_level)
+        super().__init__(metadata_key=metadata_key, logger_name=logger_name, logging_level=logging_level)
         self._trans = None
 
     def name(self) -> str:
@@ -59,25 +61,27 @@ class Center(TrainableBatchFilter):
         """
         return [Spectrum2D]
 
-    def _do_process(self, data):
+    def _process_batches(self, batches: List):
         """
-        Processes the data record(s).
+        Processes the batches.
 
-        :param data: the record(s) to process
-        :return: the potentially updated record(s)
+        :param batches: the batches to process
+        :return: the potentially updated batches
         """
         if not self._trained:
             self._trained = True
             self._trans = WaiCenter()
-        mat = spectra_to_matrix(data)
-        mat_new = self._trans.transform(mat)
-        sp_new = matrix_to_spectra(mat_new, safe_deepcopy(data[0].spectrum.waves))
 
         result = []
-        for old, new in zip(data, sp_new):
-            new.id = old.spectrum.id
-            new.sample_data = safe_deepcopy(old.spectrum.sample_data)
-            item_new = Spectrum2D(spectrum_name=old.spectrum_name, spectrum=new)
-            result.append(item_new)
+        for data in batches:
+            mat = spectra_to_matrix(data)
+            mat_new = self._trans.transform(mat)
+            sp_new = matrix_to_spectra(mat_new, safe_deepcopy(data[0].spectrum.waves))
+
+            for old, new in zip(data, sp_new):
+                new.id = old.spectrum.id
+                new.sample_data = safe_deepcopy(old.spectrum.sample_data)
+                item_new = Spectrum2D(spectrum_name=old.spectrum_name, spectrum=new)
+                result.append(item_new)
 
         return flatten_list(result)
