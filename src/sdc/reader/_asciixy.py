@@ -10,12 +10,12 @@ from sdc.api import Reader
 from sdc.api import Spectrum2D
 
 
-# TODO sample ID extraction
 class ASCIIXYReader(Reader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,
-                 separator: str = None, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+                 separator: str = None, sample_id_extraction: List[str] = None,
+                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
 
@@ -31,6 +31,8 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         :type keep_format: bool
         :param separator: the separator to use for identifying X and Y columns
         :type separator: str
+        :param sample_id_extraction: the sample ID extraction (regexp, group), uses the filename if None
+        :type sample_id_extraction: list
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -42,6 +44,7 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         self.source_list = source_list
         self.resume_from = resume_from
         self.separator = separator
+        self.sample_id_extraction = sample_id_extraction
         self._inputs = None
         self._current_input = None
 
@@ -75,6 +78,7 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ASCIIXY files to use; " + placeholder_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.txt'", required=False)
         parser.add_argument("-s", "--separator", type=str, help="The separator to use for identifying X and Y columns.", required=False, default=";")
+        parser.add_argument("--sample_id_extraction", type=str, help="The regexp and group index for extracting the sample ID from the filename, e.g.: '.*_([0-9]+).txt' and '1'.", required=False, nargs=2)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -89,6 +93,7 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         self.source_list = ns.input_list
         self.resume_from = ns.resume_from
         self.separator = ns.separator
+        self.sample_id_extraction = ns.sample_id_extraction
 
     def generates(self) -> List:
         """
@@ -117,6 +122,9 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         """
         result = super()._compile_options()
         result.extend(["--separator", self.separator])
+        if self.sample_id_extraction is not None:
+            result.append("--sample-id-extraction")
+            result.extend(self.sample_id_extraction)
         return result
 
     def read(self) -> Iterable:

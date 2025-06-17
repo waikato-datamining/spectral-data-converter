@@ -10,6 +10,7 @@ usage: from-asciixy [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                     [--format FORMAT] [--keep_format] [-i [INPUT ...]]
                     [-I [INPUT_LIST ...]] [--resume_from RESUME_FROM]
                     [-s SEPARATOR]
+                    [--sample_id_extraction SAMPLE_ID_EXTRACTION SAMPLE_ID_EXTRACTION]
 
 Loads the spectra in ASCII XY format.
 
@@ -39,6 +40,10 @@ options:
   -s SEPARATOR, --separator SEPARATOR
                         The separator to use for identifying X and Y columns.
                         (default: ;)
+  --sample_id_extraction SAMPLE_ID_EXTRACTION SAMPLE_ID_EXTRACTION
+                        The regexp and group index for extracting the sample
+                        ID from the filename, e.g.: '.*_([0-9]+).txt' and '1'.
+                        (default: None)
 ```
 
 Available placeholders:
