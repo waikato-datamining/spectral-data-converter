@@ -5,6 +5,7 @@
 * [from-asciixy](from-asciixy.md)
 * [from-cal](from-cal.md)
 * [from-dpt](from-dpt.md)
+* [from-mps](from-mps.md)
 * [from-multi](from-multi.md)
 * [from-nir](from-nir.md)
 * [from-pyfunc](from-pyfunc.md)

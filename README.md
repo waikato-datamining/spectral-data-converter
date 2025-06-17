@@ -25,9 +25,10 @@ The following dataset formats are supported:
 | [ADAMS](formats/adams.md)      | [Y](plugins/from-adams.md)   | [Y](plugins/to-adams.md)   | 
 | [ASC](formats/asc.md)          | [Y](plugins/from-asc.md)     | [Y](plugins/to-asc.md)     | 
 | [ASCII XY](formats/asciixy.md) | [Y](plugins/from-asciixy.md) | [Y](plugins/to-asciixy.md) | 
+| CAL (FOSS)                     | [Y](plugins/from-cal.md)     | [Y](plugins/to-cal.md)     | 
 | [DPT](formats/dpt.md)          | [Y](plugins/from-dpt.md)     | [Y](plugins/to-dpt.md)     | 
-| FOSS CAL                       | [Y](plugins/from-cal.md)     | [Y](plugins/to-cal.md)     | 
-| FOSS NIR                       | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
+| MPS                            | [Y](plugins/from-mps.md)     | N                          | 
+| NIR (FOSS)                     | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
 
 
 ## Tools
@@ -44,9 +45,9 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (9):
-   from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-multi, 
-   from-nir, from-pyfunc, poll-dir
+readers (10):
+   from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
+   from-multi, from-nir, from-pyfunc, poll-dir
 filters (23):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 
