@@ -31,6 +31,7 @@ The following dataset formats are supported:
 | NIR (FOSS)                     | [Y](plugins/from-nir.md)      | [Y](plugins/to-nir.md)     | 
 | OPUS (Bruker)                  | [Y](plugins/from-opus.md)     | N                          | 
 | OPUS Ext (Bruker)              | [Y](plugins/from-opus-ext.md) | N                          | 
+| SPA (Thermo Scientific)        | [Y](plugins/from-spa.md)      | N                          | 
 
 
 ## Tools
@@ -47,10 +48,10 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (12):
+readers (13):
    from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
    from-multi, from-nir, from-opus, from-opus-ext, from-pyfunc, 
-   poll-dir
+   from-spa, poll-dir
 filters (23):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 

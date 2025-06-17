@@ -11,6 +11,7 @@
 * [from-opus](from-opus.md)
 * [from-opus-ext](from-opus-ext.md)
 * [from-pyfunc](from-pyfunc.md)
+* [from-spa](from-spa.md)
 * [poll-dir](poll-dir.md)
 
 ## Filters
