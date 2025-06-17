@@ -7,7 +7,8 @@ Applies principal components analysis to the data for dimensionality reduction.
 
 ```
 usage: pca [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-           [--skip] [-v VARIANCE] [-m MAX_COLUMNS] [-c]
+           [--skip] [-k METADATA_KEY] [--always_reset] [-v VARIANCE]
+           [-m MAX_COLUMNS] [-c]
 
 Applies principal components analysis to the data for dimensionality
 reduction.
@@ -21,6 +22,12 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
+  -k METADATA_KEY, --metadata_key METADATA_KEY
+                        The key in the meta-data that identifies the batches.
+                        NB: sorts the batch names alphabetically. (default:
+                        None)
+  --always_reset        If enabled, the filter's 'trained' flag gets reset
+                        with every batch (default: False)
   -v VARIANCE, --variance VARIANCE
                         The variance to use. (default: 0.95)
   -m MAX_COLUMNS, --max_columns MAX_COLUMNS

@@ -8,6 +8,7 @@ Column-wise subtracts the column mean and divides by the column stdev.
 ```
 usage: standardize [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                    [-N LOGGER_NAME] [--skip] [-k METADATA_KEY]
+                   [--always_reset]
 
 Column-wise subtracts the column mean and divides by the column stdev.
 
@@ -24,4 +25,6 @@ options:
                         The key in the meta-data that identifies the batches.
                         NB: sorts the batch names alphabetically. (default:
                         None)
+  --always_reset        If enabled, the filter's 'trained' flag gets reset
+                        with every batch (default: False)
 ```

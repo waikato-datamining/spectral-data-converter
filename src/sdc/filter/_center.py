@@ -3,7 +3,7 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import Center as WaiCenter
 
-from sdc.api import flatten_list, TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from sdc.api import TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
 
 
 class Center(TrainableBatchFilter):
@@ -61,27 +61,26 @@ class Center(TrainableBatchFilter):
         """
         return [Spectrum2D]
 
-    def _process_batches(self, batches: List):
+    def _process_batch(self, batch):
         """
-        Processes the batches.
+        Processes the batch.
 
-        :param batches: the batches to process
-        :return: the potentially updated batches
+        :param batch: the batch to process
+        :return: the potentially updated batch
         """
         if not self._trained:
             self._trained = True
             self._trans = WaiCenter()
 
         result = []
-        for batch_old in batches:
-            mat_old = spectra_to_matrix(batch_old)
-            mat_new = self._trans.transform(mat_old)
-            batch_new = matrix_to_spectra(mat_new, safe_deepcopy(batch_old[0].spectrum.waves))
+        mat_old = spectra_to_matrix(batch)
+        mat_new = self._trans.transform(mat_old)
+        batch_new = matrix_to_spectra(mat_new, safe_deepcopy(batch[0].spectrum.waves))
 
-            for sp_old, sp_new in zip(batch_old, batch_new):
-                sp_new.id = sp_old.spectrum.id
-                sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
-                item_new = Spectrum2D(spectrum_name=sp_old.spectrum_name, spectrum=sp_new)
-                result.append(item_new)
+        for sp_old, sp_new in zip(batch, batch_new):
+            sp_new.id = sp_old.spectrum.id
+            sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
+            item_new = Spectrum2D(spectrum_name=sp_old.spectrum_name, spectrum=sp_new)
+            result.append(item_new)
 
-        return flatten_list(result)
+        return result

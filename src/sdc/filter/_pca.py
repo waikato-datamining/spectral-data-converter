@@ -106,12 +106,12 @@ class PCA(TrainableBatchFilter):
         if self.center is None:
             self.center = False
 
-    def _process_batches(self, batches: List):
+    def _process_batch(self, batch):
         """
-        Processes the batches.
+        Processes the batch.
 
-        :param batches: the batches to process
-        :return: the potentially updated batches
+        :param batch: the batch to process
+        :return: the potentially updated batch
         """
         if not self._trained:
             self._trained = True
@@ -121,13 +121,12 @@ class PCA(TrainableBatchFilter):
             self._alg.center = self.center
 
         result = []
-        for batch_old in batches:
-            mat_old = spectra_to_matrix([x.spectrum for x in batch_old])
-            mat_new = self._alg.transform(mat_old)
-            batch_new = matrix_to_spectra(mat_new, waveno=[x for x in range(mat_new.num_columns())])
-            for sp_new, sp_old in zip(batch_new, batch_old):
-                sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
-                item_new = Spectrum2D(spectrum_name=sp_old.spectrum_name, spectrum=sp_new)
-                result.append(item_new)
+        mat_old = spectra_to_matrix([x.spectrum for x in batch])
+        mat_new = self._alg.transform(mat_old)
+        batch_new = matrix_to_spectra(mat_new, waveno=[x for x in range(mat_new.num_columns())])
+        for sp_old, sp_new in zip(batch, batch_new):
+            sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
+            item_new = Spectrum2D(spectrum_name=sp_old.spectrum_name, spectrum=sp_new)
+            result.append(item_new)
 
-        return flatten_list(result)
+        return result

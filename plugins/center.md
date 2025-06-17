@@ -7,7 +7,7 @@ Subtracts the column mean from the columns. Requires multiple spectra as input.
 
 ```
 usage: center [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-              [--skip] [-k METADATA_KEY]
+              [--skip] [-k METADATA_KEY] [--always_reset]
 
 Subtracts the column mean from the columns. Requires multiple spectra as
 input.
@@ -25,4 +25,6 @@ options:
                         The key in the meta-data that identifies the batches.
                         NB: sorts the batch names alphabetically. (default:
                         None)
+  --always_reset        If enabled, the filter's 'trained' flag gets reset
+                        with every batch (default: False)
 ```
