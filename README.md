@@ -20,10 +20,11 @@ pip install git+https://github.com/waikato-datamining/spectral-data-converter.gi
 
 The following dataset formats are supported:
 
-| Format                    | Read                       | Write                    | 
-|:--------------------------|:---------------------------|:-------------------------| 
-| [ADAMS](formats/adams.md) | [Y](plugins/from-adams.md) | [Y](plugins/to-adams.md) | 
-| [ASC](formats/asc.md)     | [Y](plugins/from-asc.md)   | [Y](plugins/to-asc.md)   | 
+| Format                        | Read                         | Write                      | 
+|:------------------------------|:-----------------------------|:---------------------------| 
+| [ADAMS](formats/adams.md)     | [Y](plugins/from-adams.md)   | [Y](plugins/to-adams.md)   | 
+| [ASC](formats/asc.md)         | [Y](plugins/from-asc.md)     | [Y](plugins/to-asc.md)     | 
+| [ASCIIXY](formats/asciixy.md) | [Y](plugins/from-asciixy.md) | [Y](plugins/to-asciixy.md) | 
 
 
 ## Tools
@@ -40,8 +41,9 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (5):
-   from-adams, from-asc, from-multi, from-pyfunc, poll-dir
+readers (6):
+   from-adams, from-asc, from-asciixy, from-multi, from-pyfunc, 
+   poll-dir
 filters (23):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 
@@ -49,8 +51,8 @@ filters (23):
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, split-records, 
    standard-normal-variate*, standardize, tee
-writers (4):
-   to-adams, to-asc, to-multi, to-pyfunc
+writers (5):
+   to-adams, to-asc, to-asciixy, to-multi, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit
