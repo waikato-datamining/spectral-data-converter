@@ -12,8 +12,7 @@ from sdc.api import Spectrum2D, SplittableStreamWriter, make_list
 class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, instrument_name: str = None, accessory_name: str = None,
-                 data_points: int = None, first_x_point: float = None, last_x_point: float = None,
-                 descending: bool = None, locale: str = None,
+                 data_points: int = None, first_x_point: float = None, last_x_point: float = None, descending: bool = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
@@ -33,8 +32,6 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         :type last_x_point: float
         :param descending: whether to output the wave numbers in descending order
         :type descending: bool
-        :param locale: the locale to use for writing the numbers
-        :type locale: str
         :param split_names: the names of the splits, no splitting if None
         :type split_names: list
         :param split_ratios: the integer ratios of the splits (must sum up to 100)
@@ -54,7 +51,6 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         self.first_x_point = first_x_point
         self.last_x_point = last_x_point
         self.descending = descending
-        self.locale = locale
 
     def name(self) -> str:
         """
