@@ -170,5 +170,6 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
                 os.makedirs(sub_dir)
 
             path = os.path.join(sub_dir, item.spectrum_name)
+            path = os.path.splitext(path)[0] + ".asc"
             self.logger().info("Writing spectrum to: %s" % path)
             writer.write([item.spectrum], path)
