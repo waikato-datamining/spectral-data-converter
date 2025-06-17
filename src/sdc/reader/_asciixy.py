@@ -74,8 +74,8 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the ASCIIXY file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ASCIIXY files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the ASCII XY file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ASCII XY files to use; " + placeholder_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.txt'", required=False)
         parser.add_argument("-s", "--separator", type=str, help="The separator to use for identifying X and Y columns.", required=False, default=";")
         parser.add_argument("--sample_id_extraction", type=str, help="The regexp and group index for extracting the sample ID from the filename, e.g.: '.*_([0-9]+).txt' and '1'.", required=False, nargs=2)

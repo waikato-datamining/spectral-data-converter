@@ -1,4 +1,4 @@
-# ASCIIXY
+# ASCII XY
 
 Very simple column-based format using plain text files. The two columns,
 wave number and amplitude are separated by a semicolon (by default).

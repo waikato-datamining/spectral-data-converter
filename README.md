@@ -20,12 +20,12 @@ pip install git+https://github.com/waikato-datamining/spectral-data-converter.gi
 
 The following dataset formats are supported:
 
-| Format                        | Read                         | Write                      | 
-|:------------------------------|:-----------------------------|:---------------------------| 
-| [ADAMS](formats/adams.md)     | [Y](plugins/from-adams.md)   | [Y](plugins/to-adams.md)   | 
-| [ASC](formats/asc.md)         | [Y](plugins/from-asc.md)     | [Y](plugins/to-asc.md)     | 
-| [ASCIIXY](formats/asciixy.md) | [Y](plugins/from-asciixy.md) | [Y](plugins/to-asciixy.md) | 
-| FOSS NIR                      | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
+| Format                         | Read                         | Write                      | 
+|:-------------------------------|:-----------------------------|:---------------------------| 
+| [ADAMS](formats/adams.md)      | [Y](plugins/from-adams.md)   | [Y](plugins/to-adams.md)   | 
+| [ASC](formats/asc.md)          | [Y](plugins/from-asc.md)     | [Y](plugins/to-asc.md)     | 
+| [ASCII XY](formats/asciixy.md) | [Y](plugins/from-asciixy.md) | [Y](plugins/to-asciixy.md) | 
+| FOSS NIR                       | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
 
 
 ## Tools

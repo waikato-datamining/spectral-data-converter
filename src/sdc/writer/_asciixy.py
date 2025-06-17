@@ -62,7 +62,7 @@ class ASCIIXYWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=True)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the ASCII XY .txt files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=True)
         parser.add_argument("-s", "--separator", type=str, help="The separator to use for identifying X and Y columns.", required=False, default=";")
         return parser
 
