@@ -8,6 +8,7 @@ from ._metadata import MetaData
 from ._metadata_from_name import MetaDataFromName
 from ._metadata_to_placeholder import MetaDataToPlaceholder
 from ._passthrough import PassThrough
+from ._pca import PCA
 from ._pyfunc_filter import PythonFunctionFilter
 from ._randomize_records import RandomizeRecords
 from ._record_window import RecordWindow

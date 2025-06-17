@@ -25,6 +25,7 @@
 * [metadata-from-name](metadata-from-name.md)
 * [metadata-to-placeholder](metadata-to-placeholder.md)
 * [passthrough](passthrough.md)
+* [pca](pca.md)
 * [pyfunc-filter](pyfunc-filter.md)
 * [randomize-records](randomize-records.md)
 * [record-window](record-window.md)
