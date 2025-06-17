@@ -28,6 +28,8 @@ class ASCReader(ReaderWithLocaleSupport, PlaceholderSupporter):
         :type format: str
         :param keep_format: whether to keep the format determined by the reader
         :type keep_format: bool
+        :param locale: the locale to use for parsing numbers
+        :type locale: str
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
