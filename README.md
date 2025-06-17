@@ -29,6 +29,7 @@ The following dataset formats are supported:
 | [DPT](formats/dpt.md)          | [Y](plugins/from-dpt.md)     | [Y](plugins/to-dpt.md)     | 
 | MPS                            | [Y](plugins/from-mps.md)     | N                          | 
 | NIR (FOSS)                     | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
+| OPUS (Bruker)                  | [Y](plugins/from-opus.md)    | N                          | 
 
 
 ## Tools
@@ -45,9 +46,9 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (10):
+readers (11):
    from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
-   from-multi, from-nir, from-pyfunc, poll-dir
+   from-multi, from-nir, from-opus, from-pyfunc, poll-dir
 filters (23):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 

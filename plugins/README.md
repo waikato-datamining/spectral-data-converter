@@ -8,6 +8,7 @@
 * [from-mps](from-mps.md)
 * [from-multi](from-multi.md)
 * [from-nir](from-nir.md)
+* [from-opus](from-opus.md)
 * [from-pyfunc](from-pyfunc.md)
 * [poll-dir](poll-dir.md)
 
