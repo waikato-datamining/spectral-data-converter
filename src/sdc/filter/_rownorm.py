@@ -67,12 +67,12 @@ class RowNorm(Filter, AliasSupporter):
 
         trans = WaiRowNorm()
 
-        for item in make_list(data):
-            sp = item.spectrum
-            mat = spectrum_to_matrix(sp, add_waveno=False)
-            mat_new = trans.transform(mat)
-            sp_new = matrix_to_spectrum(mat_new, sample_id=sp.id, waveno=safe_deepcopy(sp.waves), sample_data=safe_deepcopy(sp.sample_data))
-            item_new = Spectrum2D(spectrum_name=item.spectrum_name, spectrum=sp_new)
+        for item_old in make_list(data):
+            sp_old = item_old.spectrum
+            mat_old = spectrum_to_matrix(sp_old, add_waveno=False)
+            mat_new = trans.transform(mat_old)
+            sp_new = matrix_to_spectrum(mat_new, sample_id=sp_old.id, waveno=safe_deepcopy(sp_old.waves), sample_data=safe_deepcopy(sp_old.sample_data))
+            item_new = Spectrum2D(spectrum_name=item_old.spectrum_name, spectrum=sp_new)
             result.append(item_new)
 
         return flatten_list(result)

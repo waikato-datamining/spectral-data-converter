@@ -73,15 +73,15 @@ class Center(TrainableBatchFilter):
             self._trans = WaiCenter()
 
         result = []
-        for data in batches:
-            mat = spectra_to_matrix(data)
-            mat_new = self._trans.transform(mat)
-            sp_new = matrix_to_spectra(mat_new, safe_deepcopy(data[0].spectrum.waves))
+        for batch_old in batches:
+            mat_old = spectra_to_matrix(batch_old)
+            mat_new = self._trans.transform(mat_old)
+            batch_new = matrix_to_spectra(mat_new, safe_deepcopy(batch_old[0].spectrum.waves))
 
-            for old, new in zip(data, sp_new):
-                new.id = old.spectrum.id
-                new.sample_data = safe_deepcopy(old.spectrum.sample_data)
-                item_new = Spectrum2D(spectrum_name=old.spectrum_name, spectrum=new)
+            for sp_old, sp_new in zip(batch_old, batch_new):
+                sp_new.id = sp_old.spectrum.id
+                sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
+                item_new = Spectrum2D(spectrum_name=sp_old.spectrum_name, spectrum=sp_new)
                 result.append(item_new)
 
         return flatten_list(result)
