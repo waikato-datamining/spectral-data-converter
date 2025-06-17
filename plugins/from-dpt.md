@@ -36,7 +36,7 @@ options:
                         None)
   --resume_from RESUME_FROM
                         Glob expression matching the file to resume from,
-                        e.g., '*/012345.asc' (default: None)
+                        e.g., '*/012345.dpt' (default: None)
 ```
 
 Available placeholders:

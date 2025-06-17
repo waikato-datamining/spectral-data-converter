@@ -71,7 +71,7 @@ class DPTReader(ReaderWithLocaleSupport, PlaceholderSupporter):
         parser = super()._create_argparser()
         parser.add_argument("-i", "--input", type=str, help="Path to the DPT file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
         parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the DPT files to use; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.asc'", required=False)
+        parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.dpt'", required=False)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
