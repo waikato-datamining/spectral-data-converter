@@ -4,6 +4,7 @@
 * [from-asc](from-asc.md)
 * [from-asciixy](from-asciixy.md)
 * [from-multi](from-multi.md)
+* [from-nir](from-nir.md)
 * [from-pyfunc](from-pyfunc.md)
 * [poll-dir](poll-dir.md)
 
@@ -36,4 +37,5 @@
 * [to-asc](to-asc.md)
 * [to-asciixy](to-asciixy.md)
 * [to-multi](to-multi.md)
+* [to-nir](to-nir.md)
 * [to-pyfunc](to-pyfunc.md)

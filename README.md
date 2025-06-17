@@ -25,6 +25,7 @@ The following dataset formats are supported:
 | [ADAMS](formats/adams.md)     | [Y](plugins/from-adams.md)   | [Y](plugins/to-adams.md)   | 
 | [ASC](formats/asc.md)         | [Y](plugins/from-asc.md)     | [Y](plugins/to-asc.md)     | 
 | [ASCIIXY](formats/asciixy.md) | [Y](plugins/from-asciixy.md) | [Y](plugins/to-asciixy.md) | 
+| FOSS NIR                      | [Y](plugins/from-nir.md)     | [Y](plugins/to-nir.md)     | 
 
 
 ## Tools
@@ -41,9 +42,9 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (6):
-   from-adams, from-asc, from-asciixy, from-multi, from-pyfunc, 
-   poll-dir
+readers (7):
+   from-adams, from-asc, from-asciixy, from-multi, from-nir, 
+   from-pyfunc, poll-dir
 filters (23):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, max-records, metadata, metadata-from-name, 
@@ -51,8 +52,8 @@ filters (23):
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, split-records, 
    standard-normal-variate*, standardize, tee
-writers (5):
-   to-adams, to-asc, to-asciixy, to-multi, to-pyfunc
+writers (6):
+   to-adams, to-asc, to-asciixy, to-multi, to-nir, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit
