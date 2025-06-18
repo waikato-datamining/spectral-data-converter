@@ -1,4 +1,4 @@
-from ._abstractpls import AbstractPLS, PREPROCESSING, PREPROCESSING_ENUM, PREPROCESSING_NONE, PREPROCESSING_CENTER, PREPROCESSING_STANDARDIZE
+from ._abstractpls import AbstractPLS, AbstractSingleResponsePLS, AbstractMultiResponsePLS, PREPROCESSING, PREPROCESSING_ENUM, PREPROCESSING_NONE, PREPROCESSING_CENTER, PREPROCESSING_STANDARDIZE
 from ._center import Center
 from ._check_duplicate_filenames import CheckDuplicateFilenames
 from ._discard_by_name import DiscardByName

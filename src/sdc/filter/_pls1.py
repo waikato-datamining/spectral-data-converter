@@ -1,9 +1,9 @@
 from wai.ma.algorithm.pls import PLS1 as WaiPLS1
 
-from ._abstractpls import AbstractPLS, PREPROCESSING_ENUM
+from ._abstractpls import AbstractSingleResponsePLS, PREPROCESSING_ENUM
 
 
-class PLS1(AbstractPLS):
+class PLS1(AbstractSingleResponsePLS):
     """
     Applies PLS1 to the batches.
     """

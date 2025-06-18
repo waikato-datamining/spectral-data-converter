@@ -1,14 +1,12 @@
 import argparse
-from typing import List
 
 from wai.logging import LOGGING_WARNING
 from wai.ma.algorithm.pls import SIMPLS as WaiSIMPLS
 
-from sdc.api import Spectrum2D
-from ._abstractpls import AbstractPLS, PREPROCESSING_ENUM
+from ._abstractpls import AbstractSingleResponsePLS, PREPROCESSING_ENUM
 
 
-class SIMPLS(AbstractPLS):
+class SIMPLS(AbstractSingleResponsePLS):
     """
     Applies SIMPLS to the batches.
     """
