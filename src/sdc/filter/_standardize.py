@@ -3,7 +3,7 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import Standardize as WaiStandardize
 
-from sdc.api import flatten_list, TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from sdc.api import TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
 
 
 class Standardize(TrainableBatchFilter):

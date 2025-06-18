@@ -1,9 +1,10 @@
 import argparse
 from typing import List
 
-from wai.ma.algorithm import PCA as WaiPCA
 from wai.logging import LOGGING_WARNING
-from sdc.api import flatten_list, TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from wai.ma.algorithm import PCA as WaiPCA
+
+from sdc.api import TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
 
 
 class PCA(TrainableBatchFilter):
