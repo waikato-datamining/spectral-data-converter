@@ -23,7 +23,7 @@ class Standardize(TrainableBatchFilter):
         :type logging_level: str
         """
         super().__init__(metadata_key=metadata_key, logger_name=logger_name, logging_level=logging_level)
-        self._trans = None
+        self._transformation = None
 
     def name(self) -> str:
         """
@@ -79,11 +79,11 @@ class Standardize(TrainableBatchFilter):
         """
         if not self._trained:
             self._trained = True
-            self._trans = WaiStandardize()
+            self._transformation = WaiStandardize()
 
         result = []
         mat_old = spectra_to_matrix(batch)
-        mat_new = self._trans.transform(mat_old)
+        mat_new = self._transformation.transform(mat_old)
         batch_new = matrix_to_spectra(mat_new, safe_deepcopy(batch[0].spectrum.waves))
 
         for sp_old, sp_new in zip(batch, batch_new):

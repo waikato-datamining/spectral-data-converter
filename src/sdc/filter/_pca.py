@@ -32,7 +32,7 @@ class PCA(TrainableBatchFilter):
         self.variance = variance
         self.max_columns = max_columns
         self.center = center
-        self._alg = None
+        self._algorithm = None
 
     def name(self) -> str:
         """
@@ -116,14 +116,14 @@ class PCA(TrainableBatchFilter):
         """
         if not self._trained:
             self._trained = True
-            self._alg = WaiPCA()
-            self._alg.variance = self.variance
-            self._alg.max_columns = self.max_columns
-            self._alg.center = self.center
+            self._algorithm = WaiPCA()
+            self._algorithm.variance = self.variance
+            self._algorithm.max_columns = self.max_columns
+            self._algorithm.center = self.center
 
         result = []
         mat_old = spectra_to_matrix([x.spectrum for x in batch])
-        mat_new = self._alg.transform(mat_old)
+        mat_new = self._algorithm.transform(mat_old)
         batch_new = matrix_to_spectra(mat_new, waveno=[x for x in range(mat_new.num_columns())])
         for sp_old, sp_new in zip(batch, batch_new):
             sp_new.sample_data = safe_deepcopy(sp_old.spectrum.sample_data)
