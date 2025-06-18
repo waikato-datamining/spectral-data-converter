@@ -52,10 +52,10 @@ readers (13):
    from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
    from-multi, from-nir, from-opus, from-opus-ext, from-pyfunc, 
    from-spa, poll-dir
-filters (26):
+filters (27):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, log, max-records, metadata, metadata-from-name, 
-   metadata-to-placeholder, passthrough, pca, pyfunc-filter, 
+   metadata-to-placeholder, passthrough, pca, pls1, pyfunc-filter, 
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, simpls, 
    split-records, standard-normal-variate*, standardize, tee
