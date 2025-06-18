@@ -54,24 +54,6 @@ class SIMPLS(AbstractPLS):
         """
         return "Applies SIMPLS to the batches of spectra."
 
-    def accepts(self) -> List:
-        """
-        Returns the list of classes that are accepted.
-
-        :return: the list of classes
-        :rtype: list
-        """
-        return [Spectrum2D]
-
-    def generates(self) -> List:
-        """
-        Returns the list of classes that get produced.
-
-        :return: the list of classes
-        :rtype: list
-        """
-        return [Spectrum2D]
-
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
