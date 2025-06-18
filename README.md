@@ -52,13 +52,13 @@ readers (13):
    from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
    from-multi, from-nir, from-opus, from-opus-ext, from-pyfunc, 
    from-spa, poll-dir
-filters (25):
+filters (26):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, log, max-records, metadata, metadata-from-name, 
    metadata-to-placeholder, passthrough, pca, pyfunc-filter, 
    randomize-records, record-window, rename, row-norm, sample, 
-   savitzky-golay, savitzky-golay2, set-placeholder, split-records, 
-   standard-normal-variate*, standardize, tee
+   savitzky-golay, savitzky-golay2, set-placeholder, simpls, 
+   split-records, standard-normal-variate*, standardize, tee
 writers (8):
    to-adams, to-asc, to-asciixy, to-cal, to-dpt, to-multi, to-nir, 
    to-pyfunc

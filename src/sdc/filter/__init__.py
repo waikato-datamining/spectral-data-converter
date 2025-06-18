@@ -1,3 +1,4 @@
+from ._abstractpls import AbstractPLS, PREPROCESSING, PREPROCESSING_ENUM, PREPROCESSING_NONE, PREPROCESSING_CENTER, PREPROCESSING_STANDARDIZE
 from ._center import Center
 from ._check_duplicate_filenames import CheckDuplicateFilenames
 from ._discard_by_name import DiscardByName
@@ -19,6 +20,7 @@ from ._sample import Sample
 from ._savitzkygolay import SavitzkyGolay
 from ._savitzkygolay2 import SavitzkyGolay2
 from ._set_placeholder import SetPlaceholder
+from ._simpls import SIMPLS
 from ._split_records import SplitRecords
 from ._standardize import Standardize
 from ._tee import Tee
