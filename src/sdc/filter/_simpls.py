@@ -52,7 +52,7 @@ class SIMPLS(AbstractPLS):
         :return: the description
         :rtype: str
         """
-        return "Applies SIMPLS to the batches of spectra."
+        return "Applies SIMPLS to the batches of spectra. More information: https://www.sciencedirect.com/science/article/abs/pii/016974399385002X"
 
     def _create_argparser(self) -> argparse.ArgumentParser:
         """

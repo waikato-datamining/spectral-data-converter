@@ -3,7 +3,7 @@
 * accepts: sdc.api.Spectrum2D
 * generates: sdc.api.Spectrum2D
 
-Applies SIMPLS to the batches of spectra.
+Applies SIMPLS to the batches of spectra. More information: https://www.sciencedirect.com/science/article/abs/pii/016974399385002X
 
 ```
 usage: simpls [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
@@ -11,7 +11,8 @@ usage: simpls [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
               [-p {none,center,standardize}] [-n NUM_COMPONENTS] -r RESPONSE
               [-c NUM_COEFFICIENTS]
 
-Applies SIMPLS to the batches of spectra.
+Applies SIMPLS to the batches of spectra. More information:
+https://www.sciencedirect.com/science/article/abs/pii/016974399385002X
 
 options:
   -h, --help            show this help message and exit
