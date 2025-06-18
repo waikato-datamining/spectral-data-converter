@@ -20,6 +20,7 @@
 * [discard-by-name](discard-by-name.md)
 * [downsample](downsample.md)
 * [equi-distance](equi-distance.md)
+* [log](log.md)
 * [max-records](max-records.md)
 * [metadata](metadata.md)
 * [metadata-from-name](metadata-from-name.md)

@@ -3,6 +3,7 @@ from ._check_duplicate_filenames import CheckDuplicateFilenames
 from ._discard_by_name import DiscardByName
 from ._downsample import DownSample
 from ._equi_distance import EquiDistance
+from ._log import Log
 from ._max_records import MaxRecords
 from ._metadata import MetaData
 from ._metadata_from_name import MetaDataFromName
