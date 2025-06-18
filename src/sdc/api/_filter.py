@@ -1,10 +1,11 @@
 import abc
 import argparse
-from typing import List
-from seppl.io import Filter as SFilter
+
 from seppl import MetaDataHandler, get_metadata
-from sdc.api import make_list
+from seppl.io import Filter as SFilter
 from wai.logging import LOGGING_WARNING
+
+from sdc.api import make_list
 
 
 class Filter(SFilter, abc.ABC):
@@ -158,7 +159,7 @@ class TrainableBatchFilter(BatchFilter, abc.ABC):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("--always_reset", action="store_true", help="If enabled, the filter's 'trained' flag gets reset with every batch")
+        parser.add_argument("--always_reset", action="store_true", help="If enabled, the filter's 'trained' flag gets reset with every batch and the filter retrained each time, rather than only getting trained on the 1st batch and then applied in that form to subsequent batches.")
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):

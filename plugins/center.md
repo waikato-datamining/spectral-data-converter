@@ -26,5 +26,8 @@ options:
                         NB: sorts the batch names alphabetically. (default:
                         None)
   --always_reset        If enabled, the filter's 'trained' flag gets reset
-                        with every batch (default: False)
+                        with every batch and the filter retrained each time,
+                        rather than only getting trained on the 1st batch and
+                        then applied in that form to subsequent batches.
+                        (default: False)
 ```
