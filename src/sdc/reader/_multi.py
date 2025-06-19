@@ -1,10 +1,10 @@
 import argparse
 from typing import List, Iterable
 
-from seppl import Plugin
+from seppl import Plugin, AnyData
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum, Reader
+from sdc.api import Reader
 
 READ_ORDER_SEQUENTIAL = "sequential"
 READ_ORDER_INTERLEAVED = "interleaved"
@@ -83,8 +83,8 @@ class MultiReader(Reader):
         :return: the list of classes
         :rtype: list
         """
-        if self._readers is None:
-            return [Spectrum]
+        if (self._readers is None) or (len(self._readers) == 0):
+            return [AnyData]
         else:
             result = []
             for r in self._readers:
@@ -126,10 +126,7 @@ class MultiReader(Reader):
             objs = self._parse_commandline(reader)
             if len(objs) == 1:
                 _reader = objs[0]
-                if _reader.generates() == self.generates():
-                    self._readers.append(_reader)
-                else:
-                    raise Exception("Reader '%s' generates '%s' but '%s' is required!" % (reader, str(_reader.generates()), str(self.generates())))
+                self._readers.append(_reader)
             else:
                 raise Exception("Failed to obtain a single reader from command-line: %s" % reader)
         for reader in self._readers:
