@@ -112,7 +112,7 @@ class PythonFunctionReader(Reader, PlaceholderSupporter):
             if issubclass(type(item), Spectrum):
                 yield item
             else:
-                self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum, type(item)))
+                self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, str(Spectrum), str(type(item))))
 
     def has_finished(self) -> bool:
         """

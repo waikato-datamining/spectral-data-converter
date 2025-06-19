@@ -102,7 +102,7 @@ class PythonFunctionFilter(Filter):
         result = []
 
         for item in make_list(data):
-            if issubclass(type(item), self._input_cls):
+            if issubclass(type(item), Spectrum):
                 new_items = self._function(item)
                 if new_items is None:
                     continue
@@ -110,11 +110,11 @@ class PythonFunctionFilter(Filter):
                 for new_item in new_items:
                     if new_item is None:
                         continue
-                    if issubclass(type(item), self._output_cls):
+                    if issubclass(type(item), Spectrum):
                         result.append(new_item)
                     else:
-                        self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, Spectrum, type(item)))
+                        self.logger().error("Function '%s' did not return an object of type '%s' but of type '%s'!" % (self.function, str(Spectrum), str(type(item))))
             else:
-                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (Spectrum, type(item)))
+                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (str(Spectrum), str(type(item))))
 
         return flatten_list(result)

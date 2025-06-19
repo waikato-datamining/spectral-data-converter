@@ -97,7 +97,7 @@ class PythonFunctionWriter(SplittableStreamWriter):
                 split = None
                 if self.splitter is not None:
                     split = self.splitter.next(item=item.spectrum_name)
-                self.logger().info("Processing spectrum '%s' (split: %s)" % (item.Spectrum2D, str(split)))
+                self.logger().info("Processing spectrum '%s' (split: %s)" % (item.spectrum_name, str(split)))
                 self._function(item, split)
             else:
-                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (Spectrum2D, type(item)))
+                self.logger().error("Did not receive an object of type '%s' but of type '%s'!" % (str(Spectrum), str(type(item))))
