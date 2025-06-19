@@ -7,9 +7,9 @@ Applies SIMPLS to the batches of spectra. More information: https://www.scienced
 
 ```
 usage: simpls [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-              [--skip] [-k METADATA_KEY] [--always_reset]
-              [-p {none,center,standardize}] [-n NUM_COMPONENTS] -r RESPONSE
-              [-c NUM_COEFFICIENTS]
+              [--skip] [-k METADATA_KEY] [--always_reset] [--save_to FILE]
+              [--load_from FILE] [-p {none,center,standardize}]
+              [-n NUM_COMPONENTS] [-r RESPONSE] [-c NUM_COEFFICIENTS]
 
 Applies SIMPLS to the batches of spectra. More information:
 https://www.sciencedirect.com/science/article/abs/pii/016974399385002X
@@ -32,6 +32,10 @@ options:
                         rather than only getting trained on the 1st batch and
                         then applied in that form to subsequent batches.
                         (default: False)
+  --save_to FILE        The file to save the trained filter to. (default:
+                        None)
+  --load_from FILE      The file to load a trained filter from (instead of
+                        training it on the first batch). (default: None)
   -p {none,center,standardize}, --preprocessing {none,center,standardize}
                         The type of preprocessing to apply. (default: none)
   -n NUM_COMPONENTS, --num_components NUM_COMPONENTS

@@ -7,7 +7,8 @@ Subtracts the column mean from the columns. Requires multiple spectra as input.
 
 ```
 usage: center [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-              [--skip] [-k METADATA_KEY] [--always_reset]
+              [--skip] [-k METADATA_KEY] [--always_reset] [--save_to FILE]
+              [--load_from FILE]
 
 Subtracts the column mean from the columns. Requires multiple spectra as
 input.
@@ -30,4 +31,8 @@ options:
                         rather than only getting trained on the 1st batch and
                         then applied in that form to subsequent batches.
                         (default: False)
+  --save_to FILE        The file to save the trained filter to. (default:
+                        None)
+  --load_from FILE      The file to load a trained filter from (instead of
+                        training it on the first batch). (default: None)
 ```

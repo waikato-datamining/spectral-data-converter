@@ -1,7 +1,7 @@
 import abc
 import argparse
 import numpy as np
-from typing import List
+from typing import List, Dict
 
 from wai.ma.core import PreprocessingType
 from wai.ma.core.matrix import Matrix
@@ -145,7 +145,7 @@ class AbstractSingleResponsePLS(AbstractPLS, abc.ABC):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-r", "--response", type=str, help="The name of the sample data field to use as response.", default=None, required=True)
+        parser.add_argument("-r", "--response", type=str, help="The name of the sample data field to use as response.", default=None, required=False)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -163,8 +163,42 @@ class AbstractSingleResponsePLS(AbstractPLS, abc.ABC):
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        if self.response is None:
+        if (self.response is None) and (self.load_from is None):
             raise Exception("No sample data field specified to use as response!")
+
+    def _supports_serialization(self):
+        """
+        Returns whether filter can be saved/loaded.
+
+        :return: True if supported
+        :rtype: bool
+        """
+        return True
+
+    def _serialize(self) -> Dict:
+        """
+        Returns the filter's internal representation to save to disk.
+
+        :return: the data to save
+        :rtype: dict
+        """
+        return {
+            "algorithm": self._algorithm,
+            "response": self.response,
+        }
+
+    def _deserialize(self, data: Dict):
+        """
+        Applies the filter's internal representation loaded from disk.
+
+        :param data: the data to instantiate from
+        :type data: dict
+        :return: whether the filter is considered trained after deserialiation
+        :rtype: bool
+        """
+        self._algorithm = data.get("algorithm", None)
+        self.response = data.get("response", None)
+        return (self._algorithm is not None) and (self.response is not None)
 
     def _initialize_algorithm(self):
         """
@@ -238,7 +272,7 @@ class AbstractMultiResponsePLS(AbstractPLS, abc.ABC):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-r", "--responses", type=str, help="The name of the sample data fields to use as responses.", default=None, required=True, nargs="+")
+        parser.add_argument("-r", "--responses", type=str, help="The name of the sample data fields to use as responses.", default=None, required=False, nargs="*")
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -256,8 +290,42 @@ class AbstractMultiResponsePLS(AbstractPLS, abc.ABC):
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        if (self.responses is None) or (len(self.responses) == 0):
+        if ((self.responses is None) or (len(self.responses) == 0)) and (self.load_from is None):
             raise Exception("No sample data fields specified to use as responses!")
+
+    def _supports_serialization(self):
+        """
+        Returns whether filter can be saved/loaded.
+
+        :return: True if supported
+        :rtype: bool
+        """
+        return True
+
+    def _serialize(self) -> Dict:
+        """
+        Returns the filter's internal representation to save to disk.
+
+        :return: the data to save
+        :rtype: dict
+        """
+        return {
+            "algorithm": self._algorithm,
+            "responses": self.responses,
+        }
+
+    def _deserialize(self, data: Dict):
+        """
+        Applies the filter's internal representation loaded from disk.
+
+        :param data: the data to instantiate from
+        :type data: dict
+        :return: whether the filter is considered trained after deserialiation
+        :rtype: bool
+        """
+        self._algorithm = data.get("algorithm", None)
+        self.responses = data.get("responses", None)
+        return (self._algorithm is not None) and (self.responses is not None)
 
     def _initialize_algorithm(self):
         """

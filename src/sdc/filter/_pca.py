@@ -1,5 +1,5 @@
 import argparse
-from typing import List
+from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 from wai.ma.algorithm import PCA as WaiPCA
@@ -106,6 +106,36 @@ class PCA(TrainableBatchFilter):
             self.max_columns = -1
         if self.center is None:
             self.center = False
+
+    def _supports_serialization(self):
+        """
+        Returns whether filter can be saved/loaded.
+
+        :return: True if supported
+        :rtype: bool
+        """
+        return True
+
+    def _serialize(self) -> Dict:
+        """
+        Returns the filter's internal representation to save to disk.
+
+        :return: the data to save
+        :rtype: dict
+        """
+        return {"algorithm": self._algorithm}
+
+    def _deserialize(self, data: Dict):
+        """
+        Applies the filter's internal representation loaded from disk.
+
+        :param data: the data to instantiate from
+        :type data: dict
+        :return: whether the filter is considered trained after deserialiation
+        :rtype: bool
+        """
+        self._algorithm = data.get("algorithm", None)
+        return self._algorithm is not None
 
     def _process_batch(self, batch):
         """

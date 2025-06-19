@@ -7,8 +7,8 @@ Applies principal components analysis to the data for dimensionality reduction.
 
 ```
 usage: pca [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-           [--skip] [-k METADATA_KEY] [--always_reset] [-v VARIANCE]
-           [-m MAX_COLUMNS] [-c]
+           [--skip] [-k METADATA_KEY] [--always_reset] [--save_to FILE]
+           [--load_from FILE] [-v VARIANCE] [-m MAX_COLUMNS] [-c]
 
 Applies principal components analysis to the data for dimensionality
 reduction.
@@ -31,6 +31,10 @@ options:
                         rather than only getting trained on the 1st batch and
                         then applied in that form to subsequent batches.
                         (default: False)
+  --save_to FILE        The file to save the trained filter to. (default:
+                        None)
+  --load_from FILE      The file to load a trained filter from (instead of
+                        training it on the first batch). (default: None)
   -v VARIANCE, --variance VARIANCE
                         The variance to use. (default: 0.95)
   -m MAX_COLUMNS, --max_columns MAX_COLUMNS
