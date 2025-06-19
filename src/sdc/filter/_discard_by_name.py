@@ -11,7 +11,7 @@ from sdc.api import Spectrum, flatten_list, make_list, Filter
 
 class DiscardByName(Filter):
     """
-    Discards files based on list of image names and/or regular expressions that image names must match.
+    Discards files based on list of spectrum names and/or regular expressions that spectrum names must match.
     """
 
     def __init__(self, names: List[str] = None, names_file: str = None, paths: List[str] = None,
@@ -21,15 +21,15 @@ class DiscardByName(Filter):
         """
         Initializes the filter.
 
-        :param names: the list of image names to drop
+        :param names: the list of spectrum names to drop
         :type names: list
-        :param names_file: the text file with the image names to drop (one per line)
+        :param names_file: the text file with the spectrum names to drop (one per line)
         :type names_file: str
         :param paths: the list of paths with files to ignore, ignored if None
         :type paths: list
-        :param regexps: the regular expressions for dropping image names
+        :param regexps: the regular expressions for dropping spectrum names
         :type regexps: list
-        :param regexps_file: the text file with the regexps for dropping image names (one per line)
+        :param regexps_file: the text file with the regexps for dropping spectrum names (one per line)
         :type regexps_file: str
         :param remove_ext: whether to remove the extension before determining matches
         :type remove_ext: bool
@@ -67,7 +67,7 @@ class DiscardByName(Filter):
         :return: the description
         :rtype: str
         """
-        return "Discards files based on list of image names, list of paths and/or regular expressions that image names must match."
+        return "Discards files based on list of spectrum names, list of paths and/or regular expressions that spectrum names must match."
 
     def accepts(self) -> List:
         """
@@ -95,11 +95,11 @@ class DiscardByName(Filter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--names", type=str, help="The image name(s) to drop.", required=False, nargs="*")
-        parser.add_argument("-I", "--names_file", type=str, help="The text file with the image name(s) to drop.", required=False, default=None)
-        parser.add_argument("-p", "--paths", type=str, help="The directories with images to ignore.", required=False, nargs="*")
-        parser.add_argument("-r", "--regexps", type=str, help="The regular expressions for matching image name(s) to drop.", required=False, nargs="*")
-        parser.add_argument("-R", "--regexps_file", type=str, help="The text file with regular expressions for matching image name(s) to drop.", required=False, default=None)
+        parser.add_argument("-i", "--names", type=str, help="The spectrum name(s) to drop.", required=False, nargs="*")
+        parser.add_argument("-I", "--names_file", type=str, help="The text file with the spectrum name(s) to drop.", required=False, default=None)
+        parser.add_argument("-p", "--paths", type=str, help="The directories with spectra to ignore.", required=False, nargs="*")
+        parser.add_argument("-r", "--regexps", type=str, help="The regular expressions for matching spectrum name(s) to drop.", required=False, nargs="*")
+        parser.add_argument("-R", "--regexps_file", type=str, help="The text file with regular expressions for matching spectrum name(s) to drop.", required=False, default=None)
         parser.add_argument("-e", "--remove_ext", action="store_true", help="Whether to remove the extension (and dot) before matching.")
         parser.add_argument("-V", "--invert", action="store_true", help="Whether to invert the matching sense.")
         return parser
@@ -183,34 +183,34 @@ class DiscardByName(Filter):
 
         result = []
         for item in make_list(data):
-            image_name = item.image_name
+            spectrum_name = item.spectrum_name
             if self.remove_ext:
-                image_name = os.path.splitext(image_name)[0]
+                spectrum_name = os.path.splitext(spectrum_name)[0]
 
             add = True
 
             # check against names
             if len(self._names) > 0:
-                if image_name in self._names:
+                if spectrum_name in self._names:
                     if not self.invert:
-                        self.logger().info("Skipping based on name match: %s" % item.image_name)
+                        self.logger().info("Skipping based on name match: %s" % item.spectrum_name)
                         add = False
                 else:
                     if self.invert:
-                        self.logger().info("Skipping based on no name match (invert): %s" % item.image_name)
+                        self.logger().info("Skipping based on no name match (invert): %s" % item.spectrum_name)
                         add = False
 
             # check against regexps
             if add:
                 for regexp in self._regexps:
-                    if regexp.fullmatch(image_name) is not None:
+                    if regexp.fullmatch(spectrum_name) is not None:
                         if not self.invert:
-                            self.logger().info("Skipping based on regexp match: %s" % item.image_name)
+                            self.logger().info("Skipping based on regexp match: %s" % item.spectrum_name)
                             add = False
                             break
                     else:
                         if self.invert:
-                            self.logger().info("Skipping based on no regexp match (invert): %s" % item.image_name)
+                            self.logger().info("Skipping based on no regexp match (invert): %s" % item.spectrum_name)
                             add = False
                             break
 
