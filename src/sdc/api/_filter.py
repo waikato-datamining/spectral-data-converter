@@ -3,7 +3,7 @@ import argparse
 import os
 import pickle
 
-from typing import Dict
+from typing import Dict, List
 
 from seppl import MetaDataHandler, get_metadata
 from seppl.io import Filter as SFilter
@@ -24,12 +24,15 @@ class BatchFilter(Filter, abc.ABC):
     Ancestor for filters that work on batches.
     """
 
-    def __init__(self, metadata_key: str = None, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+    def __init__(self, metadata_key: str = None, batch_order: List[str] = None,
+                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the filter.
 
         :param metadata_key: the key in the metadata that identifies the batches
         :type metadata_key: str
+        :param batch_order: the list of batch names for enforcing an order other than alphabetical
+        :type batch_order: list
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -37,6 +40,7 @@ class BatchFilter(Filter, abc.ABC):
         """
         super().__init__(logger_name=logger_name, logging_level=logging_level)
         self.metadata_key = metadata_key
+        self.batch_order = batch_order
 
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
@@ -46,7 +50,8 @@ class BatchFilter(Filter, abc.ABC):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-k", "--metadata_key", type=str, help="The key in the meta-data that identifies the batches. NB: sorts the batch names alphabetically.", default=None, required=False)
+        parser.add_argument("-k", "--metadata_key", type=str, help="The key in the meta-data that identifies the batches. NB: sorts the batch names alphabetically by default.", default=None, required=False)
+        parser.add_argument("--batch_order", type=str, help="Lists the names of the batches to enforce an order other than alphabetical. Batches that do not appear in this list get appended to the order.", default=None, required=False, nargs="*")
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -58,6 +63,7 @@ class BatchFilter(Filter, abc.ABC):
         """
         super()._apply_args(ns)
         self.metadata_key = ns.metadata_key
+        self.batch_order = ns.batch_order
 
     def _requires_list_input(self) -> bool:
         """
@@ -106,8 +112,8 @@ class BatchFilter(Filter, abc.ABC):
             self._post_process_batch(batch_new)
             return batch_new
         else:
-            # determine splits
-            splits = dict()
+            # split data into batches
+            batch_data = dict()
             for item in make_list(data):
                 # get meta data
                 meta = get_metadata(item)
@@ -115,17 +121,24 @@ class BatchFilter(Filter, abc.ABC):
                     if not isinstance(item, MetaDataHandler):
                         raise Exception("Cannot access meta-data for type: %s" % str(type(item)))
 
-                split = meta[self.metadata_key]
-                if split not in splits:
-                    splits[split] = []
-                splits[split].append(item)
+                batch_name = meta[self.metadata_key]
+                if batch_name not in batch_data:
+                    batch_data[batch_name] = []
+                batch_data[batch_name].append(item)
 
             # split into batches
             batches = []
-            split_names = sorted(splits.keys())
-            self.logger().info("split names: %s" % str(split_names))
-            for split in split_names:
-                batches.append(splits[split])
+            if self.batch_order is not None:
+                batch_names = self.batch_order[:]
+                for batch_name in sorted(batch_data.keys()):
+                    if batch_name not in batch_names:
+                        batch_names.append(batch_name)
+                self.logger().info("batch names (custom order): %s" % str(batch_names))
+            else:
+                batch_names = sorted(batch_data.keys())
+                self.logger().info("batch names (alphabetical): %s" % str(batch_names))
+            for batch_name in batch_names:
+                batches.append(batch_data[batch_name])
 
             # process batches
             result = []

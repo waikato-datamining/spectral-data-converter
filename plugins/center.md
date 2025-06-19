@@ -7,8 +7,8 @@ Subtracts the column mean from the columns. Requires multiple spectra as input.
 
 ```
 usage: center [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-              [--skip] [-k METADATA_KEY] [--always_reset] [--save_to FILE]
-              [--load_from FILE]
+              [--skip] [-k METADATA_KEY] [--batch_order [BATCH_ORDER ...]]
+              [--always_reset] [--save_to FILE] [--load_from FILE]
 
 Subtracts the column mean from the columns. Requires multiple spectra as
 input.
@@ -24,8 +24,12 @@ options:
                         (default: False)
   -k METADATA_KEY, --metadata_key METADATA_KEY
                         The key in the meta-data that identifies the batches.
-                        NB: sorts the batch names alphabetically. (default:
-                        None)
+                        NB: sorts the batch names alphabetically by default.
+                        (default: None)
+  --batch_order [BATCH_ORDER ...]
+                        Lists the names of the batches to enforce an order
+                        other than alphabetical. Batches that do not appear in
+                        this list get appended to the order. (default: None)
   --always_reset        If enabled, the filter's 'trained' flag gets reset
                         with every batch and the filter retrained each time,
                         rather than only getting trained on the 1st batch and
