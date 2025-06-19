@@ -1,10 +1,11 @@
 import argparse
 from typing import List
 
-from wai.logging import LOGGING_WARNING
 from seppl import split_args, split_cmdline, Plugin, AnyData, Initializable
 from seppl.io import Writer, BatchWriter, StreamWriter, MultiFilter
-from sdc.api import make_list, Filter
+from wai.logging import LOGGING_WARNING
+
+from sdc.api import Filter, BatchFilter
 
 
 class Tee(Filter):
@@ -142,6 +143,19 @@ class Tee(Filter):
             self._writer.session = self.session
             self._writer.initialize()
 
+    def _requires_list_input(self) -> bool:
+        """
+        Returns whether lists are expected as input for the _do_process method.
+
+        :return: True if list inputs are expected by the filter
+        :rtype: bool
+        """
+        if (self._filter is not None) and (isinstance(self._filter, BatchFilter)):
+            return True
+        if (self._writer is not None) and (isinstance(self._writer, BatchWriter)):
+            return True
+        return False
+
     def _do_process(self, data):
         """
         Processes the data record(s).
@@ -149,24 +163,21 @@ class Tee(Filter):
         :param data: the record(s) to process
         :return: the potentially updated record(s)
         """
-        result = []
-        for item in make_list(data):
-            # filter data
-            if self._filter is not None:
-                item = self._filter.process(item)
+        # filter data
+        data_new = data
+        if self._filter is not None:
+            data_new = self._filter.process(data_new)
 
-            # write data
-            if (item is not None) and (self._writer is not None):
-                if isinstance(self._writer, BatchWriter):
-                    self._data_buffer.append(item)
-                elif isinstance(self._writer, StreamWriter):
-                    self._writer.write_stream(item)
-                else:
-                    raise Exception("Unhandled type of writer: %s" % str(type(self._writer)))
+        # write data
+        if self._writer is not None:
+            if isinstance(self._writer, BatchWriter):
+                self._data_buffer.append(data_new)
+            elif isinstance(self._writer, StreamWriter):
+                self._writer.write_stream(data_new)
+            else:
+                raise Exception("Unhandled type of writer: %s" % str(type(self._writer)))
 
-            result.append(item)
-
-        return result
+        return data
 
     def finalize(self):
         """
