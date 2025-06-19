@@ -3,7 +3,7 @@ from typing import List
 
 from wai.logging import LOGGING_WARNING
 
-from seppl import Plugin
+from seppl import Plugin, AnyData
 from sdc.api import Spectrum, StreamWriter, BatchWriter, make_list
 
 
@@ -70,7 +70,15 @@ class MultiWriter(StreamWriter):
         :return: the list of classes
         :rtype: list
         """
-        return [Spectrum]
+        if (self._writers is None) or (len(self._writers) == 0):
+            return [AnyData]
+        else:
+            result = []
+            for writer in self._writers:
+                for c in writer.generates():
+                    if c not in result:
+                        result.append(c)
+            return result
 
     def _parse_commandline(self, cmdline: str) -> List[Plugin]:
         """
@@ -101,10 +109,7 @@ class MultiWriter(StreamWriter):
             objs = self._parse_commandline(writer)
             if len(objs) == 1:
                 _writer = objs[0]
-                if self.accepts()[0] in _writer.accepts():
-                    self._writers.append(_writer)
-                else:
-                    raise Exception("Writer '%s' accepts '%s' but '%s' is required!" % (writer, str(_writer.accepts()), str(self.accepts())))
+                self._writers.append(_writer)
             else:
                 raise Exception("Failed to obtain a single writer from command-line: %s" % writer)
         for writer in self._writers:
