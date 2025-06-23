@@ -1,6 +1,6 @@
 # to-multi
 
-* accepts: sdc.api.Spectrum
+* accepts: seppl.AnyData
 
 Forwards the incoming data to all the base writers.
 

@@ -3,7 +3,7 @@
 * accepts: sdc.api.Spectrum
 * generates: seppl.AnyData
 
-Discards files based on list of image names, list of paths and/or regular expressions that image names must match.
+Discards files based on list of spectrum names, list of paths and/or regular expressions that spectrum names must match.
 
 ```
 usage: discard-by-name [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
@@ -11,8 +11,8 @@ usage: discard-by-name [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                        [-I NAMES_FILE] [-p [PATHS ...]] [-r [REGEXPS ...]]
                        [-R REGEXPS_FILE] [-e] [-V]
 
-Discards files based on list of image names, list of paths and/or regular
-expressions that image names must match.
+Discards files based on list of spectrum names, list of paths and/or regular
+expressions that spectrum names must match.
 
 options:
   -h, --help            show this help message and exit
@@ -24,18 +24,19 @@ options:
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
   -i [NAMES ...], --names [NAMES ...]
-                        The image name(s) to drop. (default: None)
+                        The spectrum name(s) to drop. (default: None)
   -I NAMES_FILE, --names_file NAMES_FILE
-                        The text file with the image name(s) to drop.
+                        The text file with the spectrum name(s) to drop.
                         (default: None)
   -p [PATHS ...], --paths [PATHS ...]
-                        The directories with images to ignore. (default: None)
+                        The directories with spectra to ignore. (default:
+                        None)
   -r [REGEXPS ...], --regexps [REGEXPS ...]
-                        The regular expressions for matching image name(s) to
-                        drop. (default: None)
+                        The regular expressions for matching spectrum name(s)
+                        to drop. (default: None)
   -R REGEXPS_FILE, --regexps_file REGEXPS_FILE
                         The text file with regular expressions for matching
-                        image name(s) to drop. (default: None)
+                        spectrum name(s) to drop. (default: None)
   -e, --remove_ext      Whether to remove the extension (and dot) before
                         matching. (default: False)
   -V, --invert          Whether to invert the matching sense. (default: False)

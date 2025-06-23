@@ -1,6 +1,6 @@
 # from-multi
 
-* generates: sdc.api.Spectrum
+* generates: seppl.AnyData
 
 Reads data using the specified base readers and combines their output.
 
