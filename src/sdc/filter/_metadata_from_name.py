@@ -10,7 +10,7 @@ from sdc.api import make_list, flatten_list, Filter
 
 class MetaDataFromName(Filter):
     """
-    Extracts a sub-string from the image name and stores them in the meta-data.
+    Extracts a sub-string from the spectrum name and stores them in the meta-data.
     """
 
     def __init__(self, regexp: str = None, metadata_key: str = None,
@@ -47,7 +47,7 @@ class MetaDataFromName(Filter):
         :return: the description
         :rtype: str
         """
-        return "Extracts a sub-string from the image name and stores them in the meta-data."
+        return "Extracts a sub-string from the spectrum name and stores them in the meta-data."
 
     def accepts(self) -> List:
         """
@@ -75,7 +75,7 @@ class MetaDataFromName(Filter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-r", "--regexp", type=str, help="The regular expression apply to the image name, with the 1st group being used as the meta-data value.", default=None, required=False)
+        parser.add_argument("-r", "--regexp", type=str, help="The regular expression apply to the spectrum name, with the 1st group being used as the meta-data value.", default=None, required=False)
         parser.add_argument("-k", "--metadata_key", type=str, help="The key in the meta-data to store the extracted sub-string under.", default=None, required=False)
         return parser
 
@@ -105,9 +105,9 @@ class MetaDataFromName(Filter):
         :param data: the record to update
         """
         try:
-            name = data.image_name
+            name = data.spectrum_name
             if name is None:
-                self.logger().warning("No image name available: %s" % str(data))
+                self.logger().warning("No spectrum name available: %s" % str(data))
                 return data
             m = re.search(self.regexp, name)
             if m is None:
@@ -122,7 +122,7 @@ class MetaDataFromName(Filter):
             result.set_metadata(meta)
             return result
         except:
-            self.logger().exception("Failed to extract meta-data value from: %s" % data.image_name)
+            self.logger().exception("Failed to extract meta-data value from: %s" % data.spectrum_name)
             return data
 
     def _do_process(self, data):

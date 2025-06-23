@@ -115,12 +115,12 @@ class CheckDuplicateFilenames(Filter):
         result = []
 
         for item in make_list(data):
-            if item.image_name in self._names:
-                msg = "File name already encountered: %s" % item.image_name
+            if item.spectrum_name in self._names:
+                msg = "File name already encountered: %s" % item.spectrum_name
                 if item.source is not None:
                     msg += "\n- full path: %s" % item.source
-                if item.image_name in self._paths:
-                    msg += "\n- previous file: %s" % self._paths[item.image_name]
+                if item.spectrum_name in self._paths:
+                    msg += "\n- previous file: %s" % self._paths[item.spectrum_name]
 
                 if self.action == DUPLICATE_ACTION_IGNORE:
                     self.logger().debug(msg)
@@ -128,7 +128,7 @@ class CheckDuplicateFilenames(Filter):
                     self.logger().warning(msg)
                 elif self.action == DUPLICATE_ACTION_DROP:
                     self.logger().warning(msg)
-                    self.logger().warning("Dropping file: %s" % item.image_name)
+                    self.logger().warning("Dropping file: %s" % item.spectrum_name)
                     item = None
                 elif self.action == DUPLICATE_ACTION_ERROR:
                     raise Exception(msg)
@@ -136,8 +136,8 @@ class CheckDuplicateFilenames(Filter):
                     raise Exception("Unhandled action: %s" % self.action)
 
             if item is not None:
-                self._names.add(item.image_name)
+                self._names.add(item.spectrum_name)
                 if item.source is not None:
-                    self._paths[item.image_name] = item.source
+                    self._paths[item.spectrum_name] = item.source
 
         return flatten_list(result)
