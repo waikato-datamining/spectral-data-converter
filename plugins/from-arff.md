@@ -2,7 +2,7 @@
 
 * generates: sdc.api.Spectrum2D
 
-Loads the spectra in ARFF format.
+Loads the spectra in ARFF format (row-wise).
 
 ```
 usage: from-arff [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
@@ -14,7 +14,7 @@ usage: from-arff [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                  [--wave_numbers_in_header]
                  [--wave_numbers_regexp WAVE_NUMBERS_REGEXP]
 
-Loads the spectra in ARFF format.
+Loads the spectra in ARFF format (row-wise).
 
 options:
   -h, --help            show this help message and exit
@@ -43,11 +43,11 @@ options:
                         The 1-based index of the sample ID attribute.
                         (default: 1)
   --spectral_data SPECTRAL_DATA
-                        The range of columns containing the spectral data
+                        The range of attributes containing the spectral data
                         (1-based). (default: 2-last)
   --sample_data SAMPLE_DATA
-                        The range of columns containing the reference values
-                        (1-based). (default: None)
+                        The range of attributes containing the reference
+                        values (1-based). (default: None)
   --sample_data_prefix SAMPLE_DATA_PREFIX
                         The prefix used by the sample data attributes.
                         (default: None)

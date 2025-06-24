@@ -2,7 +2,7 @@
 
 * accepts: sdc.api.Spectrum2D
 
-Saves the spectra in ARFF format.
+Saves the spectra in ARFF format (row-wise).
 
 ```
 usage: to-arff [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
@@ -13,7 +13,7 @@ usage: to-arff [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
                [--sample_data_prefix SAMPLE_DATA_PREFIX]
                [--wave_numbers_format WAVE_NUMBERS_FORMAT]
 
-Saves the spectra in ARFF format.
+Saves the spectra in ARFF format (row-wise).
 
 options:
   -h, --help            show this help message and exit
@@ -47,7 +47,7 @@ options:
                         The prefix to use for the sample data attributes.
                         (default: )
   --wave_numbers_format WAVE_NUMBERS_FORMAT
-                        The name to use for the sample ID attribute, the
+                        The format to use for the spectral data columns, the
                         following placeholders are available: {WAVE}|{INDEX}
                         (default: {WAVE})
 ```
