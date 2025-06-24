@@ -27,6 +27,7 @@ The following dataset formats are supported:
 | [ASC](formats/asc.md)          | [Y](plugins/from-asc.md)      | [Y](plugins/to-asc.md)     | 
 | [ASCII XY](formats/asciixy.md) | [Y](plugins/from-asciixy.md)  | [Y](plugins/to-asciixy.md) | 
 | CAL (FOSS)                     | [Y](plugins/from-cal.md)      | [Y](plugins/to-cal.md)     | 
+| CSV                            | [Y](plugins/from-csv.md)      | [Y](plugins/to-csv.md)     | 
 | [DPT](formats/dpt.md)          | [Y](plugins/from-dpt.md)      | [Y](plugins/to-dpt.md)     | 
 | MPS                            | [Y](plugins/from-mps.md)      | N                          | 
 | NIR (FOSS)                     | [Y](plugins/from-nir.md)      | [Y](plugins/to-nir.md)     | 
@@ -49,9 +50,9 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (14):
-   from-adams, from-arff, from-asc, from-asciixy, from-cal, from-dpt, 
-   from-mps, from-multi, from-nir, from-opus, from-opus-ext, 
+readers (15):
+   from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
+   from-dpt, from-mps, from-multi, from-nir, from-opus, from-opus-ext, 
    from-pyfunc, from-spa, poll-dir
 filters (27):
    center, check-duplicate-filenames, discard-by-name, downsample, 
@@ -60,9 +61,9 @@ filters (27):
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, simpls, 
    split-records, standard-normal-variate*, standardize, tee
-writers (9):
-   to-adams, to-arff, to-asc, to-asciixy, to-cal, to-dpt, to-multi, 
-   to-nir, to-pyfunc
+writers (10):
+   to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-dpt, 
+   to-multi, to-nir, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit

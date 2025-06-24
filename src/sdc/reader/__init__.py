@@ -3,6 +3,7 @@ from ._arff import ARFFReader
 from ._asc import ASCReader
 from ._asciixy import ASCIIXYReader
 from ._cal import CALReader
+from ._csv import CSVReader
 from ._dpt import DPTReader
 from ._mps import MPSReader
 from ._multi import MultiReader
