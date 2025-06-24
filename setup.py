@@ -34,7 +34,7 @@ setup(
         "seppl>=0.2.16",
         "wai_logging",
         "wai_common>=0.0.45",
-        "wai_spectralio>=0.0.2",
+        "wai_spectralio>=0.0.3",
         "wai_ma",
     ],
     version="0.0.1",
