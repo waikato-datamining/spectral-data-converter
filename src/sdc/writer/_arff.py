@@ -61,7 +61,7 @@ class ARFFWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         :return: the description
         :rtype: str
         """
-        return "Saves the spectra in ARFF format."
+        return "Saves the spectra in ARFF format (row-wise)."
 
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
@@ -75,7 +75,7 @@ class ARFFWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         parser.add_argument("--sample_id", type=str, help="The name to use for the sample ID attribute.", required=False, default="sample_id")
         parser.add_argument("--sample_data", type=str, help="The sample data names to store in ARFF file.", required=False, default=[], nargs="*")
         parser.add_argument("--sample_data_prefix", type=str, help="The prefix to use for the sample data attributes.", required=False, default="")
-        parser.add_argument("--wave_numbers_format", type=str, help="The name to use for the sample ID attribute, the following placeholders are available: " + "|".join(PLACEHOLDERS), default=PH_WAVE_NUMBER)
+        parser.add_argument("--wave_numbers_format", type=str, help="The format to use for the spectral data columns, the following placeholders are available: " + "|".join(PLACEHOLDERS), default=PH_WAVE_NUMBER)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -89,8 +89,8 @@ class ARFFWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         self.output_file = ns.output
         self.sample_id = ns.sample_id
         self.sample_data = ns.sample_data
-        self.wave_numbers_format = ns.wave_numbers_format
         self.sample_data_prefix = ns.sample_data_prefix
+        self.wave_numbers_format = ns.wave_numbers_format
 
     def accepts(self) -> List:
         """
@@ -122,10 +122,10 @@ class ARFFWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         if len(self.sample_data) > 0:
             result.append("--sample-data")
             result.extend([str(x) for x in self.sample_data])
+            if self.sample_data_prefix is not None:
+                result.extend(["--sample-data-prefix", self.sample_data_prefix])
         if self.wave_numbers_format is not None:
             result.extend(["--wave-numbers-format", self.wave_numbers_format])
-        if self.sample_data_prefix is not None:
-            result.extend(["--sample-data-prefix", self.sample_data_prefix])
         return result
 
     def write_batch(self, data):

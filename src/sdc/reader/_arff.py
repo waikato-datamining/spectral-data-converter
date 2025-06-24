@@ -27,9 +27,9 @@ class ARFFReader(Reader, PlaceholderSupporter):
         :type resume_from: str
         :param sample_id: the 1-based index of the sample ID attribute
         :type sample_id: str
-        :param spectral_data: the range of amplitude columns (1-based)
+        :param spectral_data: the range of amplitude attributes (1-based)
         :type spectral_data: str
-        :param sample_data: the range of reference data columns (1-based)
+        :param sample_data: the range of reference data attributes (1-based)
         :type sample_data: str
         :param sample_data_prefix: the prefix to use for the sample data attributes
         :typer sample_data_prefix: str
@@ -78,7 +78,7 @@ class ARFFReader(Reader, PlaceholderSupporter):
         :return: the description
         :rtype: str
         """
-        return "Loads the spectra in ARFF format."
+        return "Loads the spectra in ARFF format (row-wise)."
 
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
@@ -92,8 +92,8 @@ class ARFFReader(Reader, PlaceholderSupporter):
         parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ARFF files to use; " + placeholder_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.arff'", required=False)
         parser.add_argument("--sample_id", type=str, help="The 1-based index of the sample ID attribute.", required=False, default="1")
-        parser.add_argument("--spectral_data", type=str, help="The range of columns containing the spectral data (1-based).", required=False, default="2-last")
-        parser.add_argument("--sample_data", type=str, help="The range of columns containing the reference values (1-based).", required=False, default=None)
+        parser.add_argument("--spectral_data", type=str, help="The range of attributes containing the spectral data (1-based).", required=False, default="2-last")
+        parser.add_argument("--sample_data", type=str, help="The range of attributes containing the reference values (1-based).", required=False, default=None)
         parser.add_argument("--sample_data_prefix", type=str, help="The prefix used by the sample data attributes.", required=False, default=None)
         parser.add_argument("--wave_numbers_in_header", action="store_true", help="Whether the wave numbers are encoded in the attribute name.")
         parser.add_argument("--wave_numbers_regexp", type=str, help="The regular expression for extracting the wave numbers from the attribute names (1st group is used).", required=False, default="(.*)")
