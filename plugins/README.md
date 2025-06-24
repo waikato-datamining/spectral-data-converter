@@ -1,6 +1,7 @@
 # spectral-data-converter plugins
 ## Readers
 * [from-adams](from-adams.md)
+* [from-arff](from-arff.md)
 * [from-asc](from-asc.md)
 * [from-asciixy](from-asciixy.md)
 * [from-cal](from-cal.md)
@@ -44,6 +45,7 @@
 
 ## Writers
 * [to-adams](to-adams.md)
+* [to-arff](to-arff.md)
 * [to-asc](to-asc.md)
 * [to-asciixy](to-asciixy.md)
 * [to-cal](to-cal.md)

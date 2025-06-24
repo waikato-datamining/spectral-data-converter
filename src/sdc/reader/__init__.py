@@ -1,4 +1,5 @@
 from ._adams import AdamsReader
+from ._arff import ARFFReader
 from ._asc import ASCReader
 from ._asciixy import ASCIIXYReader
 from ._cal import CALReader

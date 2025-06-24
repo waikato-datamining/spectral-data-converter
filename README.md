@@ -23,6 +23,7 @@ The following dataset formats are supported:
 | Format                         | Read                          | Write                      | 
 |:-------------------------------|:------------------------------|:---------------------------| 
 | [ADAMS](formats/adams.md)      | [Y](plugins/from-adams.md)    | [Y](plugins/to-adams.md)   | 
+| [ARFF](formats/arff.md)        | [Y](plugins/from-arff.md)     | [Y](plugins/to-arff.md)    | 
 | [ASC](formats/asc.md)          | [Y](plugins/from-asc.md)      | [Y](plugins/to-asc.md)     | 
 | [ASCII XY](formats/asciixy.md) | [Y](plugins/from-asciixy.md)  | [Y](plugins/to-asciixy.md) | 
 | CAL (FOSS)                     | [Y](plugins/from-cal.md)      | [Y](plugins/to-cal.md)     | 
@@ -48,10 +49,10 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (13):
-   from-adams, from-asc, from-asciixy, from-cal, from-dpt, from-mps, 
-   from-multi, from-nir, from-opus, from-opus-ext, from-pyfunc, 
-   from-spa, poll-dir
+readers (14):
+   from-adams, from-arff, from-asc, from-asciixy, from-cal, from-dpt, 
+   from-mps, from-multi, from-nir, from-opus, from-opus-ext, 
+   from-pyfunc, from-spa, poll-dir
 filters (27):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, log, max-records, metadata, metadata-from-name, 
@@ -59,9 +60,9 @@ filters (27):
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, simpls, 
    split-records, standard-normal-variate*, standardize, tee
-writers (8):
-   to-adams, to-asc, to-asciixy, to-cal, to-dpt, to-multi, to-nir, 
-   to-pyfunc
+writers (9):
+   to-adams, to-arff, to-asc, to-asciixy, to-cal, to-dpt, to-multi, 
+   to-nir, to-pyfunc
 
 optional arguments:
   -h, --help            show basic help message and exit
