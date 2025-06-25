@@ -130,9 +130,10 @@ class CSVWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
 
     def write_batch(self, data):
         """
-        Saves the data one by one.
+        Saves the data in one go.
 
-        :param data: the data to write (single record or iterable of records)
+        :param data: the data to write
+        :type data: Iterable
         """
         writer = SWriter()
         writer.options = self._compile_options()
