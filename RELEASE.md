@@ -12,7 +12,7 @@ Preparation:
 * update the help screen of `sdc-exec` in `README.md` to have the latest list of generators
 * increment version in `setup.py`
 * add new changelog section in `CHANGES.rst`
-* align `DESCRIPTION.rst` with `README.md`  
+* align `DESCRIPTION.rst` with `README.md` (e.g., formats)
 * commit/push all changes
 
 Commands for releasing on pypi.org (requires twine >= 1.8.0):
