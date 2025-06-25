@@ -15,6 +15,12 @@ The latest code straight from the repository:
 pip install git+https://github.com/waikato-datamining/spectral-data-converter.git
 ```
 
+## Docker
+
+Docker images are available as well. Please see the following page por more information:
+
+https://github.com/waikato-datamining/spectral-data-converter-all/tree/main/docker
+
 
 ## Dataset formats
 
@@ -294,3 +300,8 @@ The following environment variables can be used to influence the class listers:
 * `SDC_CLASS_LISTERS_EXCL`
 
 Each variable is a comma-separated list of `module_name:function_name`, defining the class listers.
+
+## Additional libraries
+
+* [Scikit-learn](https://github.com/waikato-datamining/image-dataset-converter-sklearn)
+* [Visualizations](https://github.com/waikato-datamining/image-dataset-converter-vis)
