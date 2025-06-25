@@ -224,6 +224,18 @@ optional arguments:
 ### Testing generators
 
 ```
+usage: sdc-test-generator [-h] -g GENERATOR
+                          [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+
+Tool for testing generators by outputting the generated variables and their
+associated values. Available generators: dirs, list, null, range
+
+options:
+  -h, --help            show this help message and exit
+  -g GENERATOR, --generator GENERATOR
+                        The generator plugin to use. (default: None)
+  -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        The logging level to use. (default: WARN)
 ```
 
 
