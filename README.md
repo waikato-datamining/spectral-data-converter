@@ -56,10 +56,10 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (15):
+readers (16):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-dpt, from-mps, from-multi, from-nir, from-opus, from-opus-ext, 
-   from-pyfunc, from-spa, poll-dir
+   from-pyfunc, from-report-sd, from-spa, poll-dir
 filters (27):
    center, check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, log, max-records, metadata, metadata-from-name, 
@@ -67,9 +67,9 @@ filters (27):
    randomize-records, record-window, rename, row-norm, sample, 
    savitzky-golay, savitzky-golay2, set-placeholder, simpls, 
    split-records, standard-normal-variate*, standardize, tee
-writers (10):
+writers (11):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-dpt, 
-   to-multi, to-nir, to-pyfunc
+   to-multi, to-nir, to-pyfunc, to-report-sd
 
 optional arguments:
   -h, --help            show basic help message and exit
