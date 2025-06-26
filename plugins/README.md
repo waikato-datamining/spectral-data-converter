@@ -13,6 +13,7 @@
 * [from-opus](from-opus.md)
 * [from-opus-ext](from-opus-ext.md)
 * [from-pyfunc](from-pyfunc.md)
+* [from-report-sd](from-report-sd.md)
 * [from-spa](from-spa.md)
 * [poll-dir](poll-dir.md)
 
@@ -55,3 +56,4 @@
 * [to-multi](to-multi.md)
 * [to-nir](to-nir.md)
 * [to-pyfunc](to-pyfunc.md)
+* [to-report-sd](to-report-sd.md)

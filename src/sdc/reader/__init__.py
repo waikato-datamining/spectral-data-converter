@@ -1,4 +1,4 @@
-from ._adams import AdamsReader
+from ._adams import AdamsReader, ReportSampleDataReader
 from ._arff import ARFFReader
 from ._asc import ASCReader
 from ._asciixy import ASCIIXYReader

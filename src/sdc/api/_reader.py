@@ -4,6 +4,7 @@ from seppl import Initializable
 from typing import List
 
 from wai.logging import LOGGING_WARNING
+from ._data import SampleData
 
 
 class Reader(seppl.io.Reader, Initializable):
@@ -157,6 +158,21 @@ class ReaderWithLocaleSupport(Reader):
         result = super()._compile_options()
         result.extend(["--locale", self.locale])
         return result
+
+
+class SampleDataReader(seppl.io.Reader, Initializable):
+    """
+    Ancestor for sample data readers.
+    """
+
+    def generates(self) -> List:
+        """
+        Returns the list of classes that get produced.
+
+        :return: the list of classes
+        :rtype: list
+        """
+        return [SampleData]
 
 
 def parse_reader(reader: str) -> Reader:

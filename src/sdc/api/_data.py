@@ -5,7 +5,6 @@ import os.path
 from typing import Dict, Optional, List, Any
 
 from seppl import MetaDataHandler, LoggingHandler
-from wai.common.file.spec import Spectrum as WaiSpectrum
 from wai.logging import set_logging_level, LOGGING_INFO
 
 from sdc.api._utils import safe_deepcopy
@@ -39,8 +38,6 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
         """ the name of the spectrum file (no path). """
         self._spectrum = spectrum
         """ the spectrum itself. """
-        self._metadata = metadata
-        """ the dictionary with optional meta-data. """
 
     def logger(self) -> logging.Logger:
         """
@@ -99,7 +96,7 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
         self._spectrum_name = s
 
     def duplicate(self, source: str = None, force_no_source: bool = None,
-                  name: str = None, spectrum: Any = None, metadata: Dict = None):
+                  name: str = None, spectrum: Any = None):
         """
         Duplicates the container overwriting existing data with any provided data.
 
@@ -111,8 +108,6 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
         :type name: str
         :param spectrum: the spectrum to use
         :type spectrum: Any
-        :param metadata: the metadata
-        :type metadata: dict
         :return: the duplicated container
         """
         if (force_no_source is not None) and force_no_source:
@@ -122,12 +117,10 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
                 source = self._source
         if name is None:
             name = self._spectrum_name
-        if spectrum is not None:
-            spectrum = copy.deepcopy(self.spectrum)
-        if metadata is None:
-            metadata = safe_deepcopy(self._metadata)
+        if spectrum is None:
+            spectrum = copy.deepcopy(self._spectrum)
 
-        return type(self)(source=source, spectrum_name=name, spectrum=spectrum, metadata=metadata)
+        return type(self)(source=source, spectrum_name=name, spectrum=spectrum)
 
     def to_dict(self, source: bool = True, spectrum: bool = True, metadata: bool = True):
         """
@@ -154,7 +147,123 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
         return result
 
 
-def make_list(data, cls=Spectrum) -> List:
+class SampleData(MetaDataHandler, LoggingHandler):
+
+    def __init__(self, source: str = None, sampledata_name: str = None, sampledata: Dict[str, Any] = None, metadata: Dict = None):
+        self._logger = None
+        """ for logging. """
+        self._source = source
+        """ the full path to the sample data file. """
+        self._sampledata_name = sampledata_name
+        """ the name of the sample data file (no path). """
+        self._sampledata = sampledata
+        """ the sample data itself. """
+
+    def logger(self) -> logging.Logger:
+        """
+        Returns the logger instance to use.
+
+        :return: the logger
+        :rtype: logging.Logger
+        """
+        if self._logger is None:
+            self._logger = logging.getLogger(self.__class__.__name__)
+        return self._logger
+
+    @property
+    def source(self) -> Optional[str]:
+        """
+        Returns the source filename.
+
+        :return: the full filename, if available
+        :rtype: str
+        """
+        return self._source
+
+    @property
+    def sampledata(self) -> Optional[Any]:
+        """
+        Returns the sample data.
+
+        :return: the sample data, can be None
+        :rtype: Any
+        """
+        return self._sampledata
+
+    @property
+    def sampledata_name(self) -> Optional[str]:
+        """
+        Returns the name of the spectrum.
+
+        :return: the spectrum name, can be None
+        :rtype: str
+        """
+        if self._sampledata_name is not None:
+            return self._sampledata_name
+        elif self.source is not None:
+            return os.path.basename(self.source)
+        else:
+            return None
+
+    @sampledata_name.setter
+    def sampledata_name(self, s: str):
+        """
+        Sets the new name.
+
+        :param s: the new name
+        :type s: str
+        """
+        self._sampledata_name = s
+
+    def duplicate(self, source: str = None, force_no_source: bool = None,
+                  name: str = None, sampledata: Dict[str, Any] = None):
+        """
+        Duplicates the container overwriting existing data with any provided data.
+
+        :param source: the source to use
+        :type source: str
+        :param force_no_source: if True, then source is set to None
+        :type force_no_source: bool
+        :param name: the name to use
+        :type name: str
+        :param sampledata: the spectrum to use
+        :type sampledata: Any
+        :return: the duplicated container
+        """
+        if (force_no_source is not None) and force_no_source:
+            source = None
+        else:
+            if source is None:
+                source = self._source
+        if name is None:
+            name = self._sampledata_name
+        if sampledata is None:
+            sampledata = copy.deepcopy(self._sampledata)
+
+        return type(self)(source=source, sampledata_name=name, sampledata=sampledata)
+
+    def to_dict(self, source: bool = True, sampledata: bool = True):
+        """
+        Returns itself as a dictionary that can be saved as JSON.
+
+        :param source: whether to include the source
+        :type source: bool
+        :param sampledata: whether to include the sampledata
+        :type sampledata: bool
+        :return: the generated dictionary
+        :rtype: dict
+        """
+        result = dict()
+        if source and (self.source is not None):
+            result["source"] = self.source
+        if self.sampledata_name is not None:
+            result["name"] = self.sampledata_name
+        if sampledata:
+            result["sampledata"] = safe_deepcopy(self.sampledata)
+        return result
+
+
+def make_list(data, cls=MetaDataHandler) -> List:
     """
     Wraps the data item in a list if not already a list.
 

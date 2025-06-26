@@ -1,4 +1,4 @@
-from ._adams import AdamsWriter
+from ._adams import AdamsWriter, ReportSampleDataWriter
 from ._arff import ARFFWriter
 from ._asc import ASCWriter
 from ._asciixy import ASCIIXYWriter
