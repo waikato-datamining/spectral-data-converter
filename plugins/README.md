@@ -18,6 +18,7 @@
 * [poll-dir](poll-dir.md)
 
 ## Filters
+* [add-sampledata](add-sampledata.md)
 * [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [discard-by-name](discard-by-name.md)
