@@ -6,4 +6,5 @@ from ._reader import Reader, ReaderWithLocaleSupport, add_locale_option, parse_r
 from ._reader import SampleDataReader
 from ._writer import BatchWriter, StreamWriter, SplittableBatchWriter, SplittableStreamWriter, parse_writer
 from ._writer import SampleDataBatchWriter, SampleDataStreamWriter, SplittableSampleDataBatchWriter, SplittableSampleDataStreamWriter
+from ._cleaner import Cleaner, parse_cleaner
 from ._utils import safe_deepcopy, locate_file, strip_suffix, load_function

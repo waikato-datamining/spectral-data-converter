@@ -34,6 +34,7 @@ LIST_READERS = "readers"
 LIST_FILTERS = "filters"
 LIST_WRITERS = "writers"
 LIST_GENERATORS = "generators"
+LIST_CLEANERS = "cleaners"
 LIST_CUSTOM_CLASS_LISTERS = "custom-class-listers"
 LIST_ENV_CLASS_LISTERS = "env-class-listers"
 LIST_TYPES = [
@@ -45,6 +46,7 @@ LIST_TYPES = [
     LIST_FILTERS,
     LIST_WRITERS,
     LIST_GENERATORS,
+    LIST_CLEANERS,
 ]
 
 
@@ -115,6 +117,16 @@ def available_generators() -> Dict[str, Plugin]:
     return REGISTRY.plugins("sdc.api.Generator", fail_if_empty=False)
 
 
+def available_cleaners() -> Dict[str, Plugin]:
+    """
+    Returns all available cleaners.
+
+    :return: the dict of cleaner objects
+    :rtype: dict
+    """
+    return REGISTRY.plugins("sdc.api.Cleaner", fail_if_empty=False)
+
+
 def available_plugins() -> Dict[str, Plugin]:
     """
     Returns all available plugins (pipeline and generators).
@@ -127,6 +139,7 @@ def available_plugins() -> Dict[str, Plugin]:
     result.update(available_filters())
     result.update(available_writers())
     result.update(available_generators())
+    result.update(available_cleaners())
     return result
 
 
@@ -170,6 +183,8 @@ def _list(list_type: str, custom_class_listers: Optional[List[str]] = None, excl
             plugins = available_writers()
         elif list_type == LIST_GENERATORS:
             plugins = available_generators()
+        elif list_type == LIST_CLEANERS:
+            plugins = available_cleaners()
         else:
             raise Exception("Unhandled type: %s" % list_type)
         print("name: class")

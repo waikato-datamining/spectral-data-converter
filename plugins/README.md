@@ -19,6 +19,7 @@
 
 ## Filters
 * [add-sampledata](add-sampledata.md)
+* [apply-cleaner](apply-cleaner.md)
 * [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [discard-by-name](discard-by-name.md)

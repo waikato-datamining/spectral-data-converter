@@ -9,7 +9,7 @@ from wai.logging import init_logging, set_logging_level, add_logging_level
 from sdc.core import ENV_SDC_LOGLEVEL
 from sdc.help import generate_plugin_usage, HELP_FORMATS, HELP_FORMAT_TEXT, HELP_FORMAT_MARKDOWN
 from sdc.registry import register_plugins, available_pipeline_plugins, REGISTRY
-from sdc.registry import available_readers, available_filters, available_writers, available_generators
+from sdc.registry import available_readers, available_filters, available_writers, available_generators, available_cleaners
 
 HELP = "sdc-help"
 
@@ -20,9 +20,11 @@ INDEX_TITLE_DEFAULT = "spectral-data-converter plugins"
 
 PLUGIN_TYPE_PIPELINE = "pipeline"
 PLUGIN_TYPE_GENERATOR = "generator"
+PLUGIN_TYPE_CLEANER = "cleaner"
 PLUGIN_TYPES = [
     PLUGIN_TYPE_PIPELINE,
     PLUGIN_TYPE_GENERATOR,
+    PLUGIN_TYPE_CLEANER,
 ]
 
 
@@ -100,6 +102,8 @@ def output_help(custom_class_listers: List[str] = None, excluded_class_listers: 
         available = available_pipeline_plugins()
     elif plugin_type == PLUGIN_TYPE_GENERATOR:
         available = available_generators()
+    elif plugin_type == PLUGIN_TYPE_CLEANER:
+        available = available_cleaners()
     else:
         raise Exception("Unhandled plugin type: %s" % plugin_type)
 
@@ -135,6 +139,8 @@ def output_help(custom_class_listers: List[str] = None, excluded_class_listers: 
             _add_plugins_to_index("Writers", available_writers(), help_format, plugin_lines)
         elif plugin_type == PLUGIN_TYPE_GENERATOR:
             _add_plugins_to_index("Generators", available_generators(), help_format, plugin_lines)
+        elif plugin_type == PLUGIN_TYPE_CLEANER:
+            _add_plugins_to_index("Cleaners", available_cleaners(), help_format, plugin_lines)
         else:
             raise Exception("Unhandled plugin type: %s" % plugin_type)
 

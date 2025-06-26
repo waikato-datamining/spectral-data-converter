@@ -7,6 +7,7 @@ Preparation:
 
   * `sdc-help -f markdown -o plugins -T pipeline -i README.md -l INFO`
   * `sdc-help -f markdown -o generators -T generator -i README.md -l INFO`
+  * `sdc-help -f markdown -o cleaners -T cleaner -i README.md -l INFO`
   
 * update the help screen of `sdc-convert` in `README.md` to have the latest list of plugins
 * update the help screen of `sdc-exec` in `README.md` to have the latest list of generators

@@ -15,4 +15,7 @@ def list_classes() -> Dict[str, List[str]]:
         "sdc.api.Generator": [
             "sdc.generator",
         ],
+        "sdc.api.Cleaner": [
+            "sdc.cleaner",
+        ],
     }

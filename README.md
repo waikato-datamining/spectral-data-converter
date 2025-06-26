@@ -210,11 +210,11 @@ optional arguments:
 
 ```
 usage: sdc-registry [-h] [-c CUSTOM_CLASS_LISTERS] [-e EXCLUDED_CLASS_LISTERS]
-                    [-l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators}]
+                    [-l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}]
 
 For inspecting/querying the registry.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -c CUSTOM_CLASS_LISTERS, --custom_class_listers CUSTOM_CLASS_LISTERS
                         The comma-separated list of custom class listers to
@@ -222,7 +222,7 @@ optional arguments:
   -e EXCLUDED_CLASS_LISTERS, --excluded_class_listers EXCLUDED_CLASS_LISTERS
                         The comma-separated list of class listers to exclude.
                         (default: None)
-  -l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators}, --list {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators}
+  -l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}, --list {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}
                         For outputting various lists on stdout. (default:
                         None)
 ```
@@ -251,6 +251,7 @@ You can find help screens for the plugins here:
 
 * [Pipeline plugins](plugins/README.md) (readers/filters/writers)
 * [Generator plugins](generators/README.md) (used by `sdc-exec`)
+* [Cleaner plugins](cleaners/README.md) (used by `apply-cleaner` filter)
 
 
 ## Class listers
