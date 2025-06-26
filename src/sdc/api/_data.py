@@ -12,6 +12,10 @@ from sdc.api._utils import safe_deepcopy
 _logger = None
 
 
+SAMPLE_ID = "Sample ID"
+SAMPLE_TYPE = "Sample Type"
+
+
 def logger() -> logging.Logger:
     """
     Returns the logger instance to use, initializes it if necessary.
@@ -149,7 +153,7 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
 
 class SampleData(MetaDataHandler, LoggingHandler):
 
-    def __init__(self, source: str = None, sampledata_name: str = None, sampledata: Dict[str, Any] = None, metadata: Dict = None):
+    def __init__(self, source: str = None, sampledata_name: str = None, sampledata: Dict[str, Any] = None):
         self._logger = None
         """ for logging. """
         self._source = source
@@ -181,7 +185,7 @@ class SampleData(MetaDataHandler, LoggingHandler):
         return self._source
 
     @property
-    def sampledata(self) -> Optional[Any]:
+    def sampledata(self) -> Optional[Dict[str, Any]]:
         """
         Returns the sample data.
 
