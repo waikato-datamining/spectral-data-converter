@@ -42,6 +42,14 @@ The following dataset formats are supported:
 | SPA (Thermo Scientific)        | [Y](plugins/from-spa.md)      | N                          | 
 
 
+The following sample data formats are supported:
+
+| Format                                  | Read                           | Write                        | 
+|:----------------------------------------|:-------------------------------|:-----------------------------| 
+| [ADAMS Report](formats/adams_report.md) | [Y](plugins/from-report-sd.md) | [Y](plugins/to-report-sd.md) | 
+| JSON                                    | [Y](plugins/from-json-sd.md)   | [Y](plugins/to-json-sd.md)   | 
+
+
 ## Tools
 
 ### Dataset conversion
@@ -56,10 +64,10 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (16):
+readers (17):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
-   from-dpt, from-mps, from-multi, from-nir, from-opus, from-opus-ext, 
-   from-pyfunc, from-report-sd, from-spa, poll-dir
+   from-dpt, from-json-sd, from-mps, from-multi, from-nir, from-opus, 
+   from-opus-ext, from-pyfunc, from-report-sd, from-spa, poll-dir
 filters (30):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
    discard-by-name, downsample, equi-distance, log, max-records, 
@@ -68,9 +76,9 @@ filters (30):
    row-norm, sample, savitzky-golay, savitzky-golay2, set-placeholder, 
    simpls, spectrum-to-sampledata, split-records, 
    standard-normal-variate*, standardize, tee
-writers (11):
+writers (12):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-dpt, 
-   to-multi, to-nir, to-pyfunc, to-report-sd
+   to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd
 
 optional arguments:
   -h, --help            show basic help message and exit

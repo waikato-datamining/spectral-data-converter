@@ -5,6 +5,7 @@ from ._asciixy import ASCIIXYReader
 from ._cal import CALReader
 from ._csv import CSVReader
 from ._dpt import DPTReader
+from ._json import JsonSampleDataReader
 from ._mps import MPSReader
 from ._multi import MultiReader
 from ._nir import NIRReader
