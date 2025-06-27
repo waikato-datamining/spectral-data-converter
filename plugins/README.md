@@ -43,6 +43,7 @@
 * [savitzky-golay2](savitzky-golay2.md)
 * [set-placeholder](set-placeholder.md)
 * [simpls](simpls.md)
+* [spectrum-to-sampledata](spectrum-to-sampledata.md)
 * [split-records](split-records.md)
 * [standardize](standardize.md)
 * [tee](tee.md)

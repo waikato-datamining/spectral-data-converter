@@ -24,6 +24,7 @@ from ._savitzkygolay import SavitzkyGolay
 from ._savitzkygolay2 import SavitzkyGolay2
 from ._set_placeholder import SetPlaceholder
 from ._simpls import SIMPLS
+from ._spectrum_to_sampledata import SpectrumToSampleData
 from ._split_records import SplitRecords
 from ._standardize import Standardize
 from ._tee import Tee
