@@ -1,6 +1,10 @@
 # spectral-data-converter
 Python library for converting (and filtering) spectral data in various formats.
 
+Some of the formats make use of the [wai_spectralio](https://github.com/waikato-datamining/wai-spectralio) 
+library and some of the filters use the [wai_ma](https://github.com/waikato-datamining/py-matrix-algorithms) 
+library for processing the data.
+
 ## Installation
 
 Via PyPI:
