@@ -1,6 +1,6 @@
 Python library for converting (and filtering) spectral data in various formats.
 
-Supported formats:
+Supported spectral formats:
 
 * ADAMS (read/write)
 * ARFF row-wise (read/write)
@@ -14,4 +14,10 @@ Supported formats:
 * Opus Bruker (read)
 * Opus Ext Bruker (read)
 * SPA Thermo Fisher (read)
+
+Supported sample data formats:
+
+* ADAMS report (read/write)
+* CSV row-wise (read/write)
+* JSON (read/write)
 
