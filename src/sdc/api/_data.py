@@ -32,8 +32,7 @@ def logger() -> logging.Logger:
 
 class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
 
-    def __init__(self, source: str = None, spectrum_name: str = None,
-                 spectrum: Any = None, metadata: Dict = None):
+    def __init__(self, source: str = None, spectrum_name: str = None, spectrum: Any = None):
         self._logger = None
         """ for logging. """
         self._source = source

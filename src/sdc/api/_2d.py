@@ -8,9 +8,8 @@ from wai.ma.core.matrix import Matrix
 
 class Spectrum2D(Spectrum):
 
-    def __init__(self, source: str = None, spectrum_name: str = None,
-                 spectrum: WaiSpectrum = None, metadata: Dict = None):
-        super().__init__(source=source, spectrum_name=spectrum_name, spectrum=spectrum, metadata=metadata)
+    def __init__(self, source: str = None, spectrum_name: str = None, spectrum: WaiSpectrum = None):
+        super().__init__(source=source, spectrum_name=spectrum_name, spectrum=spectrum)
 
     def has_metadata(self) -> bool:
         """
