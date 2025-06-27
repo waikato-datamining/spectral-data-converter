@@ -3,13 +3,14 @@
 * accepts: sdc.api.Spectrum2D
 * generates: sdc.api.SampleData
 
-Extracts the sample data from the spectrum and forwards it.
+Extracts the sample data from the spectrum and forwards it. Ensures that the sample ID is present.
 
 ```
 usage: spectrum-to-sampledata [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                               [-N LOGGER_NAME] [--skip]
 
-Extracts the sample data from the spectrum and forwards it.
+Extracts the sample data from the spectrum and forwards it. Ensures that the
+sample ID is present.
 
 options:
   -h, --help            show this help message and exit

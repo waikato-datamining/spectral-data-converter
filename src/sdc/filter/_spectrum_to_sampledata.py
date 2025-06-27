@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from sdc.api import flatten_list, make_list, Filter, Spectrum2D, SampleData
+from sdc.api import flatten_list, make_list, Filter, Spectrum2D, SampleData, safe_deepcopy, SAMPLE_ID
 
 
 class SpectrumToSampleData(Filter):
@@ -25,7 +25,7 @@ class SpectrumToSampleData(Filter):
         :return: the description
         :rtype: str
         """
-        return "Extracts the sample data from the spectrum and forwards it."
+        return "Extracts the sample data from the spectrum and forwards it. Ensures that the sample ID is present."
 
     def accepts(self) -> List:
         """
@@ -55,6 +55,9 @@ class SpectrumToSampleData(Filter):
         result = []
         for item in make_list(data):
             name = os.path.splitext(item.spectrum_name)[0]
-            result.append(SampleData(sampledata_name=name, sampledata=item.spectrum.sample_data))
+            sd = safe_deepcopy(item.spectrum.sample_data)
+            if SAMPLE_ID not in sd:
+                sd[SAMPLE_ID] = item.spectrum.id
+            result.append(SampleData(sampledata_name=name, sampledata=sd))
 
         return flatten_list(result)
