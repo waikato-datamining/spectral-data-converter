@@ -8,11 +8,11 @@ from wai.spectralio.adams import Reader as SReader
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from javaproperties import load
 
-from sdc.api import Reader, SampleDataReader, SampleData
+from sdc.api import SpectralIOReader, SampleDataReader, SampleData
 from sdc.api import Spectrum2D
 
 
-class AdamsReader(Reader, PlaceholderSupporter):
+class AdamsReader(SpectralIOReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,

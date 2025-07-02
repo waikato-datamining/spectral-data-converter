@@ -7,11 +7,10 @@ from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Reader as SReader
 
-from sdc.api import Reader
-from sdc.api import Spectrum2D
+from sdc.api import SpectralIOReader, Spectrum2D
 
 
-class ARFFReader(Reader, PlaceholderSupporter):
+class ARFFReader(SpectralIOReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, spectral_data: str = None, sample_data: str = None, sample_data_prefix: str = None,

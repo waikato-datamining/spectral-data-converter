@@ -6,10 +6,10 @@ from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.dpt import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option, SpectralIOBased
 
 
-class DPTWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
+class DPTWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, descending: bool = None, locale: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,

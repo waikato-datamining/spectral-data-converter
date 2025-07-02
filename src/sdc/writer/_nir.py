@@ -5,10 +5,10 @@ from seppl.placeholders import InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.nir import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableBatchWriter
+from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOBased
 
 
-class NIRWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
+class NIRWriter(SplittableBatchWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, instrument_name: str = None,
                  product_code: str = None, product_code_from_field: bool = None, client: str = None,

@@ -6,10 +6,10 @@ from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asc import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOBased
 
 
-class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
+class ASCWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, instrument_name: str = None, accessory_name: str = None,
                  data_points: int = None, first_x_point: float = None, last_x_point: float = None, descending: bool = None,

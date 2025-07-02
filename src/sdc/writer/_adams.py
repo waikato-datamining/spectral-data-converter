@@ -8,10 +8,10 @@ from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from wai.spectralio.adams import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list
+from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SpectralIOBased
 
 
-class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
+class AdamsWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, output_sampledata: bool = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,

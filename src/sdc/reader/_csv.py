@@ -9,10 +9,10 @@ from simple_range import Index, Range
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Reader as SReader
 
-from sdc.api import Reader, SampleDataReader, Spectrum2D, SampleData, SAMPLE_ID
+from sdc.api import SpectralIOReader, SampleDataReader, Spectrum2D, SampleData, SAMPLE_ID
 
 
-class CSVReader(Reader, PlaceholderSupporter):
+class CSVReader(SpectralIOReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, spectral_data: str = None, sample_data: str = None, sample_data_prefix: str = None,

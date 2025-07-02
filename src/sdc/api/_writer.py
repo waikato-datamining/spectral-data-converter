@@ -11,26 +11,7 @@ class BatchWriter(seppl.io.BatchWriter, Initializable):
     """
     Ancestor for dataset batch writers.
     """
-
-    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
-        """
-        Initializes the reader.
-
-        :param logger_name: the name to use for the logger
-        :type logger_name: str
-        :param logging_level: the logging level to use
-        :type logging_level: str
-        """
-        super().__init__(logger_name=logger_name, logging_level=logging_level)
-
-    def _compile_options(self) -> List[str]:
-        """
-        Compiles the options for initializing the underlying writer.
-
-        :return: the list of options to use
-        :rtype: list
-        """
-        return []
+    pass
 
 
 class SplittableBatchWriter(BatchWriter):
@@ -94,26 +75,7 @@ class StreamWriter(seppl.io.StreamWriter, Initializable):
     """
     Ancestor for dataset stream writers.
     """
-
-    def __init__(self, logger_name: str = None, logging_level: str = LOGGING_WARNING):
-        """
-        Initializes the reader.
-
-        :param logger_name: the name to use for the logger
-        :type logger_name: str
-        :param logging_level: the logging level to use
-        :type logging_level: str
-        """
-        super().__init__(logger_name=logger_name, logging_level=logging_level)
-
-    def _compile_options(self) -> List[str]:
-        """
-        Compiles the options for initializing the underlying writer.
-
-        :return: the list of options to use
-        :rtype: list
-        """
-        return []
+    pass
 
 
 class SplittableStreamWriter(StreamWriter):

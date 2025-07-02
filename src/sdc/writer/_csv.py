@@ -6,10 +6,10 @@ from seppl.placeholders import InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SplittableSampleDataBatchWriter, SampleData, SAMPLE_ID
+from sdc.api import Spectrum2D, SplittableBatchWriter, SplittableSampleDataBatchWriter, SampleData, SAMPLE_ID, SpectralIOBased
 
 
-class CSVWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
+class CSVWriter(SplittableBatchWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,

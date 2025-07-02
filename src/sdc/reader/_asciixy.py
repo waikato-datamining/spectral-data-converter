@@ -6,11 +6,10 @@ from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asciixy import Reader as SReader
 
-from sdc.api import Reader
-from sdc.api import Spectrum2D
+from sdc.api import SpectralIOReader, Spectrum2D
 
 
-class ASCIIXYReader(Reader, PlaceholderSupporter):
+class ASCIIXYReader(SpectralIOReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,

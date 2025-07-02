@@ -5,6 +5,7 @@ from typing import List
 
 from wai.logging import LOGGING_WARNING
 from ._data import SampleData
+from ._spectralio import SpectralIOBased
 
 
 class Reader(seppl.io.Reader, Initializable):
@@ -70,6 +71,22 @@ class Reader(seppl.io.Reader, Initializable):
         if self.keep_format is None:
             self.keep_format = False
 
+
+def add_locale_option(parser: argparse.ArgumentParser):
+    """
+    Adds the locale option to the parser.
+
+    :param parser: the parser to update
+    :type parser: argparse.ArgumentParser
+    """
+    parser.add_argument("--locale", type=str, help="The locale to use for parsing/formatting numbers", required=False, default="en_US")
+
+
+class SpectralIOReader(Reader, SpectralIOBased):
+    """
+    Ancestor for readers that use a wai.spectralio-based reader under the hood.
+    """
+
     def _compile_options(self) -> List[str]:
         """
         Compiles the options for initializing the underlying reader.
@@ -83,17 +100,7 @@ class Reader(seppl.io.Reader, Initializable):
         return result
 
 
-def add_locale_option(parser: argparse.ArgumentParser):
-    """
-    Adds the locale option to the parser.
-
-    :param parser: the parser to update
-    :type parser: argparse.ArgumentParser
-    """
-    parser.add_argument("--locale", type=str, help="The locale to use for parsing/formatting numbers", required=False, default="en_US")
-
-
-class ReaderWithLocaleSupport(Reader):
+class SpectralIOReaderWithLocaleSupport(SpectralIOReader):
     """
     Ancestor for dataset readers that support locales.
     """
