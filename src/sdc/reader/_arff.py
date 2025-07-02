@@ -61,6 +61,7 @@ class ARFFReader(Reader, PlaceholderSupporter):
         self.wave_numbers_regexp = wave_numbers_regexp
         self._inputs = None
         self._current_input = None
+        self._reader = None
 
     def name(self) -> str:
         """
@@ -133,6 +134,8 @@ class ARFFReader(Reader, PlaceholderSupporter):
         super().initialize()
         if self.wave_numbers_in_header is None:
             self.wave_numbers_in_header = False
+        self._reader = SReader()
+        self._reader.options = self._compile_options()
         self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.arff", resume_from=self.resume_from)
 
     def _compile_options(self) -> List[str]:
@@ -168,10 +171,8 @@ class ARFFReader(Reader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
 
-        reader = SReader()
-        reader.options = self._compile_options()
         i = 0
-        for sp in reader.read(self.session.current_input):
+        for sp in self._reader.read(self.session.current_input):
             i += 1
             spectrum_name = os.path.basename(self.session.current_input)
             spectrum_name = os.path.splitext(spectrum_name)[0] + "-" + str(i)

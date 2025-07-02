@@ -53,6 +53,7 @@ class OPUSReader(Reader, PlaceholderSupporter):
         self.add_trace_to_report = add_trace_to_report
         self._inputs = None
         self._current_input = None
+        self._reader = None
 
     def name(self) -> str:
         """
@@ -127,6 +128,7 @@ class OPUSReader(Reader, PlaceholderSupporter):
             self.max = -1
         if self.add_trace_to_report is None:
             self.add_trace_to_report = False
+        self._reader = SReader(options=self._compile_options())
         self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.0", resume_from=self.resume_from)
 
     def _compile_options(self) -> List[str]:
@@ -155,8 +157,7 @@ class OPUSReader(Reader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
 
-        reader = SReader(options=self._compile_options())
-        for sp in reader.read(self.session.current_input):
+        for sp in self._reader.read(self.session.current_input):
             yield Spectrum2D(source=self.session.current_input, spectrum=sp, spectrum_name=sp.id)
 
     def has_finished(self) -> bool:

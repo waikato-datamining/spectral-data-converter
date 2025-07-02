@@ -47,6 +47,7 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         self.sample_id_extraction = sample_id_extraction
         self._inputs = None
         self._current_input = None
+        self._reader = None
 
     def name(self) -> str:
         """
@@ -111,6 +112,8 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         super().initialize()
         if self.separator is None:
             self.separator = ";"
+        self._reader = SReader()
+        self._reader.options = self._compile_options()
         self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.txt", resume_from=self.resume_from)
 
     def _compile_options(self) -> List[str]:
@@ -138,9 +141,7 @@ class ASCIIXYReader(Reader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
 
-        reader = SReader()
-        reader.options = self._compile_options()
-        for sp in reader.read(self.session.current_input):
+        for sp in self._reader.read(self.session.current_input):
             yield Spectrum2D(source=self.session.current_input, spectrum=sp)
 
     def has_finished(self) -> bool:
