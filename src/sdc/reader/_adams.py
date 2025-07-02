@@ -42,6 +42,7 @@ class AdamsReader(Reader, PlaceholderSupporter):
         self.resume_from = resume_from
         self._inputs = None
         self._current_input = None
+        self._reader = None
 
     def name(self) -> str:
         """
@@ -100,6 +101,8 @@ class AdamsReader(Reader, PlaceholderSupporter):
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
+        self._reader = SReader()
+        self._reader.options = self._compile_options()
         self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.spec", resume_from=self.resume_from)
 
     def read(self) -> Iterable:
@@ -113,9 +116,7 @@ class AdamsReader(Reader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
 
-        reader = SReader()
-        reader.options = self._compile_options()
-        for sp in reader.read(self.session.current_input):
+        for sp in self._reader.read(self.session.current_input):
             yield Spectrum2D(source=self.session.current_input, spectrum=sp)
 
     def has_finished(self) -> bool:
