@@ -6,10 +6,10 @@ from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asciixy import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOBased
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter
 
 
-class ASCIIXYWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
+class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, separator: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -94,8 +94,7 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlacehold
         super().initialize()
         if self.separator is None:
             self.separator = ";"
-        self._writer = SWriter()
-        self._writer.options = self._compile_options()
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -107,6 +106,16 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlacehold
         result = super()._compile_options()
         result.extend(["--separator", self.separator])
         return result
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
 
     def write_stream(self, data):
         """

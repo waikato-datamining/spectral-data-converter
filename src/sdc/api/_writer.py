@@ -5,6 +5,21 @@ from wai.logging import LOGGING_WARNING
 from seppl import Initializable
 import seppl.io
 from ._data import SampleData
+from ._spectralio import SpectralIOBased
+
+
+class SpectralIOWriter(SpectralIOBased):
+    """
+    Mixin for SpectralIO-based writers.
+    """
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        raise NotImplementedError()
 
 
 class BatchWriter(seppl.io.BatchWriter, Initializable):

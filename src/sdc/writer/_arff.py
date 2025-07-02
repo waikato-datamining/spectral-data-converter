@@ -5,10 +5,10 @@ from seppl.placeholders import InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOBased
+from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter
 
 
-class ARFFWriter(SplittableBatchWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
+class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,
@@ -109,8 +109,7 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOBased, InputBasedPlaceholderSu
         super().initialize()
         if self.sample_data is None:
             self.sample_data = []
-        self._writer = SWriter()
-        self._writer.options = self._compile_options()
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -130,6 +129,16 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOBased, InputBasedPlaceholderSu
         if self.wave_numbers_format is not None:
             result.extend(["--wave-numbers-format", self.wave_numbers_format])
         return result
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
 
     def write_batch(self, data):
         """

@@ -6,10 +6,10 @@ from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asc import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOBased
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter
 
 
-class ASCWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
+class ASCWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, instrument_name: str = None, accessory_name: str = None,
                  data_points: int = None, first_x_point: float = None, last_x_point: float = None, descending: bool = None,
@@ -130,8 +130,7 @@ class ASCWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSu
             self.last_x_point = 9998.2477195313
         if self.descending is None:
             self.descending = False
-        self._writer = SWriter()
-        self._writer.options = self._compile_options()
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -149,6 +148,16 @@ class ASCWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSu
         if self.descending:
             result.append("--descending")
         return result
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
 
     def write_stream(self, data):
         """

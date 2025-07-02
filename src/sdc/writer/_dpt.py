@@ -6,10 +6,10 @@ from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.dpt import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option, SpectralIOBased
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option, SpectralIOWriter
 
 
-class DPTWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
+class DPTWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, descending: bool = None, locale: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -101,8 +101,7 @@ class DPTWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSu
             self.descending = False
         if self.locale is None:
             self.locale = "en_US"
-        self._writer = SWriter()
-        self._writer.options = self._compile_options()
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -116,6 +115,16 @@ class DPTWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSu
             result.append("--descending")
         result.extend(["--locale", self.locale])
         return result
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
 
     def write_stream(self, data):
         """

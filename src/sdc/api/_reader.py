@@ -99,6 +99,14 @@ class SpectralIOReader(Reader, SpectralIOBased):
             result.append("--keep-format")
         return result
 
+    def _init_reader(self):
+        """
+        Initializes the reader.
+
+        :return: the reader
+        """
+        raise NotImplementedError()
+
 
 class SpectralIOReaderWithLocaleSupport(SpectralIOReader):
     """

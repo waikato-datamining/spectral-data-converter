@@ -8,10 +8,10 @@ from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from wai.spectralio.adams import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SpectralIOBased
+from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SpectralIOWriter
 
 
-class AdamsWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholderSupporter):
+class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, output_sampledata: bool = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -96,8 +96,7 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholder
         super().initialize()
         if self.output_sampledata is None:
             self.output_sampledata = False
-        self._writer = SWriter()
-        self._writer.options = self._compile_options()
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -110,6 +109,16 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOBased, InputBasedPlaceholder
         if self.output_sampledata:
             result.append("--output-sampledata")
         return result
+
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
 
     def write_stream(self, data):
         """
