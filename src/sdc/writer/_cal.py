@@ -4,7 +4,6 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.cal import Writer as SWriter
 
-from sdc.api import Spectrum2D
 from ._nir import NIRWriter
 
 
@@ -120,22 +119,13 @@ class CALWriter(NIRWriter):
         super()._apply_args(ns)
         self.constituents = ns.constituents
 
-    def accepts(self) -> List:
-        """
-        Returns the list of classes that are accepted.
-
-        :return: the list of classes
-        :rtype: list
-        """
-        return [Spectrum2D]
-
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
-        super().initialize()
         if self.constituents is None:
             self.constituents = []
+        super().initialize()
 
     def _compile_options(self) -> List[str]:
         """
@@ -150,6 +140,16 @@ class CALWriter(NIRWriter):
             result.extend([str(x) for x in self.constituents])
         return result
 
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
+
     def write_batch(self, data):
         """
         Saves the data in one go.
@@ -157,9 +157,6 @@ class CALWriter(NIRWriter):
         :param data: the data to write
         :type data: Iterable
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
-        writer.write([x.spectrum for x in data], output_file)
+        self._writer.write([x.spectrum for x in data], output_file)

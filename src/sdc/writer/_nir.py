@@ -87,6 +87,7 @@ class NIRWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         self.end_points = end_points
         self.EOC = EOC
         self.timestamp = timestamp
+        self._writer = None
 
     def name(self) -> str:
         """
@@ -207,6 +208,7 @@ class NIRWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
             self.end_points = [1098.0]
         if self.EOC is None:
             self.EOC = 0
+        self._writer = self._init_writer()
 
     def _compile_options(self) -> List[str]:
         """
@@ -244,6 +246,16 @@ class NIRWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
             result.extend("--timestamp=%s" % self.timestamp)
         return result
 
+    def _init_writer(self):
+        """
+        Initializes the writer.
+
+        :return: the writer
+        """
+        writer = SWriter()
+        writer.options = self._compile_options()
+        return writer
+
     def write_batch(self, data):
         """
         Saves the data in one go.
@@ -251,9 +263,6 @@ class NIRWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         :param data: the data to write
         :type data: Iterable
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
-        writer.write([x.spectrum for x in data], output_file)
+        self._writer.write([x.spectrum for x in data], output_file)

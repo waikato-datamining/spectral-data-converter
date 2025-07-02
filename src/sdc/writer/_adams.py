@@ -2,13 +2,13 @@ import argparse
 import os
 from typing import List
 
+from javaproperties import Properties, dump
 from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 from wai.logging import LOGGING_WARNING
-from wai.spectralio.adams import Writer as SWriter
 from wai.spectralio.adams import DATATYPE_SUFFIX
-from javaproperties import Properties, dump
+from wai.spectralio.adams import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SampleData
+from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list
 
 
 class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
@@ -37,6 +37,7 @@ class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         super().__init__(split_names=split_names, split_ratios=split_ratios, split_group=split_group, logger_name=logger_name, logging_level=logging_level)
         self.output_dir = output_dir
         self.output_sampledata = output_sampledata
+        self._writer = None
 
     def name(self) -> str:
         """
@@ -95,6 +96,8 @@ class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         super().initialize()
         if self.output_sampledata is None:
             self.output_sampledata = False
+        self._writer = SWriter()
+        self._writer.options = self._compile_options()
 
     def _compile_options(self) -> List[str]:
         """
@@ -114,9 +117,6 @@ class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
 
         :param data: the data to write (single record or iterable of records)
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -129,7 +129,7 @@ class AdamsWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
             path = os.path.join(sub_dir, item.spectrum_name)
             path = os.path.splitext(path)[0] + ".spec"
             self.logger().info("Writing spectrum to: %s" % path)
-            writer.write([item.spectrum], path)
+            self._writer.write([item.spectrum], path)
 
 
 class ReportSampleDataWriter(SplittableSampleDataStreamWriter):

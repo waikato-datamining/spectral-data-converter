@@ -51,6 +51,7 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         self.first_x_point = first_x_point
         self.last_x_point = last_x_point
         self.descending = descending
+        self._writer = None
 
     def name(self) -> str:
         """
@@ -129,6 +130,8 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
             self.last_x_point = 9998.2477195313
         if self.descending is None:
             self.descending = False
+        self._writer = SWriter()
+        self._writer.options = self._compile_options()
 
     def _compile_options(self) -> List[str]:
         """
@@ -153,9 +156,6 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
 
         :param data: the data to write (single record or iterable of records)
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -168,4 +168,4 @@ class ASCWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
             path = os.path.join(sub_dir, item.spectrum_name)
             path = os.path.splitext(path)[0] + ".asc"
             self.logger().info("Writing spectrum to: %s" % path)
-            writer.write([item.spectrum], path)
+            self._writer.write([item.spectrum], path)

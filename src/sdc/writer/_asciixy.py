@@ -35,6 +35,7 @@ class ASCIIXYWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         super().__init__(split_names=split_names, split_ratios=split_ratios, split_group=split_group, logger_name=logger_name, logging_level=logging_level)
         self.output_dir = output_dir
         self.separator = separator
+        self._writer = None
 
     def name(self) -> str:
         """
@@ -93,6 +94,8 @@ class ASCIIXYWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
         super().initialize()
         if self.separator is None:
             self.separator = ";"
+        self._writer = SWriter()
+        self._writer.options = self._compile_options()
 
     def _compile_options(self) -> List[str]:
         """
@@ -111,9 +114,6 @@ class ASCIIXYWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
 
         :param data: the data to write (single record or iterable of records)
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -126,4 +126,4 @@ class ASCIIXYWriter(SplittableStreamWriter, InputBasedPlaceholderSupporter):
             path = os.path.join(sub_dir, item.spectrum_name)
             path = os.path.splitext(path)[0] + ".txt"
             self.logger().info("Writing spectrum to: %s" % path)
-            writer.write([item.spectrum], path)
+            self._writer.write([item.spectrum], path)

@@ -45,6 +45,7 @@ class CSVWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         self.sample_data = sample_data
         self.sample_data_prefix = sample_data_prefix
         self.wave_numbers_format = wave_numbers_format
+        self._writer = None
 
     def name(self) -> str:
         """
@@ -109,6 +110,8 @@ class CSVWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         super().initialize()
         if self.sample_data is None:
             self.sample_data = []
+        self._writer = SWriter()
+        self._writer.options = self._compile_options()
 
     def _compile_options(self) -> List[str]:
         """
@@ -136,12 +139,9 @@ class CSVWriter(SplittableBatchWriter, InputBasedPlaceholderSupporter):
         :param data: the data to write
         :type data: Iterable
         """
-        writer = SWriter()
-        writer.options = self._compile_options()
-
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
-        writer.write([x.spectrum for x in data], output_file)
+        self._writer.write([x.spectrum for x in data], output_file)
 
 
 class CSVSampleDataWriter(SplittableSampleDataBatchWriter, InputBasedPlaceholderSupporter):
