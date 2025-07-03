@@ -1,22 +1,22 @@
 import argparse
-from typing import List, Iterable, Union
+from typing import List, Iterable, Union, Dict, Any
 
-from seppl.io import locate_files
+from javaproperties import load
+from seppl.io import locate_files, DirectReader
 from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from wai.logging import LOGGING_WARNING
-from wai.spectralio.adams import Reader as SReader
 from wai.spectralio.adams import DATATYPE_SUFFIX
-from javaproperties import load
+from wai.spectralio.adams import Reader as SReader
 
 from sdc.api import SpectralIOReader, SampleDataReader, SampleData
 from sdc.api import Spectrum2D
 
 
-class AdamsReader(SpectralIOReader, PlaceholderSupporter):
+class AdamsReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,
-                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
+                 direct_read: bool = False, logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
 
@@ -30,6 +30,8 @@ class AdamsReader(SpectralIOReader, PlaceholderSupporter):
         :type format: str
         :param keep_format: whether to keep the format determined by the reader
         :type keep_format: bool
+        :param direct_read: whether to use direct read mode
+        :type direct_read: bool
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -40,6 +42,7 @@ class AdamsReader(SpectralIOReader, PlaceholderSupporter):
         self.source = source
         self.source_list = source_list
         self.resume_from = resume_from
+        self._direct_read = direct_read
         self._inputs = None
         self._current_input = None
         self._reader = None
@@ -96,14 +99,46 @@ class AdamsReader(SpectralIOReader, PlaceholderSupporter):
         """
         return [Spectrum2D]
 
+    @property
+    def direct_read(self) -> bool:
+        """
+        Returns whether the reader is in direct read mode.
+
+        :return: True if in direct read mode
+        :rtype: bool
+        """
+        return self._direct_read
+
+    @direct_read.setter
+    def direct_read(self, direct: bool):
+        """
+        Sets whether the reader is to be used in direct mode or not.
+
+        :param direct: True if to use in direct read mode
+        :type direct: bool
+        """
+        self._direct_read = direct
+
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        self._reader = SReader()
-        self._reader.options = self._compile_options()
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.spec", resume_from=self.resume_from)
+        self._reader = self._init_reader()
+        if self.direct_read:
+            self._inputs = []
+        else:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.spec", resume_from=self.resume_from)
+
+    def _init_reader(self):
+        """
+        Initializes the reader.
+
+        :return: the reader
+        """
+        reader = SReader()
+        reader.options = self._compile_options()
+        return reader
 
     def read(self) -> Iterable:
         """
@@ -119,6 +154,17 @@ class AdamsReader(SpectralIOReader, PlaceholderSupporter):
         for sp in self._reader.read(self.session.current_input):
             yield Spectrum2D(source=self.session.current_input, spectrum=sp)
 
+    def read_fp(self, fp) -> Iterable:
+        """
+        Reads the data from the file-like object and returns the items one by one.
+
+        :param fp: the file-like object to read from
+        :return: the data
+        :rtype: Iterable
+        """
+        for sp in self._reader.read_fp(fp):
+            yield Spectrum2D(spectrum_name=sp.id, spectrum=sp)
+
     def has_finished(self) -> bool:
         """
         Returns whether reading has finished.
@@ -129,10 +175,11 @@ class AdamsReader(SpectralIOReader, PlaceholderSupporter):
         return len(self._inputs) == 0
 
 
-class ReportSampleDataReader(SampleDataReader):
+class ReportSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
-                 resume_from: str = None, logger_name: str = None, logging_level: str = LOGGING_WARNING):
+                 resume_from: str = None, direct_read: bool = False,
+                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
 
@@ -140,6 +187,8 @@ class ReportSampleDataReader(SampleDataReader):
         :param source_list: the file(s) with filename(s)
         :param resume_from: the file to resume from (glob)
         :type resume_from: str
+        :param direct_read: whether to use direct read mode
+        :type direct_read: bool
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -149,6 +198,7 @@ class ReportSampleDataReader(SampleDataReader):
         self.source = source
         self.source_list = source_list
         self.resume_from = resume_from
+        self._direct_read = direct_read
         self._inputs = None
         self._current_input = None
 
@@ -195,12 +245,59 @@ class ReportSampleDataReader(SampleDataReader):
         self.source_list = ns.input_list
         self.resume_from = ns.resume_from
 
+    @property
+    def direct_read(self) -> bool:
+        """
+        Returns whether the reader is in direct read mode.
+
+        :return: True if in direct read mode
+        :rtype: bool
+        """
+        return self._direct_read
+
+    @direct_read.setter
+    def direct_read(self, direct: bool):
+        """
+        Sets whether the reader is to be used in direct mode or not.
+
+        :param direct: True if to use in direct read mode
+        :type direct: bool
+        """
+        self._direct_read = direct
+
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.report", resume_from=self.resume_from)
+        if self.direct_read:
+            self._inputs = []
+        else:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.report", resume_from=self.resume_from)
+
+    def _props_to_sampledata(self, props) -> Dict[str, Any]:
+        """
+        Turns the properties into a sample data dictionary.
+
+        :param props: the properties to convert
+        :return: the generated dictionary
+        :rtype: dict
+        """
+        sd = dict()
+        for k in props:
+            if k.endswith(DATATYPE_SUFFIX):
+                continue
+            value = props[k]
+            dtype = "U"
+            if (k + DATATYPE_SUFFIX) in props:
+                dtype = props[k + DATATYPE_SUFFIX]
+            if dtype == "N":
+                sd[k] = float(value)
+            elif dtype == "B":
+                sd[k] = value.lower() == "true"
+            else:
+                sd[k] = str(value)
+        return sd
 
     def read(self) -> Iterable:
         """
@@ -216,22 +313,18 @@ class ReportSampleDataReader(SampleDataReader):
         with open(self.session.current_input, "r") as fp:
             props = load(fp)
 
-        sd = dict()
-        for k in props:
-            if k.endswith(DATATYPE_SUFFIX):
-                continue
-            value = props[k]
-            dtype = "U"
-            if (k + DATATYPE_SUFFIX) in props:
-                dtype = props[k + DATATYPE_SUFFIX]
-            if dtype == "N":
-                sd[k] = float(value)
-            elif dtype == "B":
-                sd[k] = value.lower() == "true"
-            else:
-                sd[k] = str(value)
+        yield SampleData(source=self.session.current_input, sampledata=self._props_to_sampledata(props))
 
-        yield SampleData(source=self.session.current_input, sampledata=sd)
+    def read_fp(self, fp) -> Iterable:
+        """
+        Reads the data from the file-like object and returns the items one by one.
+
+        :param fp: the file-like object to read from
+        :return: the data
+        :rtype: Iterable
+        """
+        props = load(fp)
+        yield SampleData(sampledata_name="direct", sampledata=self._props_to_sampledata(props))
 
     def has_finished(self) -> bool:
         """

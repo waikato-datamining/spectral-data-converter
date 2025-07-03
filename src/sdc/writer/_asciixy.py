@@ -3,13 +3,14 @@ import os
 from typing import List
 
 from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asciixy import Writer as SWriter
 
 from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter
 
 
-class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
+class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, separator: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -136,3 +137,12 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlacehol
             path = os.path.splitext(path)[0] + ".txt"
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
+
+    def write_stream_fp(self, data, fp):
+        """
+        Saves the data one by one.
+
+        :param data: the data to write (single record or iterable of records)
+        :param fp: the file-like object to write to
+        """
+        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, False)

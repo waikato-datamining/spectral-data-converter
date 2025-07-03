@@ -3,7 +3,7 @@ import csv
 import os
 from typing import List, Iterable, Union
 
-from seppl.io import locate_files
+from seppl.io import locate_files, DirectReader
 from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from simple_range import Index, Range
 from wai.logging import LOGGING_WARNING
@@ -12,13 +12,13 @@ from wai.spectralio.csv import Reader as SReader
 from sdc.api import SpectralIOReader, SampleDataReader, Spectrum2D, SampleData, SAMPLE_ID
 
 
-class CSVReader(SpectralIOReader, PlaceholderSupporter):
+class CSVReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, spectral_data: str = None, sample_data: str = None, sample_data_prefix: str = None,
                  wave_numbers_in_header: bool = None, wave_numbers_regexp: str = None,
                  instrument: str = None, format: str = None, keep_format: bool = None,
-                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
+                 direct_read: bool = False, logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
 
@@ -44,6 +44,8 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
         :type format: str
         :param keep_format: whether to keep the format determined by the reader
         :type keep_format: bool
+        :param direct_read: whether to use direct read mode
+        :type direct_read: bool
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -60,6 +62,8 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
         self.sample_data_prefix = sample_data_prefix
         self.wave_numbers_in_header = wave_numbers_in_header
         self.wave_numbers_regexp = wave_numbers_regexp
+        self._direct_read = direct_read
+        self._reader = None
         self._inputs = None
         self._current_input = None
         self._reader = None
@@ -128,6 +132,26 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
         """
         return [Spectrum2D]
 
+    @property
+    def direct_read(self) -> bool:
+        """
+        Returns whether the reader is in direct read mode.
+
+        :return: True if in direct read mode
+        :rtype: bool
+        """
+        return self._direct_read
+
+    @direct_read.setter
+    def direct_read(self, direct: bool):
+        """
+        Sets whether the reader is to be used in direct mode or not.
+
+        :param direct: True if to use in direct read mode
+        :type direct: bool
+        """
+        self._direct_read = direct
+
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
@@ -135,9 +159,21 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
         super().initialize()
         if self.wave_numbers_in_header is None:
             self.wave_numbers_in_header = False
-        self._reader = SReader()
-        self._reader.options = self._compile_options()
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.csv", resume_from=self.resume_from)
+        self._reader = self._init_reader()
+        if self.direct_read:
+            self._inputs = []
+        else:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.csv", resume_from=self.resume_from)
+
+    def _init_reader(self):
+        """
+        Initializes the reader.
+
+        :return: the reader
+        """
+        reader = SReader()
+        reader.options = self._compile_options()
+        return reader
 
     def _compile_options(self) -> List[str]:
         """
@@ -179,6 +215,19 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
             spectrum_name = os.path.splitext(spectrum_name)[0] + "-" + str(i)
             yield Spectrum2D(spectrum_name=spectrum_name, spectrum=sp)
 
+    def read_fp(self, fp) -> Iterable:
+        """
+        Reads the data from the file-like object and returns the items one by one.
+
+        :param fp: the file-like object to read from
+        :return: the data
+        :rtype: Iterable
+        """
+        i = 0
+        for sp in self._reader.read_fp(fp):
+            i += 1
+            yield Spectrum2D(spectrum_name=sp.id, spectrum=sp)
+
     def has_finished(self) -> bool:
         """
         Returns whether reading has finished.
@@ -189,10 +238,10 @@ class CSVReader(SpectralIOReader, PlaceholderSupporter):
         return len(self._inputs) == 0
 
 
-class CSVSampleDataReader(SampleDataReader, PlaceholderSupporter):
+class CSVSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
-                 sample_id: str = None, sample_data: str = None, sample_data_prefix: str = None,
+                 sample_id: str = None, sample_data: str = None, sample_data_prefix: str = None, direct_read: bool = False,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
@@ -207,6 +256,8 @@ class CSVSampleDataReader(SampleDataReader, PlaceholderSupporter):
         :type sample_data: str
         :param sample_data_prefix: the prefix to use for the sample data columns
         :typer sample_data_prefix: str
+        :param direct_read: whether to use direct read mode
+        :type direct_read: bool
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -219,6 +270,7 @@ class CSVSampleDataReader(SampleDataReader, PlaceholderSupporter):
         self.sample_id = sample_id
         self.sample_data = sample_data
         self.sample_data_prefix = sample_data_prefix
+        self._direct_read = direct_read
         self._inputs = None
         self._current_input = None
 
@@ -280,16 +332,41 @@ class CSVSampleDataReader(SampleDataReader, PlaceholderSupporter):
         """
         return [SampleData]
 
+    @property
+    def direct_read(self) -> bool:
+        """
+        Returns whether the reader is in direct read mode.
+
+        :return: True if in direct read mode
+        :rtype: bool
+        """
+        return self._direct_read
+
+    @direct_read.setter
+    def direct_read(self, direct: bool):
+        """
+        Sets whether the reader is to be used in direct mode or not.
+
+        :param direct: True if to use in direct read mode
+        :type direct: bool
+        """
+        self._direct_read = direct
+
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
+        if self.sample_id is None:
+            raise Exception("No sample ID index specified!")
         if self.sample_data is None:
             self.sample_data = "2-last"
         if self.sample_data_prefix is None:
             self.sample_data_prefix = ""
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.csv", resume_from=self.resume_from)
+        if self.direct_read:
+            self._inputs = []
+        else:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.csv", resume_from=self.resume_from)
 
     def read(self) -> Iterable:
         """
@@ -302,39 +379,52 @@ class CSVSampleDataReader(SampleDataReader, PlaceholderSupporter):
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
 
+        with open(self.session.current_input, "r") as fp:
+            yield self.read_fp(fp)
+
+    def read_fp(self, fp) -> Iterable:
+        """
+        Reads the data from the file-like object and returns the items one by one.
+
+        :param fp: the file-like object to read from
+        :return: the data
+        :rtype: Iterable
+        """
         sample_id_index = None
         sample_data_range = None
         names = None
-        with open(self.session.current_input, "r") as fp:
-            reader = csv.reader(fp)
-            first = True
-            row_idx = 0
-            for row in reader:
-                if first:
-                    if len(self.sample_id) > 0:
-                        sample_id = Index(self.sample_id, maximum=len(row))
-                        sample_id_index = sample_id.value()
-                    if (self.sample_data is not None) and (len(self.sample_data) > 0):
-                        sample_data = Range(self.sample_data, maximum=len(row))
-                        sample_data_range = sample_data.indices()
-                    else:
-                        sample_data_range = []
-                    names = []
-                    for idx in sample_data_range:
-                        name = row[idx]
-                        if (len(self.sample_data_prefix) > 0) and name.startswith(self.sample_data_prefix):
-                            name = name[len(self.sample_data_prefix):]
-                        names.append(name)
-                    first = False
+        reader = csv.reader(fp)
+        first = True
+        row_idx = 0
+        for row in reader:
+            if first:
+                if len(self.sample_id) > 0:
+                    sample_id = Index(self.sample_id, maximum=len(row))
+                    sample_id_index = sample_id.value()
+                if (self.sample_data is not None) and (len(self.sample_data) > 0):
+                    sample_data = Range(self.sample_data, maximum=len(row))
+                    sample_data_range = sample_data.indices()
                 else:
-                    row_idx += 1
-                    sd = dict()
-                    if sample_id_index is not None:
-                        sd[SAMPLE_ID] = row[sample_id_index]
-                    for i, idx in enumerate(sample_data_range):
-                        sd[names[i]] = row[idx]
+                    sample_data_range = []
+                names = []
+                for idx in sample_data_range:
+                    name = row[idx]
+                    if (len(self.sample_data_prefix) > 0) and name.startswith(self.sample_data_prefix):
+                        name = name[len(self.sample_data_prefix):]
+                    names.append(name)
+                first = False
+            else:
+                row_idx += 1
+                sd = dict()
+                if sample_id_index is not None:
+                    sd[SAMPLE_ID] = row[sample_id_index]
+                for i, idx in enumerate(sample_data_range):
+                    sd[names[i]] = row[idx]
+                if self.session.current_input is None:
+                    name = str(row_idx)
+                else:
                     name = os.path.splitext(os.path.basename(self.session.current_input))[0] + str(row_idx)
-                    yield SampleData(sampledata_name=name, sampledata=sd)
+                yield SampleData(sampledata_name=name, sampledata=sd)
 
     def has_finished(self) -> bool:
         """

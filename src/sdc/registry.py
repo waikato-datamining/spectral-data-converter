@@ -31,8 +31,10 @@ _logger = None
 LIST_PLUGINS = "plugins"
 LIST_PIPELINE = "pipeline"
 LIST_READERS = "readers"
+LIST_DIRECT_READERS = "direct-readers"
 LIST_FILTERS = "filters"
 LIST_WRITERS = "writers"
+LIST_DIRECT_WRITERS = "direct-writers"
 LIST_GENERATORS = "generators"
 LIST_CLEANERS = "cleaners"
 LIST_CUSTOM_CLASS_LISTERS = "custom-class-listers"
@@ -43,8 +45,10 @@ LIST_TYPES = [
     LIST_CUSTOM_CLASS_LISTERS,
     LIST_ENV_CLASS_LISTERS,
     LIST_READERS,
+    LIST_DIRECT_READERS,
     LIST_FILTERS,
     LIST_WRITERS,
+    LIST_DIRECT_WRITERS,
     LIST_GENERATORS,
     LIST_CLEANERS,
 ]
@@ -73,6 +77,16 @@ def available_readers() -> Dict[str, Plugin]:
     return REGISTRY.plugins("seppl.io.Reader", fail_if_empty=False)
 
 
+def available_direct_readers() -> Dict[str, Plugin]:
+    """
+    Returns all available direct readers.
+
+    :return: the dict of reader objects
+    :rtype: dict
+    """
+    return REGISTRY.plugins("seppl.io.DirectReader", fail_if_empty=False)
+
+
 def available_writers() -> Dict[str, Plugin]:
     """
     Returns all available writers.
@@ -81,6 +95,16 @@ def available_writers() -> Dict[str, Plugin]:
     :rtype: dict
     """
     return REGISTRY.plugins("seppl.io.Writer", fail_if_empty=False)
+
+
+def available_direct_writers() -> Dict[str, Plugin]:
+    """
+    Returns all available direct writers.
+
+    :return: the dict of writer objects
+    :rtype: dict
+    """
+    return REGISTRY.plugins("seppl.io.DirectWriter", fail_if_empty=False)
 
 
 def available_filters() -> Dict[str, Plugin]:
@@ -136,8 +160,10 @@ def available_plugins() -> Dict[str, Plugin]:
     """
     result = dict()
     result.update(available_readers())
+    result.update(available_direct_readers())
     result.update(available_filters())
     result.update(available_writers())
+    result.update(available_direct_writers())
     result.update(available_generators())
     result.update(available_cleaners())
     return result
@@ -170,17 +196,21 @@ def _list(list_type: str, custom_class_listers: Optional[List[str]] = None, excl
     """
     register_plugins(custom_class_listers=custom_class_listers, excluded_class_listers=excluded_class_listers)
 
-    if list_type in [LIST_PLUGINS, LIST_PIPELINE, LIST_READERS, LIST_FILTERS, LIST_WRITERS, LIST_GENERATORS]:
+    if list_type in [LIST_PLUGINS, LIST_PIPELINE, LIST_READERS, LIST_DIRECT_READERS, LIST_FILTERS, LIST_WRITERS, LIST_DIRECT_WRITERS, LIST_GENERATORS]:
         if list_type == LIST_PLUGINS:
             plugins = available_plugins()
         elif list_type == LIST_PIPELINE:
             plugins = available_pipeline_plugins()
         elif list_type == LIST_READERS:
             plugins = available_readers()
+        elif list_type == LIST_DIRECT_READERS:
+            plugins = available_direct_readers()
         elif list_type == LIST_FILTERS:
             plugins = available_filters()
         elif list_type == LIST_WRITERS:
             plugins = available_writers()
+        elif list_type == LIST_DIRECT_WRITERS:
+            plugins = available_direct_writers()
         elif list_type == LIST_GENERATORS:
             plugins = available_generators()
         elif list_type == LIST_CLEANERS:

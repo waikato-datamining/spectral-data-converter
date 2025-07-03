@@ -1,9 +1,10 @@
 import argparse
 import os
-from typing import List
+from typing import List, Dict, Any
 
 from javaproperties import Properties, dump
 from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from wai.spectralio.adams import Writer as SWriter
@@ -11,7 +12,7 @@ from wai.spectralio.adams import Writer as SWriter
 from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SpectralIOWriter
 
 
-class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
+class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, output_sampledata: bool = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -140,8 +141,17 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, InputBasedPlaceholde
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
 
+    def write_stream_fp(self, data, fp):
+        """
+        Saves the data one by one.
 
-class ReportSampleDataWriter(SplittableSampleDataStreamWriter):
+        :param data: the data to write (single record or iterable of records)
+        :param fp: the file-like object to write to
+        """
+        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, False)
+
+
+class ReportSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -204,6 +214,32 @@ class ReportSampleDataWriter(SplittableSampleDataStreamWriter):
         super()._apply_args(ns)
         self.output_dir = ns.output
 
+    def _to_props(self, sd: Dict[str, Any]) -> Properties:
+        """
+        Turns the sample data into java props.
+
+        :param sd: the sample data to convert
+        :type sd: dict
+        :return: th generated properties object
+        :rtype: Properties
+        """
+        props = Properties()
+        for k in sd:
+            value = sd[k]
+            if isinstance(value, bool):
+                props[k] = str(sd[k])
+                props[k + DATATYPE_SUFFIX] = "B"
+            elif isinstance(value, (int, float)):
+                props[k] = str(sd[k])
+                props[k + DATATYPE_SUFFIX] = "N"
+            elif isinstance(value, str):
+                props[k] = str(sd[k])
+                props[k + DATATYPE_SUFFIX] = "S"
+            else:
+                props[k] = str(sd[k])
+                props[k + DATATYPE_SUFFIX] = "U"
+        return props
+
     def write_stream(self, data):
         """
         Saves the data one by one.
@@ -219,27 +255,20 @@ class ReportSampleDataWriter(SplittableSampleDataStreamWriter):
                 self.logger().info("Creating dir: %s" % sub_dir)
                 os.makedirs(sub_dir)
 
-            sd = item.sampledata
-
-            # transfer data
-            props = Properties()
-            for k in sd:
-                value = sd[k]
-                if isinstance(value, bool):
-                    props[k] = str(sd[k])
-                    props[k + DATATYPE_SUFFIX] = "B"
-                elif isinstance(value, (int, float)):
-                    props[k] = str(sd[k])
-                    props[k + DATATYPE_SUFFIX] = "N"
-                elif isinstance(value, str):
-                    props[k] = str(sd[k])
-                    props[k + DATATYPE_SUFFIX] = "S"
-                else:
-                    props[k] = str(sd[k])
-                    props[k + DATATYPE_SUFFIX] = "U"
-
             path = os.path.join(sub_dir, item.sampledata_name)
             path = os.path.splitext(path)[0] + ".report"
             self.logger().info("Writing sample data to: %s" % path)
             with open(path, "w") as fp:
-                dump(props, fp)
+                dump(self._to_props(item.sampledata), fp)
+
+    def write_stream_fp(self, data, fp):
+        """
+        Saves the data one by one.
+
+        :param data: the data to write (single record or iterable of records)
+        :param fp: the file-like object to write to
+        """
+        data = make_list(data)
+        if len(data) != 1:
+            raise Exception("Can only save single sample data at a time!")
+        dump(self._to_props(data[0].sampledata), fp)

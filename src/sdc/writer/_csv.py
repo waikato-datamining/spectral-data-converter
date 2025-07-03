@@ -3,13 +3,14 @@ import csv
 from typing import List
 
 from seppl.placeholders import InputBasedPlaceholderSupporter
+from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
 from sdc.api import Spectrum2D, SplittableBatchWriter, SplittableSampleDataBatchWriter, SampleData, SAMPLE_ID, SpectralIOWriter
 
 
-class CSVWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
+class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,
@@ -22,7 +23,7 @@ class CSVWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSu
         :type output_file: str
         :param sample_id: the attribute name to use for the sample ID
         :type sample_id: str
-        :param sample_data: the sample data fields to store in the ARFF file
+        :param sample_data: the sample data fields to store in the CSV file
         :type sample_data: list of str
         :param sample_data_prefix: the prefix to use for the sample data attributes
         :typer sample_data_prefix: str
@@ -152,8 +153,18 @@ class CSVWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSu
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 
+    def write_batch_fp(self, data, fp):
+        """
+        Saves the data in one go.
 
-class CSVSampleDataWriter(SplittableSampleDataBatchWriter, InputBasedPlaceholderSupporter):
+        :param data: the data to write
+        :type data: Iterable
+        :param fp: the file-like object to write to
+        """
+        self._writer.write_fp([x.spectrum for x in data], fp, False)
+
+
+class CSVSampleDataWriter(SplittableSampleDataBatchWriter, DirectBatchWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None,
@@ -166,7 +177,7 @@ class CSVSampleDataWriter(SplittableSampleDataBatchWriter, InputBasedPlaceholder
         :type output_file: str
         :param sample_id: the attribute name to use for the sample ID
         :type sample_id: str
-        :param sample_data: the sample data fields to store in the ARFF file
+        :param sample_data: the sample data fields to store in the CSV file
         :type sample_data: list of str
         :param sample_data_prefix: the prefix to use for the sample data attributes
         :typer sample_data_prefix: str
@@ -246,8 +257,12 @@ class CSVSampleDataWriter(SplittableSampleDataBatchWriter, InputBasedPlaceholder
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
+        if self.sample_id is None:
+            self.sample_id = "sample_id"
         if self.sample_data is None:
             self.sample_data = []
+        if self.sample_data_prefix is None:
+            self.sample_data_prefix = ""
 
     def write_batch(self, data):
         """
@@ -260,29 +275,40 @@ class CSVSampleDataWriter(SplittableSampleDataBatchWriter, InputBasedPlaceholder
         self.logger().info("Writing sample data to: %s" % output_file)
 
         with open(output_file, "w") as fp:
-            writer = csv.writer(fp, quoting=csv.QUOTE_MINIMAL)
+            self.write_batch_fp(data, fp)
 
-            # header
-            row = [self.sample_id]
-            if len(self.sample_data) == 0:
-                names = []
-                for name in sorted(data[0].sampledata.keys()):
-                    if name == SAMPLE_ID:
-                        continue
-                    names.append(name)
-                self.logger().info("No sample data fields specified, using all available from first spectrum: %s" % ",".join(names))
-            else:
-                names = self.sample_data
+    def write_batch_fp(self, data, fp):
+        """
+        Saves the data in one go.
+
+        :param data: the data to write
+        :type data: Iterable
+        :param fp: the file-like object to write to
+        """
+        writer = csv.writer(fp, quoting=csv.QUOTE_MINIMAL)
+
+        # header
+        row = [self.sample_id]
+        if len(self.sample_data) == 0:
+            names = []
+            for name in sorted(data[0].sampledata.keys()):
+                if name == SAMPLE_ID:
+                    continue
+                names.append(name)
+            self.logger().info(
+                "No sample data fields specified, using all available from first spectrum: %s" % ",".join(names))
+        else:
+            names = self.sample_data
+        for name in names:
+            row.append(self.sample_data_prefix + name)
+        writer.writerow(row)
+
+        # data
+        for sd in data:
+            row = ["NA" if (SAMPLE_ID not in sd.sampledata) else sd.sampledata[SAMPLE_ID]]
             for name in names:
-                row.append(self.sample_data_prefix + name)
+                if name in sd.sampledata:
+                    row.append(sd.sampledata[name])
+                else:
+                    row.append("")
             writer.writerow(row)
-
-            # data
-            for sd in data:
-                row = ["NA" if (SAMPLE_ID not in sd.sampledata) else sd.sampledata[SAMPLE_ID]]
-                for name in names:
-                    if name in sd.sampledata:
-                        row.append(sd.sampledata[name])
-                    else:
-                        row.append("")
-                writer.writerow(row)

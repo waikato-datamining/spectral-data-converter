@@ -10,6 +10,9 @@ Changelog
   readers/writers for a cleaner class hierarchy
 - requiring wai-spectralio>=0.0.4 now
 - requiring seppl>=0.2.18 now
+- added experimental support for direct read/write operations using file-like objects
+- fixed initialization of sample ID and sample data prefix in `CSVSampleDataWriter`
+- fixed initialization of None values of `OPUSExtReader`, aligning it with the command-line args
 
 
 0.0.1 (2025-06-27)

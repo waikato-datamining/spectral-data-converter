@@ -160,3 +160,13 @@ class CALWriter(NIRWriter):
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
+
+    def write_batch_fp(self, data, fp):
+        """
+        Saves the data in one go.
+
+        :param data: the data to write
+        :type data: Iterable
+        :param fp: the file-like object to write to
+        """
+        self._writer.write_fp([x.spectrum for x in data], fp, True)

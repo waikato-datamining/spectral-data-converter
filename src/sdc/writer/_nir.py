@@ -2,13 +2,14 @@ import argparse
 from typing import List
 
 from seppl.placeholders import InputBasedPlaceholderSupporter
+from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.nir import Writer as SWriter
 
 from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter
 
 
-class NIRWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSupporter):
+class NIRWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, instrument_name: str = None,
                  product_code: str = None, product_code_from_field: bool = None, client: str = None,
@@ -266,3 +267,13 @@ class NIRWriter(SplittableBatchWriter, SpectralIOWriter, InputBasedPlaceholderSu
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
+
+    def write_batch_fp(self, data, fp):
+        """
+        Saves the data in one go.
+
+        :param data: the data to write
+        :type data: Iterable
+        :param fp: the file-like object to write to
+        """
+        self._writer.write_fp([x.spectrum for x in data], fp, True)

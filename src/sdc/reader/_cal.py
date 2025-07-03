@@ -23,10 +23,12 @@ class CALReader(NIRReader):
         """
         return "Loads the spectra in FOSS CAL format."
 
-    def initialize(self):
+    def _init_reader(self):
         """
-        Initializes the processing, e.g., for opening files or databases.
+        Initializes the reader.
+
+        :return: the reader
         """
-        super().initialize()
-        self._reader = SReader()
-        self._reader.options = self._compile_options()
+        reader = SReader()
+        reader.options = self._compile_options()
+        return reader

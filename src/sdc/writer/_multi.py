@@ -4,10 +4,11 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 
 from seppl import Plugin, AnyData
-from sdc.api import Spectrum, StreamWriter, BatchWriter, make_list
+from seppl.io import DirectStreamWriter, DirectBatchWriter
+from sdc.api import StreamWriter, BatchWriter, make_list
 
 
-class MultiWriter(StreamWriter):
+class MultiWriter(StreamWriter, DirectStreamWriter):
 
     def __init__(self, writers: List[str] = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
@@ -128,6 +129,21 @@ class MultiWriter(StreamWriter):
                 writer.write_stream(data)
             elif isinstance(writer, BatchWriter):
                 writer.write_batch(make_list(data))
+            else:
+                raise Exception("Unknown type of writer: %s" % str(type(writer)))
+
+    def write_stream_fp(self, data, fp):
+        """
+        Saves the data one by one.
+
+        :param data: the data to write (single record or iterable of records)
+        :param fp: the file-like object to write to
+        """
+        for writer in self._writers:
+            if isinstance(writer, DirectStreamWriter):
+                writer.write_stream_fp(data, fp)
+            elif isinstance(writer, DirectBatchWriter):
+                writer.write_batch_fp(make_list(data), fp)
             else:
                 raise Exception("Unknown type of writer: %s" % str(type(writer)))
 

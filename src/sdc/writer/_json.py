@@ -4,12 +4,13 @@ import os
 from typing import List
 
 from seppl.placeholders import placeholder_list
+from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 
 from sdc.api import SplittableSampleDataStreamWriter, make_list
 
 
-class JsonSampleDataWriter(SplittableSampleDataStreamWriter):
+class JsonSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter):
 
     def __init__(self, output_dir: str = None, indent: int = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -97,3 +98,15 @@ class JsonSampleDataWriter(SplittableSampleDataStreamWriter):
             self.logger().info("Writing sample data to: %s" % path)
             with open(path, "w") as fp:
                 json.dump(item.sampledata, fp, indent=self.indent)
+
+    def write_stream_fp(self, data, fp):
+        """
+        Saves the data one by one.
+
+        :param data: the data to write (single record or iterable of records)
+        :param fp: the file-like object to write to
+        """
+        data = make_list(data)
+        if len(data) != 1:
+            raise Exception("Can only save single sample data at a time!")
+        json.dump(data[0].sampledata, fp, indent=self.indent)

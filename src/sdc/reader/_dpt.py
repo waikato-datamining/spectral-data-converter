@@ -1,7 +1,7 @@
 import argparse
 from typing import List, Iterable, Union
 
-from seppl.io import locate_files
+from seppl.io import locate_files, DirectReader
 from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.dpt import Reader as SReader
@@ -10,11 +10,11 @@ from sdc.api import SpectralIOReaderWithLocaleSupport
 from sdc.api import Spectrum2D
 
 
-class DPTReader(SpectralIOReaderWithLocaleSupport, PlaceholderSupporter):
+class DPTReader(SpectralIOReaderWithLocaleSupport, DirectReader, PlaceholderSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None, locale: str = None,
-                 logger_name: str = None, logging_level: str = LOGGING_WARNING):
+                 direct_read: bool = False, logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
 
@@ -30,6 +30,8 @@ class DPTReader(SpectralIOReaderWithLocaleSupport, PlaceholderSupporter):
         :type keep_format: bool
         :param locale: the locale to use for parsing numbers
         :type locale: str
+        :param direct_read: whether to use direct read mode
+        :type direct_read: bool
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -40,6 +42,8 @@ class DPTReader(SpectralIOReaderWithLocaleSupport, PlaceholderSupporter):
         self.source = source
         self.source_list = source_list
         self.resume_from = resume_from
+        self._direct_read = direct_read
+        self._reader = None
         self._inputs = None
         self._current_input = None
         self._reader = None
@@ -96,14 +100,46 @@ class DPTReader(SpectralIOReaderWithLocaleSupport, PlaceholderSupporter):
         """
         return [Spectrum2D]
 
+    @property
+    def direct_read(self) -> bool:
+        """
+        Returns whether the reader is in direct read mode.
+
+        :return: True if in direct read mode
+        :rtype: bool
+        """
+        return self._direct_read
+
+    @direct_read.setter
+    def direct_read(self, direct: bool):
+        """
+        Sets whether the reader is to be used in direct mode or not.
+
+        :param direct: True if to use in direct read mode
+        :type direct: bool
+        """
+        self._direct_read = direct
+
     def initialize(self):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
         super().initialize()
-        self._reader = SReader()
-        self._reader.options = self._compile_options()
-        self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.dpt", resume_from=self.resume_from)
+        self._reader = self._init_reader()
+        if self.direct_read:
+            self._inputs = []
+        else:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.dpt", resume_from=self.resume_from)
+
+    def _init_reader(self):
+        """
+        Initializes the reader.
+
+        :return: the reader
+        """
+        reader = SReader()
+        reader.options = self._compile_options()
+        return reader
 
     def read(self) -> Iterable:
         """
@@ -118,6 +154,17 @@ class DPTReader(SpectralIOReaderWithLocaleSupport, PlaceholderSupporter):
 
         for sp in self._reader.read(self.session.current_input):
             yield Spectrum2D(source=self.session.current_input, spectrum=sp)
+
+    def read_fp(self, fp) -> Iterable:
+        """
+        Reads the data from the file-like object and returns the items one by one.
+
+        :param fp: the file-like object to read from
+        :return: the data
+        :rtype: Iterable
+        """
+        for sp in self._reader.read_fp(fp):
+            yield Spectrum2D(spectrum_name=sp.id, spectrum=sp)
 
     def has_finished(self) -> bool:
         """
