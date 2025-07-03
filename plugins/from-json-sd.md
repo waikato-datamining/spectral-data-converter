@@ -30,3 +30,9 @@ options:
                         Glob expression matching the file to resume from,
                         e.g., '*/012345.json' (default: None)
 ```
+
+Available placeholders:
+
+* `{HOME}`: The home directory of the current user.
+* `{CWD}`: The current working directory.
+* `{TMP}`: The temp directory.
