@@ -225,7 +225,7 @@ optional arguments:
 
 ```
 usage: sdc-registry [-h] [-c CUSTOM_CLASS_LISTERS] [-e EXCLUDED_CLASS_LISTERS]
-                    [-l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}]
+                    [-l {plugins,pipeline,custom-class-listers,env-class-listers,readers,direct-readers,filters,writers,direct-writers,generators,cleaners}]
 
 For inspecting/querying the registry.
 
@@ -237,7 +237,7 @@ options:
   -e EXCLUDED_CLASS_LISTERS, --excluded_class_listers EXCLUDED_CLASS_LISTERS
                         The comma-separated list of class listers to exclude.
                         (default: None)
-  -l {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}, --list {plugins,pipeline,custom-class-listers,env-class-listers,readers,filters,writers,generators,cleaners}
+  -l {plugins,pipeline,custom-class-listers,env-class-listers,readers,direct-readers,filters,writers,direct-writers,generators,cleaners}, --list {plugins,pipeline,custom-class-listers,env-class-listers,readers,direct-readers,filters,writers,direct-writers,generators,cleaners}
                         For outputting various lists on stdout. (default:
                         None)
 ```
