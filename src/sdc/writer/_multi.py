@@ -3,12 +3,12 @@ from typing import List
 
 from wai.logging import LOGGING_WARNING
 
-from seppl import Plugin, AnyData
-from seppl.io import DirectStreamWriter, DirectBatchWriter
-from sdc.api import StreamWriter, BatchWriter, make_list
+from seppl import Plugin, AnyData, Initializable
+from seppl.io import DirectStreamWriter, DirectBatchWriter, StreamWriter, BatchWriter
+from sdc.api import make_list
 
 
-class MultiWriter(StreamWriter, DirectStreamWriter):
+class MultiWriter(StreamWriter, DirectStreamWriter, Initializable):
 
     def __init__(self, writers: List[str] = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
