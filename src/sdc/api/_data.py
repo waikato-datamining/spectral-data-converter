@@ -33,6 +33,10 @@ def logger() -> logging.Logger:
 class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
 
     def __init__(self, source: str = None, spectrum_name: str = None, spectrum: Any = None):
+
+        if (source is None) and (spectrum_name is None):
+            raise Exception("Either source or name must be provided!")
+
         self._logger = None
         """ for logging. """
         self._source = source
