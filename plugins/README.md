@@ -17,6 +17,7 @@
 * [from-pyfunc](from-pyfunc.md)
 * [from-report-sd](from-report-sd.md)
 * [from-spa](from-spa.md)
+* [from-zip](from-zip.md)
 * [poll-dir](poll-dir.md)
 
 ## Filters

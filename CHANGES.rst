@@ -13,6 +13,7 @@ Changelog
 - added experimental support for direct read/write operations using file-like objects
 - fixed initialization of sample ID and sample data prefix in `CSVSampleDataWriter`
 - fixed initialization of None values of `OPUSExtReader`, aligning it with the command-line args
+- added `from-zip` meta-reader for spectra and sample data in zip files
 
 
 0.0.1 (2025-06-27)

@@ -69,11 +69,11 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (18):
+readers (19):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   poll-dir
+   from-zip, poll-dir
 filters (30):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
    discard-by-name, downsample, equi-distance, log, max-records, 
