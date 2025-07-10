@@ -1,6 +1,7 @@
 # to-adams
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .spec
 
 Saves the spectrum in ADAMS .spec format.
 

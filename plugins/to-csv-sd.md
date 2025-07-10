@@ -1,6 +1,7 @@
 # to-csv-sd
 
 * accepts: sdc.api.SampleData
+* default extension: .csv
 
 Saves the sample data in CSV format (row-wise).
 

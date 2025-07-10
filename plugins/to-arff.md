@@ -1,6 +1,7 @@
 # to-arff
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .arff
 
 Saves the spectra in ARFF format (row-wise).
 

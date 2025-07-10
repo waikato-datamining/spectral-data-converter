@@ -1,6 +1,7 @@
 # to-report-sd
 
 * accepts: sdc.api.SampleData
+* default extension: .report
 
 Saves the sample data in ADAMS .report format.
 

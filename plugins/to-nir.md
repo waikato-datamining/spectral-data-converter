@@ -1,6 +1,7 @@
 # to-nir
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .nir
 
 Saves the spectra in FOSS NIR format.
 

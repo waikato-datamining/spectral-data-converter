@@ -1,6 +1,7 @@
 # to-json-sd
 
 * accepts: sdc.api.SampleData
+* default extension: .json
 
 Saves the sample data in JSON format.
 

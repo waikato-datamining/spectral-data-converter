@@ -1,6 +1,7 @@
 # to-dpt
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .dpt
 
 Saves the spectrum in DPT format.
 

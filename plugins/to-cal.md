@@ -1,6 +1,7 @@
 # to-cal
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .cal
 
 Saves the spectra in FOSS CAL format.
 

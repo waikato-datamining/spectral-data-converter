@@ -3,6 +3,7 @@ import os
 from seppl import OutputProducer, InputConsumer, classes_to_str, get_aliases, has_aliases
 from seppl.placeholders import PlaceholderSupporter, placeholder_help
 from sdc.registry import available_plugins
+from sdc.api import DefaultExtensionWriter
 
 
 HELP_FORMAT_TEXT = "text"
@@ -42,6 +43,8 @@ def generate_plugin_usage(plugin_name: str, help_format: str = HELP_FORMAT_TEXT,
             result += "generates: " + classes_to_str(plugin.generates()) + "\n"
         if has_aliases(plugin):
             result += "alias(es): " + ", ".join(get_aliases(plugin)) + "\n"
+        if isinstance(plugin, DefaultExtensionWriter):
+            result += "default extension: " + plugin.default_extension + "\n"
         result = result.strip()
         result += "\n\n"
         result += plugin.format_help() + "\n"
@@ -57,6 +60,8 @@ def generate_plugin_usage(plugin_name: str, help_format: str = HELP_FORMAT_TEXT,
             result += "* generates: " + classes_to_str(plugin.generates()) + "\n"
         if has_aliases(plugin):
             result += "* alias(es): " + ", ".join(get_aliases(plugin)) + "\n"
+        if isinstance(plugin, DefaultExtensionWriter):
+            result += "* default extension: " + plugin.default_extension + "\n"
         result = result.strip()
         result += "\n\n"
         result += plugin.description() + "\n"

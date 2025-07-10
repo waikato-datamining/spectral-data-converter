@@ -1,6 +1,7 @@
 # to-asc
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .asc
 
 Saves the spectrum in ASC format.
 

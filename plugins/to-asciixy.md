@@ -1,6 +1,7 @@
 # to-asciixy
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .txt
 
 Saves the spectrum in ASCII XY format.
 

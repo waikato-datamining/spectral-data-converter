@@ -1,6 +1,7 @@
 # to-zip
 
 * accepts: sdc.api.Spectrum2D, sdc.api.SampleData
+* default extension: .zip
 
 Saves the spectra or sample data in a zip file using the specified direct writer.
 

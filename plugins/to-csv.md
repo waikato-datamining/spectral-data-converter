@@ -1,6 +1,7 @@
 # to-csv
 
 * accepts: sdc.api.Spectrum2D
+* default extension: .csv
 
 Saves the spectra in CSV format (row-wise).
 
