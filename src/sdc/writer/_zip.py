@@ -142,8 +142,17 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
             self.logger().error("Failed to initialize writer: %s" % self.writer)
         if self.compression is None:
             self.compression = COMPRESSION_STORED
-        self._fp = open(self.session.expand_placeholders(self.output_file), "wb")
-        self._zipfile = ZipFile(self._fp, mode='w', compression=COMPRESSION_TYPE[self.compression])
+        self._fp = None
+        self._zipfile = None
+
+    def _init_zipfile(self, fp):
+        """
+        Initializes the zip file.
+
+        :param fp: the file-like object to initialize with
+        """
+        if self._zipfile is None:
+            self._zipfile = ZipFile(fp, mode='w', compression=COMPRESSION_TYPE[self.compression])
 
     def write_stream(self, data):
         """
@@ -151,6 +160,8 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
 
         :param data: the data to write (single record or iterable of records)
         """
+        if self._fp is None:
+            self._fp = open(self.session.expand_placeholders(self.output_file), "wb")
         self.write_stream_fp(data, self._fp, True)
 
     def write_stream_fp(self, data, fp, as_bytes: bool):
@@ -162,6 +173,7 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
         :param as_bytes: whether to write as str or bytes
         :type as_bytes: bool
         """
+        self._init_zipfile(fp)
         for item in make_list(data):
             # name for zip file
             if isinstance(item, Spectrum2D):
