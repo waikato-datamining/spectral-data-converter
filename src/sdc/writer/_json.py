@@ -107,7 +107,7 @@ class JsonSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter,
                 os.makedirs(sub_dir)
 
             path = os.path.join(sub_dir, item.sampledata_name)
-            path = os.path.splitext(path)[0] + ".json"
+            path = os.path.splitext(path)[0] + self.default_extension
             self.logger().info("Writing sample data to: %s" % path)
             with open(path, "w") as fp:
                 json.dump(item.sampledata, fp, indent=self.indent)

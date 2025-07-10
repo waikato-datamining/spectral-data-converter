@@ -147,7 +147,7 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter
                 os.makedirs(sub_dir)
 
             path = os.path.join(sub_dir, item.spectrum_name)
-            path = os.path.splitext(path)[0] + ".txt"
+            path = os.path.splitext(path)[0] + self.default_extension
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
 
