@@ -21,3 +21,7 @@ Supported sample data formats:
 * CSV row-wise (read/write)
 * JSON (read/write)
 
+Examples can be found here:
+
+https://github.com/waikato-datamining/spectral-data-converter-examples
+
