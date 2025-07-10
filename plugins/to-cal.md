@@ -8,7 +8,7 @@ Saves the spectra in FOSS CAL format.
 usage: to-cal [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
               [--skip] [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
               [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-              [--split_group SPLIT_GROUP] -o OUTPUT
+              [--split_group SPLIT_GROUP] [-o OUTPUT]
               [--instrument_name INSTRUMENT_NAME]
               [--product_code PRODUCT_CODE] [--product_code_from_field]
               [--client CLIENT] [--file_id FILE_ID]

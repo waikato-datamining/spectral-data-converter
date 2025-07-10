@@ -9,7 +9,7 @@ usage: to-asciixy [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                   [-N LOGGER_NAME] [--skip]
                   [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
                   [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-                  [--split_group SPLIT_GROUP] -o OUTPUT [-s SEPARATOR]
+                  [--split_group SPLIT_GROUP] [-o OUTPUT] [-s SEPARATOR]
 
 Saves the spectrum in ASCII XY format.
 

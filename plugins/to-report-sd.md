@@ -9,7 +9,7 @@ usage: to-report-sd [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                     [-N LOGGER_NAME] [--skip]
                     [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
                     [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-                    [--split_group SPLIT_GROUP] -o OUTPUT
+                    [--split_group SPLIT_GROUP] [-o OUTPUT]
 
 Saves the sample data in ADAMS .report format.
 

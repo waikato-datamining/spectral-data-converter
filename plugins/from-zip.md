@@ -2,7 +2,7 @@
 
 * generates: sdc.api.Spectrum2D, sdc.api.SampleData
 
-Loads spectra matching the pattern from the zip file(s) using the specified reader.
+Loads spectra or sample data matching the pattern from the zip file(s) using the specified reader.
 
 ```
 usage: from-zip [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
@@ -10,8 +10,8 @@ usage: from-zip [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
                 [-i [INPUT ...]] [-I [INPUT_LIST ...]]
                 [--resume_from RESUME_FROM] [-p PATTERN] -r READER
 
-Loads spectra matching the pattern from the zip file(s) using the specified
-reader.
+Loads spectra or sample data matching the pattern from the zip file(s) using
+the specified reader.
 
 options:
   -h, --help            show this help message and exit
@@ -41,8 +41,8 @@ options:
                         '*.spec' (default: None)
   -r READER, --reader READER
                         The command-line of the direct reader to use for
-                        reading the spectra from the zip archive. (default:
-                        None)
+                        reading the spectra or sample data from the zip
+                        archive. (default: None)
 ```
 
 Available placeholders:

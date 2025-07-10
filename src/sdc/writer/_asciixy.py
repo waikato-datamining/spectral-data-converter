@@ -7,10 +7,10 @@ from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asciixy import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter, DefaultExtensionWriter
 
 
-class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
+class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, separator: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -56,6 +56,16 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter
         """
         return "Saves the spectrum in ASCII XY format."
 
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        return ".txt"
+
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
@@ -64,7 +74,7 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the ASCII XY .txt files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=True)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the ASCII XY .txt files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
         parser.add_argument("-s", "--separator", type=str, help="The separator to use for identifying X and Y columns.", required=False, default=";")
         return parser
 
@@ -124,6 +134,9 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter
 
         :param data: the data to write (single record or iterable of records)
         """
+        if self.output_dir is None:
+            raise Exception("No output directory specified!")
+
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -138,11 +151,13 @@ class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
 
-    def write_stream_fp(self, data, fp):
+    def write_stream_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data one by one.
 
         :param data: the data to write (single record or iterable of records)
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
-        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, False)
+        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, as_bytes)

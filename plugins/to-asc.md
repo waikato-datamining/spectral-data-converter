@@ -8,7 +8,7 @@ Saves the spectrum in ASC format.
 usage: to-asc [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
               [--skip] [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
               [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-              [--split_group SPLIT_GROUP] -o OUTPUT
+              [--split_group SPLIT_GROUP] [-o OUTPUT]
               [--instrument_name INSTRUMENT_NAME]
               [--accessory_name ACCESSORY_NAME] [--data_points DATA_POINTS]
               [--first_x_point FIRST_X_POINT] [--last_x_point LAST_X_POINT]

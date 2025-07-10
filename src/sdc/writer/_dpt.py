@@ -7,10 +7,10 @@ from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.dpt import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option, SpectralIOWriter
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, add_locale_option, SpectralIOWriter, DefaultExtensionWriter
 
 
-class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
+class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, descending: bool = None, locale: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -59,6 +59,16 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
         """
         return "Saves the spectrum in DPT format."
 
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        return ".dpt"
+
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
@@ -67,7 +77,7 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=True)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
         parser.add_argument("--descending", action="store_true", help="Outputs the wave numbers in descending order")
         add_locale_option(parser)
         return parser
@@ -133,6 +143,9 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
 
         :param data: the data to write (single record or iterable of records)
         """
+        if self.output_dir is None:
+            raise Exception("No output directory specified!")
+
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -147,11 +160,13 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
 
-    def write_stream_fp(self, data, fp):
+    def write_stream_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data one by one.
 
         :param data: the data to write (single record or iterable of records)
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
-        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, False)
+        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, as_bytes)

@@ -31,10 +31,10 @@ setup(
     packages=find_namespace_packages(where='src'),
     install_requires=[
         "setuptools",
-        "seppl>=0.2.18",
+        "seppl>=0.2.19",
         "wai_logging",
         "wai_common>=0.0.45",
-        "wai_spectralio>=0.0.4",
+        "wai_spectralio>=0.0.5",
         "wai_ma",
     ],
     version="0.0.1",

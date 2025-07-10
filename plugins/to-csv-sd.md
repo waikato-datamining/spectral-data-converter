@@ -9,8 +9,8 @@ usage: to-csv-sd [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                  [-N LOGGER_NAME] [--skip]
                  [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
                  [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-                 [--split_group SPLIT_GROUP] -o OUTPUT [--sample_id SAMPLE_ID]
-                 [--sample_data [SAMPLE_DATA ...]]
+                 [--split_group SPLIT_GROUP] [-o OUTPUT]
+                 [--sample_id SAMPLE_ID] [--sample_data [SAMPLE_DATA ...]]
                  [--sample_data_prefix SAMPLE_DATA_PREFIX]
 
 Saves the sample data in CSV format (row-wise).

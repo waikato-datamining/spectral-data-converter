@@ -22,6 +22,22 @@ class SpectralIOWriter(SpectralIOBased):
         raise NotImplementedError()
 
 
+class DefaultExtensionWriter:
+    """
+    Mixin for writers that have a default file extension.
+    """
+
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        raise NotImplementedError()
+
+
 class BatchWriter(seppl.io.BatchWriter, Initializable):
     """
     Ancestor for dataset batch writers.
@@ -182,7 +198,15 @@ class SampleDataBatchWriter(seppl.io.BatchWriter, Initializable):
     """
     Ancestor for batch sample data writers.
     """
-    pass
+
+    def accepts(self) -> List:
+        """
+        Returns the list of classes that are accepted.
+
+        :return: the list of classes
+        :rtype: list
+        """
+        return [SampleData]
 
 
 class SplittableSampleDataBatchWriter(SampleDataBatchWriter):

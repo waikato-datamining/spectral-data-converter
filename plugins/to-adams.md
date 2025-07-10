@@ -8,7 +8,7 @@ Saves the spectrum in ADAMS .spec format.
 usage: to-adams [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
                 [--skip] [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
                 [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-                [--split_group SPLIT_GROUP] -o OUTPUT [--output_sampledata]
+                [--split_group SPLIT_GROUP] [-o OUTPUT] [--output_sampledata]
 
 Saves the spectrum in ADAMS .spec format.
 

@@ -9,7 +9,7 @@ usage: to-json-sd [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                   [-N LOGGER_NAME] [--skip]
                   [--split_ratios SPLIT_RATIOS [SPLIT_RATIOS ...]]
                   [--split_names SPLIT_NAMES [SPLIT_NAMES ...]]
-                  [--split_group SPLIT_GROUP] -o OUTPUT [--indent INDENT]
+                  [--split_group SPLIT_GROUP] [-o OUTPUT] [--indent INDENT]
 
 Saves the sample data in JSON format.
 

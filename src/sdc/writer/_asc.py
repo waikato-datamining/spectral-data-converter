@@ -7,10 +7,10 @@ from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asc import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter
+from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter, DefaultExtensionWriter
 
 
-class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, InputBasedPlaceholderSupporter):
+class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_dir: str = None, instrument_name: str = None, accessory_name: str = None,
                  data_points: int = None, first_x_point: float = None, last_x_point: float = None, descending: bool = None,
@@ -72,6 +72,16 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
         """
         return "Saves the spectrum in ASC format."
 
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        return ".asc"
+
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
@@ -80,7 +90,7 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=True)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
         parser.add_argument("--instrument_name", type=str, help="The instrument name to use in the header", required=False, default="<not implemented>")
         parser.add_argument("--accessory_name", type=str, help="The accessory name to use in the header", required=False, default="ABB-BOMEM MB160D")
         parser.add_argument("--data_points", type=int, help="The number of data points to output, -1 for all", required=False, default=-1)
@@ -166,6 +176,9 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
 
         :param data: the data to write (single record or iterable of records)
         """
+        if self.output_dir is None:
+            raise Exception("No output directory specified!")
+
         for item in make_list(data):
             sub_dir = self.session.expand_placeholders(self.output_dir)
             if self.splitter is not None:
@@ -180,11 +193,13 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, In
             self.logger().info("Writing spectrum to: %s" % path)
             self._writer.write([item.spectrum], path)
 
-    def write_stream_fp(self, data, fp):
+    def write_stream_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data one by one.
 
         :param data: the data to write (single record or iterable of records)
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
-        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, False)
+        self._writer.write_fp([x.spectrum for x in make_list(data)], fp, as_bytes)

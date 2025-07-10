@@ -5,6 +5,7 @@ from wai.logging import LOGGING_WARNING
 from wai.spectralio.cal import Writer as SWriter
 
 from ._nir import NIRWriter
+from ..api import make_list
 
 
 class CALWriter(NIRWriter):
@@ -98,6 +99,16 @@ class CALWriter(NIRWriter):
         """
         return "Saves the spectra in FOSS CAL format."
 
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        return ".cal"
+
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
@@ -157,16 +168,22 @@ class CALWriter(NIRWriter):
         :param data: the data to write
         :type data: Iterable
         """
+        if self.output_file is None:
+            raise Exception("No output file specified!")
+
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 
-    def write_batch_fp(self, data, fp):
+    def write_batch_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data in one go.
 
         :param data: the data to write
         :type data: Iterable
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
-        self._writer.write_fp([x.spectrum for x in data], fp, True)
+        data = make_list(data)
+        self._writer.write_fp([x.spectrum for x in data], fp, as_bytes)

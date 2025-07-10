@@ -65,3 +65,4 @@
 * [to-nir](to-nir.md)
 * [to-pyfunc](to-pyfunc.md)
 * [to-report-sd](to-report-sd.md)
+* [to-zip](to-zip.md)

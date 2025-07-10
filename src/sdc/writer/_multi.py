@@ -132,18 +132,20 @@ class MultiWriter(StreamWriter, DirectStreamWriter, Initializable):
             else:
                 raise Exception("Unknown type of writer: %s" % str(type(writer)))
 
-    def write_stream_fp(self, data, fp):
+    def write_stream_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data one by one.
 
         :param data: the data to write (single record or iterable of records)
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
         for writer in self._writers:
             if isinstance(writer, DirectStreamWriter):
-                writer.write_stream_fp(data, fp)
+                writer.write_stream_fp(data, fp, as_bytes)
             elif isinstance(writer, DirectBatchWriter):
-                writer.write_batch_fp(make_list(data), fp)
+                writer.write_batch_fp(make_list(data), fp, as_bytes)
             else:
                 raise Exception("Unknown type of writer: %s" % str(type(writer)))
 

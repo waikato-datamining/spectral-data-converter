@@ -6,10 +6,10 @@ from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter
+from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter, DefaultExtensionWriter, make_list
 
 
-class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, InputBasedPlaceholderSupporter):
+class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,
@@ -65,6 +65,16 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Inp
         """
         return "Saves the spectra in ARFF format (row-wise)."
 
+    @property
+    def default_extension(self) -> str:
+        """
+        Returns the default extension (incl dot) for this file type.
+
+        :return: the default extension
+        :rtype: str
+        """
+        return ".arff"
+
     def _create_argparser(self) -> argparse.ArgumentParser:
         """
         Creates an argument parser. Derived classes need to fill in the options.
@@ -73,7 +83,7 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Inp
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The ARFF file to store the spectra in.", required=True)
+        parser.add_argument("-o", "--output", type=str, help="The ARFF file to store the spectra in.", required=False)
         parser.add_argument("--sample_id", type=str, help="The name to use for the sample ID attribute.", required=False, default="sample_id")
         parser.add_argument("--sample_data", type=str, help="The sample data names to store in ARFF file.", required=False, default=[], nargs="*")
         parser.add_argument("--sample_data_prefix", type=str, help="The prefix to use for the sample data attributes.", required=False, default="")
@@ -148,16 +158,22 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Inp
         :param data: the data to write
         :type data: Iterable
         """
+        if self.output_file is None:
+            raise Exception("No output file specified!")
+
         output_file = self.session.expand_placeholders(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 
-    def write_batch_fp(self, data, fp):
+    def write_batch_fp(self, data, fp, as_bytes: bool):
         """
         Saves the data in one go.
 
         :param data: the data to write
         :type data: Iterable
         :param fp: the file-like object to write to
+        :param as_bytes: whether to write as str or bytes
+        :type as_bytes: bool
         """
-        self._writer.write_fp([x.spectrum for x in data], fp, False)
+        data = make_list(data)
+        self._writer.write_fp([x.spectrum for x in data], fp, as_bytes)
