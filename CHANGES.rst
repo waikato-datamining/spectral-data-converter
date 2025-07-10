@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.0.2 (????-??-??)
+0.0.2 (2025-07-11)
 ------------------
 
 - wai.spectralio-based readers now instantiate the wai.spectralio reader in the `initialize` method
