@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.0.3 (????-??-??)
+0.0.3 (2025-07-15)
 ------------------
 
 - requiring seppl>=0.2.20 now for improved help requests in `sdc-convert` tool
