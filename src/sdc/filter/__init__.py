@@ -27,4 +27,5 @@ from ._simpls import SIMPLS
 from ._spectrum_to_sampledata import SpectrumToSampleData
 from ._split_records import SplitRecords
 from ._standardize import Standardize
+from ._sub_process import SubProcess
 from ._tee import Tee

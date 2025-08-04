@@ -49,6 +49,7 @@
 * [spectrum-to-sampledata](spectrum-to-sampledata.md)
 * [split-records](split-records.md)
 * [standardize](standardize.md)
+* [sub-process](sub-process.md)
 * [tee](tee.md)
 
 ## Writers
