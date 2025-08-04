@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - `split-records` filter now allows specifying the meta-data field in which to store the split name
+- centralized comparison code in `sdc.api._comparison` (available via `sdc.api`)
 
 
 0.0.3 (2025-07-15)
