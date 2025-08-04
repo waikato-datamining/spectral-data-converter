@@ -8,6 +8,7 @@ Changelog
 - centralized comparison code in `sdc.api._comparison` (available via `sdc.api`)
 - the `tee` meta-filter can now forward or drop the incoming data based on a meta-data evaluation
 - added `sub-process` filter for processing data with sub-flow of filters, can be conditional based on meta-data evaluation
+- the `metadata-from-name` filter can work on the path now as well (must be present)
 
 
 0.0.3 (2025-07-15)
