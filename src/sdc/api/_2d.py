@@ -49,7 +49,7 @@ class Spectrum2D(Spectrum, AnnotationHandler):
         :return: True if annotations present
         :rtype: bool
         """
-        return self.has_metadata()
+        return self.has_metadata() and (len(self.get_metadata()) > 0)
 
     def get_annotation(self) -> Any:
         """
