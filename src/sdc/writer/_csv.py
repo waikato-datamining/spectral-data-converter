@@ -8,8 +8,9 @@ from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SplittableSampleDataBatchWriter, SampleData, SAMPLE_ID, \
-    SpectralIOWriter, make_list, DefaultExtensionWriter
+from kasperl.api import SplittableBatchWriter, make_list
+from sdc.api import Spectrum2D, SplittableSampleDataBatchWriter, SampleData, SAMPLE_ID, \
+    SpectralIOWriter, DefaultExtensionWriter
 
 
 class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):

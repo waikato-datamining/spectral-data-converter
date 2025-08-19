@@ -7,7 +7,8 @@ from seppl.placeholders import placeholder_list
 from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import SplittableSampleDataStreamWriter, make_list, DefaultExtensionWriter
+from kasperl.api import make_list
+from sdc.api import SplittableSampleDataStreamWriter, DefaultExtensionWriter
 
 
 class JsonSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter, DefaultExtensionWriter):

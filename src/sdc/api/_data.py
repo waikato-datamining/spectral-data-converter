@@ -4,10 +4,11 @@ import logging
 import os.path
 from typing import Dict, Optional, List, Any
 
+from kasperl.api import NameSupporter, SourceSupporter
 from seppl import MetaDataHandler, LoggingHandler
 from wai.logging import set_logging_level, LOGGING_INFO
 
-from sdc.api._utils import safe_deepcopy
+from kasperl.api import safe_deepcopy
 
 _logger = None
 
@@ -30,7 +31,7 @@ def logger() -> logging.Logger:
     return _logger
 
 
-class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
+class Spectrum(MetaDataHandler, NameSupporter, SourceSupporter, LoggingHandler, abc.ABC):
 
     def __init__(self, source: str = None, spectrum_name: str = None, spectrum: Any = None):
 
@@ -101,6 +102,33 @@ class Spectrum(MetaDataHandler, LoggingHandler, abc.ABC):
         :type s: str
         """
         self._spectrum_name = s
+
+    def get_name(self) -> str:
+        """
+        Returns the name.
+
+        :return: the name
+        :rtype: str
+        """
+        return self.spectrum_name
+
+    def set_name(self, name: str):
+        """
+        Sets the new name.
+
+        :param name: the new name
+        :type name: str
+        """
+        self.spectrum_name = name
+
+    def get_source(self) -> str:
+        """
+        Returns the source.
+
+        :return: the source
+        :rtype: str
+        """
+        return self.source
 
     def duplicate(self, source: str = None, force_no_source: bool = None,
                   name: str = None, spectrum: Any = None):
@@ -268,31 +296,3 @@ class SampleData(MetaDataHandler, LoggingHandler):
         if sampledata:
             result["sampledata"] = safe_deepcopy(self.sampledata)
         return result
-
-
-def make_list(data, cls=MetaDataHandler) -> List:
-    """
-    Wraps the data item in a list if not already a list.
-
-    :param data: the data item to wrap if necessary
-    :param cls: the type of class to check for
-    :return: the list
-    :rtype: list
-    """
-    if isinstance(data, cls):
-        data = [data]
-    return data
-
-
-def flatten_list(data: List):
-    """
-    If the list contains only a single item, then it returns that instead of a list.
-
-    :param data: the list to check
-    :type data: list
-    :return: the list or single item
-    """
-    if len(data) == 1:
-        return data[0]
-    else:
-        return data

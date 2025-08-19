@@ -3,7 +3,8 @@ from typing import List, Dict
 from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import Center as WaiCenter
 
-from sdc.api import TrainableBatchFilter, Spectrum2D, safe_deepcopy, spectra_to_matrix, matrix_to_spectra
+from kasperl.api import safe_deepcopy
+from sdc.api import TrainableBatchFilter, Spectrum2D, spectra_to_matrix, matrix_to_spectra
 
 
 class Center(TrainableBatchFilter):

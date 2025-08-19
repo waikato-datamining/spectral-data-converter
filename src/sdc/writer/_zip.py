@@ -10,7 +10,8 @@ from seppl.io import DirectStreamWriter, DirectWriter, DirectBatchWriter
 from seppl.placeholders import placeholder_list, PlaceholderSupporter
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import StreamWriter, parse_writer, make_list, Spectrum2D, SampleData, DefaultExtensionWriter
+from kasperl.api import StreamWriter, parse_writer, make_list
+from sdc.api import Spectrum2D, SampleData, DefaultExtensionWriter
 
 COMPRESSION_STORED = "stored"
 COMPRESSION_DEFLATED = "deflated"
@@ -133,8 +134,9 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
         """
         Initializes the processing, e.g., for opening files or databases.
         """
+        from sdc.registry import available_writers
         super().initialize()
-        self._writer = parse_writer(self.writer)
+        self._writer = parse_writer(self.writer, available_writers())
         if not isinstance(self._writer, DirectWriter):
             raise Exception("Base writer is not a direct writer: %s" % str(type(self._writer)))
         self._writer.session = self.session

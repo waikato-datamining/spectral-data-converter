@@ -1,16 +1,15 @@
-# check-duplicate-filenames
+# discard-negatives
 
 * accepts: seppl.AnyData
 * generates: seppl.AnyData
 
-Ensures that file names are unique (raises an exception if not).
+Discards negative images, i.e., ones without annotations.
 
 ```
-usage: check-duplicate-filenames [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                                 [-N LOGGER_NAME] [--skip]
-                                 [-a {ignore,warn,drop,error}]
+usage: discard-negatives [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+                         [-N LOGGER_NAME] [--skip]
 
-Ensures that file names are unique (raises an exception if not).
+Discards negative images, i.e., ones without annotations.
 
 options:
   -h, --help            show this help message and exit
@@ -21,7 +20,4 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
-  -a {ignore,warn,drop,error}, --action {ignore,warn,drop,error}
-                        The action to perform when encountering a duplicate
-                        file name (default: error)
 ```

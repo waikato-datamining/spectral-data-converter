@@ -4,7 +4,8 @@ from typing import List
 from seppl import init_initializable, Initializable
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import flatten_list, make_list, Filter, Spectrum2D, safe_deepcopy, parse_reader, SAMPLE_ID
+from kasperl.api import flatten_list, make_list, safe_deepcopy, parse_reader
+from sdc.api import Filter, Spectrum2D, SAMPLE_ID
 
 
 class AddSampleData(Filter):

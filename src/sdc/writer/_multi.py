@@ -5,7 +5,7 @@ from wai.logging import LOGGING_WARNING
 
 from seppl import Plugin, AnyData, Initializable
 from seppl.io import DirectStreamWriter, DirectBatchWriter, StreamWriter, BatchWriter
-from sdc.api import make_list
+from kasperl.api import make_list
 
 
 class MultiWriter(StreamWriter, DirectStreamWriter, Initializable):

@@ -9,7 +9,8 @@ from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from wai.spectralio.adams import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, SplittableSampleDataStreamWriter, make_list, SpectralIOWriter, DefaultExtensionWriter
+from kasperl.api import SplittableStreamWriter, make_list
+from sdc.api import Spectrum2D, SplittableSampleDataStreamWriter, SpectralIOWriter, DefaultExtensionWriter
 
 
 class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):

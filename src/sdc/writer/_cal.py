@@ -5,7 +5,7 @@ from wai.logging import LOGGING_WARNING
 from wai.spectralio.cal import Writer as SWriter
 
 from ._nir import NIRWriter
-from ..api import make_list
+from kasperl.api import make_list
 
 
 class CALWriter(NIRWriter):

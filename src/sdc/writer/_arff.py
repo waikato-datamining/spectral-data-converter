@@ -6,7 +6,8 @@ from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter, DefaultExtensionWriter, make_list
+from kasperl.api import SplittableBatchWriter, make_list
+from sdc.api import Spectrum2D, SpectralIOWriter, DefaultExtensionWriter
 
 
 class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):

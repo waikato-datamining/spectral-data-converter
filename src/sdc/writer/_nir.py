@@ -6,7 +6,8 @@ from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.nir import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableBatchWriter, SpectralIOWriter, DefaultExtensionWriter, make_list
+from kasperl.api import SplittableBatchWriter, make_list
+from sdc.api import Spectrum2D, SpectralIOWriter, DefaultExtensionWriter
 
 
 class NIRWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):

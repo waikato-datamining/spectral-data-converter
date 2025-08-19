@@ -1,7 +1,8 @@
 import os
 from typing import List
 
-from sdc.api import flatten_list, make_list, Filter, Spectrum2D, SampleData, safe_deepcopy, SAMPLE_ID
+from kasperl.api import flatten_list, make_list, safe_deepcopy
+from sdc.api import Filter, Spectrum2D, SampleData, SAMPLE_ID
 
 
 class SpectrumToSampleData(Filter):

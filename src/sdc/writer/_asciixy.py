@@ -7,7 +7,8 @@ from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asciixy import Writer as SWriter
 
-from sdc.api import Spectrum2D, SplittableStreamWriter, make_list, SpectralIOWriter, DefaultExtensionWriter
+from kasperl.api import SplittableStreamWriter, make_list
+from sdc.api import Spectrum2D, SpectralIOWriter, DefaultExtensionWriter
 
 
 class ASCIIXYWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):

@@ -4,7 +4,8 @@ from typing import List
 from wai.logging import LOGGING_WARNING
 from wai.ma.transformation import SavitzkyGolay as WaiSavitzkyGolay
 
-from sdc.api import flatten_list, make_list, Filter, Spectrum2D, safe_deepcopy, spectrum_to_matrix, matrix_to_spectrum
+from kasperl.api import flatten_list, make_list, safe_deepcopy
+from sdc.api import Filter, Spectrum2D, spectrum_to_matrix, matrix_to_spectrum
 
 
 class SavitzkyGolay(Filter):

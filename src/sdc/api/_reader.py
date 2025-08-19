@@ -1,14 +1,14 @@
 import argparse
-import seppl.io
-from seppl import Initializable
 from typing import List
 
+from kasperl.api import Reader as KReader
 from wai.logging import LOGGING_WARNING
+
 from ._data import SampleData
 from ._spectralio import SpectralIOBased
 
 
-class Reader(seppl.io.Reader, Initializable):
+class Reader(KReader):
     """
     Ancestor for dataset readers.
     """
@@ -175,7 +175,7 @@ class SpectralIOReaderWithLocaleSupport(SpectralIOReader):
         return result
 
 
-class SampleDataReader(seppl.io.Reader, Initializable):
+class SampleDataReader(KReader):
     """
     Ancestor for sample data readers.
     """
@@ -188,31 +188,3 @@ class SampleDataReader(seppl.io.Reader, Initializable):
         :rtype: list
         """
         return [SampleData]
-
-
-def parse_reader(reader: str) -> seppl.io.Reader:
-    """
-    Parses the command-line and instantiates the reader.
-
-    :param reader: the command-line to parse
-    :type reader: str
-    :return: the reader
-    :rtype: seppl.io.Reader
-    """
-    from seppl import split_args, split_cmdline, args_to_objects
-    from sdc.registry import available_readers
-
-    if reader is None:
-        raise Exception("No reader command-line supplied!")
-    valid = dict()
-    valid.update(available_readers())
-    args = split_args(split_cmdline(reader), list(valid.keys()))
-    objs = args_to_objects(args, valid, allow_global_options=False)
-    if len(objs) == 1:
-        if isinstance(objs[0], seppl.io.Reader):
-            result = objs[0]
-        else:
-            raise Exception("Expected instance of seppl.io.Reader but got: %s" % str(type(objs[0])))
-    else:
-        raise Exception("Expected to obtain one reader from '%s' but got %d instead!" % (reader, len(objs)))
-    return result

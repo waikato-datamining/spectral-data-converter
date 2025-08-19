@@ -26,6 +26,7 @@
 * [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [discard-by-name](discard-by-name.md)
+* [discard-negatives](discard-negatives.md)
 * [downsample](downsample.md)
 * [equi-distance](equi-distance.md)
 * [log](log.md)

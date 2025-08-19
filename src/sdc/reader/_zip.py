@@ -10,7 +10,8 @@ from seppl.io import locate_files, DirectReader
 from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Reader, SampleData, Spectrum2D, parse_reader
+from kasperl.api import Reader, parse_reader
+from sdc.api import SampleData, Spectrum2D
 
 
 class ZipReader(Reader, DirectReader, PlaceholderSupporter):
@@ -130,9 +131,11 @@ class ZipReader(Reader, DirectReader, PlaceholderSupporter):
         """
         Initializes the processing, e.g., for opening files or databases.
         """
+        from sdc.registry import available_readers
+
         super().initialize()
 
-        self._reader = parse_reader(self.reader)
+        self._reader = parse_reader(self.reader, available_readers())
         if not isinstance(self._reader, DirectReader):
             raise Exception("Base reader is not a direct reader: %s" % str(type(self._reader)))
         self._reader.direct_read = True

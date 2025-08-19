@@ -32,6 +32,7 @@ setup(
     install_requires=[
         "setuptools",
         "seppl>=0.2.20",
+        "kasperl>=0.0.1",
         "wai_logging",
         "wai_common>=0.0.45",
         "wai_spectralio>=0.0.5",

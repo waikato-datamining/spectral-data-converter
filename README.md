@@ -74,14 +74,15 @@ readers (19):
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
    from-zip, poll-dir
-filters (30):
+filters (32):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
-   discard-by-name, downsample, equi-distance, log, max-records, 
-   metadata, metadata-from-name, metadata-to-placeholder, passthrough, 
-   pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
-   row-norm, sample, savitzky-golay, savitzky-golay2, set-placeholder, 
-   simpls, spectrum-to-sampledata, split-records, 
-   standard-normal-variate*, standardize, tee
+   discard-by-name, discard-negatives, downsample, equi-distance, log, 
+   max-records, metadata, metadata-from-name, metadata-to-placeholder, 
+   passthrough, pca, pls1, pyfunc-filter, randomize-records, 
+   record-window, rename, row-norm, sample, savitzky-golay, 
+   savitzky-golay2, set-placeholder, simpls, spectrum-to-sampledata, 
+   split-records, standard-normal-variate, standardize, sub-process, 
+   tee
 writers (14):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
    to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
@@ -113,7 +114,7 @@ of variables expanded. A variable is surrounded by curly quotes (e.g.,
 variable 'i' gets referenced with '{i}'). Available generators: dirs, list,
 null, range
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -p PIPELINE, --pipeline PIPELINE
                         The pipeline template with variables to expand and
@@ -147,7 +148,7 @@ usage: sdc-find [-h] -i DIR [DIR ...] [-r] -o FILE [-m [REGEXP ...]]
 Tool for locating files in directories that match certain patterns and store
 them in files.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -i DIR [DIR ...], --input DIR [DIR ...]
                         The dir(s) to scan for files. (default: None)
@@ -180,13 +181,13 @@ optional arguments:
 
 ```
 usage: sdc-help [-h] [-c [PACKAGE ...]] [-e EXCLUDED_CLASS_LISTERS]
-                [-T {pipeline,generator}] [-p NAME] [-f {text,markdown}]
-                [-L INT] [-o PATH] [-i FILE] [-t TITLE]
+                [-T {pipeline,generator,cleaner}] [-p NAME]
+                [-f {text,markdown}] [-L INT] [-o PATH] [-i FILE] [-t TITLE]
                 [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
 
 Tool for outputting help for plugins in various formats.
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -c [PACKAGE ...], --custom_class_listers [PACKAGE ...]
                         The custom class listers to use, uses the default ones
@@ -194,7 +195,7 @@ optional arguments:
   -e EXCLUDED_CLASS_LISTERS, --excluded_class_listers EXCLUDED_CLASS_LISTERS
                         The comma-separated list of class listers to exclude.
                         (default: None)
-  -T {pipeline,generator}, --plugin_type {pipeline,generator}
+  -T {pipeline,generator,cleaner}, --plugin_type {pipeline,generator,cleaner}
                         The types of plugins to generate the help for.
                         (default: pipeline)
   -p NAME, --plugin_name NAME

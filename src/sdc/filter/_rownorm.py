@@ -3,7 +3,8 @@ from typing import List
 from wai.ma.transformation import RowNorm as WaiRowNorm
 
 from seppl import AliasSupporter
-from sdc.api import flatten_list, make_list, Filter, Spectrum2D, safe_deepcopy, spectrum_to_matrix, matrix_to_spectrum
+from kasperl.api import flatten_list, make_list, safe_deepcopy
+from sdc.api import Filter, Spectrum2D, spectrum_to_matrix, matrix_to_spectrum
 
 
 class RowNorm(Filter, AliasSupporter):

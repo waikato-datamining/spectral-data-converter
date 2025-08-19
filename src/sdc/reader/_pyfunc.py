@@ -5,7 +5,8 @@ from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from seppl.io import locate_files
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum, Reader, load_function
+from kasperl.api import Reader, load_function
+from sdc.api import Spectrum
 
 
 class PythonFunctionReader(Reader, PlaceholderSupporter):

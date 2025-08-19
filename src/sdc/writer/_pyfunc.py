@@ -3,7 +3,8 @@ from typing import List
 
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import Spectrum, SplittableStreamWriter, make_list, load_function
+from kasperl.api import SplittableStreamWriter, make_list, load_function
+from sdc.api import Spectrum
 
 
 class PythonFunctionWriter(SplittableStreamWriter):

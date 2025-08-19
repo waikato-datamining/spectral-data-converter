@@ -4,7 +4,8 @@ from typing import List
 from seppl.io import Filter
 from wai.logging import LOGGING_WARNING
 
-from sdc.api import flatten_list, make_list, Spectrum, load_function
+from kasperl.api import flatten_list, make_list, load_function
+from sdc.api import Spectrum
 
 
 class PythonFunctionFilter(Filter):

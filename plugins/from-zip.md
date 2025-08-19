@@ -6,7 +6,6 @@ Loads spectra or sample data matching the pattern from the zip file(s) using the
 
 ```
 usage: from-zip [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-                [--instrument INSTRUMENT] [--format FORMAT] [--keep_format]
                 [-i [INPUT ...]] [-I [INPUT_LIST ...]]
                 [--resume_from RESUME_FROM] [-p PATTERN] -r READER
 
@@ -20,11 +19,6 @@ options:
   -N LOGGER_NAME, --logger_name LOGGER_NAME
                         The custom name to use for the logger, uses the plugin
                         name by default (default: None)
-  --instrument INSTRUMENT
-                        The instrument this data is from (default: unknown)
-  --format FORMAT       The spectral data format to set (default: NIR)
-  --keep_format         Will keep the format that the reader determines rather
-                        than the supplied one. (default: False)
   -i [INPUT ...], --input [INPUT ...]
                         Path to the zip file(s) to read; glob syntax is
                         supported; Supported placeholders: {HOME}, {CWD},

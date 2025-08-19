@@ -138,7 +138,7 @@ def available_generators() -> Dict[str, Plugin]:
     :return: the dict of generator objects
     :rtype: dict
     """
-    return REGISTRY.plugins("sdc.api.Generator", fail_if_empty=False)
+    return REGISTRY.plugins("kasperl.api.Generator", fail_if_empty=False)
 
 
 def available_cleaners() -> Dict[str, Plugin]:

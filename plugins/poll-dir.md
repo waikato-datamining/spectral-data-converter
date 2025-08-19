@@ -1,13 +1,12 @@
 # poll-dir
 
-* generates: sdc.api.Spectrum
+* generates: seppl.AnyData
 
 Polls a directory for files and presents them to the base reader.
 
 ```
 usage: poll-dir [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-                [--instrument INSTRUMENT] [--format FORMAT] [--keep_format] -i
-                DIR_IN -o DIR_OUT [-w POLL_WAIT] [-W PROCESS_WAIT] [-d] -e
+                -i DIR_IN -o DIR_OUT [-w POLL_WAIT] [-W PROCESS_WAIT] [-d] -e
                 EXTENSIONS [EXTENSIONS ...] [-O [OTHER_INPUT_FILES ...]]
                 [-m MAX_FILES] [-b BASE_READER]
 
@@ -20,11 +19,6 @@ options:
   -N LOGGER_NAME, --logger_name LOGGER_NAME
                         The custom name to use for the logger, uses the plugin
                         name by default (default: None)
-  --instrument INSTRUMENT
-                        The instrument this data is from (default: unknown)
-  --format FORMAT       The spectral data format to set (default: NIR)
-  --keep_format         Will keep the format that the reader determines rather
-                        than the supplied one. (default: False)
   -i DIR_IN, --dir_in DIR_IN
                         The directory to poll; Supported placeholders: {HOME},
                         {CWD}, {TMP} (default: None)
