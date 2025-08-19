@@ -74,15 +74,14 @@ readers (19):
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
    from-zip, poll-dir
-filters (32):
+filters (31):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
-   discard-by-name, discard-negatives, downsample, equi-distance, log, 
-   max-records, metadata, metadata-from-name, metadata-to-placeholder, 
-   passthrough, pca, pls1, pyfunc-filter, randomize-records, 
-   record-window, rename, row-norm, sample, savitzky-golay, 
-   savitzky-golay2, set-placeholder, simpls, spectrum-to-sampledata, 
-   split-records, standard-normal-variate, standardize, sub-process, 
-   tee
+   discard-by-name, downsample, equi-distance, log, max-records, 
+   metadata, metadata-from-name, metadata-to-placeholder, passthrough, 
+   pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
+   row-norm, sample, savitzky-golay, savitzky-golay2, set-placeholder, 
+   simpls, spectrum-to-sampledata, split-records, 
+   standard-normal-variate, standardize, sub-process, tee
 writers (14):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
    to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
@@ -316,6 +315,7 @@ The following environment variables can be used to influence the class listers:
 
 * `SDC_CLASS_LISTERS`
 * `SDC_CLASS_LISTERS_EXCL`
+* `SDC_CLASS_LISTERS_IGNORED` - for class listers that provide ignored classes
 
 Each variable is a comma-separated list of `module_name:function_name`, defining the class listers.
 

@@ -9,6 +9,7 @@ Changelog
 - the `sub-process` filter can be used for processing data with sub-flow of filters, can be conditional based on meta-data evaluation
 - the `metadata-from-name` filter can work on the path now as well (must be present)
 - switched to `kasperl` library for base API and generic pipeline plugins
+- requiring seppl>=0.2.21 now
 
 
 0.0.3 (2025-07-15)

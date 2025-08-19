@@ -19,9 +19,20 @@ DEFAULT_SDC_CLASS_LISTERS = [
     "sdc.class_lister",
 ]
 
+# environment variable with comma-separated list of class listers to provided ignored classes
+ENV_ADC_CLASS_LISTERS_IGNORED = "ADC_CLASS_LISTERS_IGNORED"
+
+# the default class listers that provide ignored classes
+# can be overridden with ADC_CLASS_LISTERS_IGNORED environment variable
+DEFAULT_ADC_CLASS_LISTERS_IGNORED = [
+    "sdc.class_lister_ignored",
+]
+
 REGISTRY = ClassListerRegistry(default_class_listers=DEFAULT_SDC_CLASS_LISTERS,
                                env_class_listers=ENV_SDC_CLASS_LISTERS,
-                               env_excluded_class_listers=ENV_SDC_CLASS_LISTERS_EXCL)
+                               env_excluded_class_listers=ENV_SDC_CLASS_LISTERS_EXCL,
+                               ignored_class_listers=DEFAULT_ADC_CLASS_LISTERS_IGNORED,
+                               env_ignored_class_listers=ENV_ADC_CLASS_LISTERS_IGNORED)
 
 IMG_REGISTRY = "sdc-registry"
 
