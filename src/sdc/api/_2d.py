@@ -4,10 +4,9 @@ from typing import Dict, Optional, Union, Any, List
 from ._data import Spectrum
 from wai.spectralio.api import Spectrum as WaiSpectrum
 from wai.ma.core.matrix import Matrix
-from kasperl.api import AnnotationHandler
 
 
-class Spectrum2D(Spectrum, AnnotationHandler):
+class Spectrum2D(Spectrum):
 
     def __init__(self, source: str = None, spectrum_name: str = None, spectrum: WaiSpectrum = None):
         super().__init__(source=source, spectrum_name=spectrum_name, spectrum=spectrum)
@@ -41,23 +40,6 @@ class Spectrum2D(Spectrum, AnnotationHandler):
         :type metadata: dict
         """
         self._spectrum.sample_data = metadata
-
-    def has_annotation(self) -> bool:
-        """
-        Checks whether annotations are present.
-
-        :return: True if annotations present
-        :rtype: bool
-        """
-        return self.has_metadata() and (len(self.get_metadata()) > 0)
-
-    def get_annotation(self) -> Any:
-        """
-        Returns the annotations.
-
-        :return: the annotations
-        """
-        return self.get_metadata()
 
 
 def spectrum_to_matrix(sp: Union[Spectrum2D, WaiSpectrum], add_waveno: bool = True) -> Matrix:
