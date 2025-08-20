@@ -69,23 +69,23 @@ usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
 
 Tool for converting between spectral data formats.
 
-readers (19):
+readers (20):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   from-zip, poll-dir
-filters (31):
+   from-storage, from-zip, poll-dir
+filters (33):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
    discard-by-name, downsample, equi-distance, log, max-records, 
    metadata, metadata-from-name, metadata-to-placeholder, passthrough, 
    pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
    row-norm, sample, savitzky-golay, savitzky-golay2, set-placeholder, 
-   simpls, spectrum-to-sampledata, split-records, 
-   standard-normal-variate, standardize, sub-process, tee
-writers (14):
+   set-storage, simpls, spectrum-to-sampledata, split-records, 
+   standard-normal-variate, standardize, sub-process, tee, trigger
+writers (15):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
    to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
-   to-zip
+   to-storage, to-zip
 
 optional arguments:
   -h, --help            show basic help message and exit

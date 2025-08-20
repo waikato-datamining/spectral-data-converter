@@ -17,6 +17,7 @@
 * [from-pyfunc](from-pyfunc.md)
 * [from-report-sd](from-report-sd.md)
 * [from-spa](from-spa.md)
+* [from-storage](from-storage.md)
 * [from-zip](from-zip.md)
 * [poll-dir](poll-dir.md)
 
@@ -45,12 +46,14 @@
 * [savitzky-golay](savitzky-golay.md)
 * [savitzky-golay2](savitzky-golay2.md)
 * [set-placeholder](set-placeholder.md)
+* [set-storage](set-storage.md)
 * [simpls](simpls.md)
 * [spectrum-to-sampledata](spectrum-to-sampledata.md)
 * [split-records](split-records.md)
 * [standardize](standardize.md)
 * [sub-process](sub-process.md)
 * [tee](tee.md)
+* [trigger](trigger.md)
 
 ## Writers
 * [to-adams](to-adams.md)
@@ -66,4 +69,5 @@
 * [to-nir](to-nir.md)
 * [to-pyfunc](to-pyfunc.md)
 * [to-report-sd](to-report-sd.md)
+* [to-storage](to-storage.md)
 * [to-zip](to-zip.md)
