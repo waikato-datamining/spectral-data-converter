@@ -82,6 +82,7 @@ class BatchFilter(Filter, abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
     def _process_batch(self, batch):
         """
         Processes the batch.
@@ -227,6 +228,7 @@ class TrainableBatchFilter(BatchFilter, abc.ABC):
         """
         return False
 
+    @abc.abstractmethod
     def _serialize(self) -> Dict:
         """
         Returns the filter's internal representation to save to disk.
@@ -236,6 +238,7 @@ class TrainableBatchFilter(BatchFilter, abc.ABC):
         """
         raise NotImplementedError()
 
+    @abc.abstractmethod
     def _deserialize(self, data: Dict) -> bool:
         """
         Applies the filter's internal representation loaded from disk.

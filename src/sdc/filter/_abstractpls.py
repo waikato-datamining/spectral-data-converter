@@ -103,6 +103,7 @@ class AbstractPLS(TrainableBatchFilter, abc.ABC):
         if self.num_components is None:
             self.num_components = 5
 
+    @abc.abstractmethod
     def _initialize_algorithm(self):
         """
         Initializes the PLS algorithm, setting all the parameters.
@@ -201,6 +202,7 @@ class AbstractSingleResponsePLS(AbstractPLS, abc.ABC):
         self.response = data.get("response", None)
         return (self._algorithm is not None) and (self.response is not None)
 
+    @abc.abstractmethod
     def _initialize_algorithm(self):
         """
         Initializes the PLS algorithm, setting all the parameters.
@@ -328,6 +330,7 @@ class AbstractMultiResponsePLS(AbstractPLS, abc.ABC):
         self.responses = data.get("responses", None)
         return (self._algorithm is not None) and (self.responses is not None)
 
+    @abc.abstractmethod
     def _initialize_algorithm(self):
         """
         Initializes the PLS algorithm, setting all the parameters.

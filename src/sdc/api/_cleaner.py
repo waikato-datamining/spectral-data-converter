@@ -43,6 +43,7 @@ class Cleaner(PluginWithLogging, SessionHandler, Initializable, InputConsumer, O
         """
         self._session = s
 
+    @abc.abstractmethod
     def _do_clean(self, data: List) -> List:
         """
         Cleans the data records.

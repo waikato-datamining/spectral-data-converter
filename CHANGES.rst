@@ -10,6 +10,7 @@ Changelog
 - the `metadata-from-name` filter can work on the path now as well (must be present)
 - switched to `kasperl` library for base API and generic pipeline plugins
 - requiring seppl>=0.2.21 now
+- added `@abc.abstractmethod` decorator where appropriate
 
 
 0.0.3 (2025-07-15)
