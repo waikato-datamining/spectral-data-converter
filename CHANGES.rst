@@ -11,6 +11,10 @@ Changelog
 - switched to `kasperl` library for base API and generic pipeline plugins
 - requiring seppl>=0.2.21 now
 - added `@abc.abstractmethod` decorator where appropriate
+- the `sdc-exec` tool now uses all remaining parameters as the pipeline components rather than having
+  to specify them via the `-p/--pipeline` parameter, making it easy to simply prefix the `sdc-exec`
+  command to an existing `sdc-convert` command-line
+- added the `text-file` and `csv-file` generators that work off files to populate the variable(s)
 
 
 0.0.3 (2025-07-15)
