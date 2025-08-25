@@ -61,33 +61,33 @@ The following sample data formats are supported:
 
 ```
 usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
-                   [-u INTERVAL] [-b|--force_batch] [--placeholders FILE] [--dump_pipeline FILE]
+                   [-u INTERVAL] [-b|--force_batch] [--placeholders FILE]
+                   [--load_pipeline FILE] [--dump_pipeline FILE]
                    [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                   reader
-                   [filter [filter [...]]]
-                   [writer]
+                   [reader] [filter ...] [writer]
 
 Tool for converting between spectral data formats.
 
-readers (20):
+readers (21):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   from-storage, from-zip, poll-dir
-filters (33):
+   from-storage, from-zip, poll-dir, start
+filters (34):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
    discard-by-name, downsample, equi-distance, log, max-records, 
    metadata, metadata-from-name, metadata-to-placeholder, passthrough, 
    pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
-   row-norm, sample, savitzky-golay, savitzky-golay2, set-placeholder, 
-   set-storage, simpls, spectrum-to-sampledata, split-records, 
-   standard-normal-variate, standardize, sub-process, tee, trigger
+   row-norm, sample, savitzky-golay, savitzky-golay2, set-metadata, 
+   set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
+   split-records, standard-normal-variate*, standardize, sub-process, 
+   tee, trigger
 writers (15):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
    to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
    to-storage, to-zip
 
-optional arguments:
+options:
   -h, --help            show basic help message and exit
   --help-all            show basic help message plus help on all plugins and exit
   --help-plugin NAME    show help message for plugin NAME and exit
@@ -98,6 +98,8 @@ optional arguments:
   -b, --force_batch     processes the data in batches
   --placeholders FILE
                         The file with custom placeholders to load (format: key=value).
+  --load_pipeline FILE
+                        The file to load the pipeline command from.
   --dump_pipeline FILE
                         The file to dump the pipeline command in.
 ```
@@ -105,33 +107,44 @@ optional arguments:
 ### Executing pipeline multiple times
 
 ```
-usage: sdc-exec [-h] -g GENERATOR [-n] [-P PREFIX] [--placeholders FILE]
-                [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+usage: sdc-exec [-h] --exec_generator GENERATOR [--exec_dry_run]
+                [--exec_prefix PREFIX] [--exec_placeholders FILE]
+                [--exec_format {cmdline,file}]
+                [--exec_logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                 ...
 
 Tool for executing a pipeline multiple times, each time with a different set
 of variables expanded. A variable is surrounded by curly quotes (e.g.,
-variable 'i' gets referenced with '{i}'). All remaining arguments are
-interpreted as pipeline arguments, making it easy to prefix the exec arguments
-to an existing pipeline command. Available generators: csv-file, dirs, list,
-null, range, text-file
+variable 'i' gets referenced with '{i}'). Available generators: csv-file,
+dirs, list, null, range, text-file
 
 positional arguments:
   pipeline              The pipeline template with variables to expand and
-                        then execute.
+                        then execute; see '--exec_format' option.
 
 options:
   -h, --help            show this help message and exit
-  -g GENERATOR, --generator GENERATOR
-                        The generator plugin to use. (default: None)
-  -n, --dry_run         Applies the generator to the pipeline template and
+  --exec_generator GENERATOR
+                        The generator plugin to use, incl. its options.
+                        (default: None)
+  --exec_dry_run        Applies the generator to the pipeline template and
                         only outputs it on stdout. (default: False)
-  -P PREFIX, --prefix PREFIX
-                        The string to prefix the pipeline with when in dry-run
+  --exec_prefix PREFIX  The string to prefix the pipeline with when in dry-run
                         mode. (default: None)
-  --placeholders FILE   The file with custom placeholders to load (format:
+  --exec_placeholders FILE
+                        The file with custom placeholders to load (format:
                         key=value). (default: None)
-  -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+  --exec_format {cmdline,file}
+                        The format that the pipeline is in. The format
+                        'cmdline' interprets the remaining arguments as the
+                        pipeline arguments to execute. The format 'file'
+                        expects a file to load the pipeline arguments from.
+                        This file format allows spreading the pipeline
+                        arguments over multiple lines: it simply joins all
+                        lines into a single command-line before splitting it
+                        into individual arguments for execution. (default:
+                        cmdline)
+  --exec_logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         The logging level to use. (default: WARN)
 ```
 

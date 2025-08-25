@@ -15,6 +15,8 @@ Changelog
   to specify them via the `-p/--pipeline` parameter, making it easy to simply prefix the `sdc-exec`
   command to an existing `sdc-convert` command-line
 - added the `text-file` and `csv-file` generators that work off files to populate the variable(s)
+- `sdc-exec` can load pipelines from file now as well, useful when dealing with large pipelines
+- added `--load_pipeline` option to `sdc-convert`
 
 
 0.0.3 (2025-07-15)
