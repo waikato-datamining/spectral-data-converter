@@ -2,7 +2,7 @@ import traceback
 
 from sdc.core import ENV_SDC_LOGLEVEL
 from sdc.help import generate_plugin_usage
-from sdc.registry import available_readers, available_filters, available_writers
+from sdc.registry import available_readers, available_filters, available_writers, REGISTRY
 from kasperl.api import perform_conversion
 
 CONVERT = "sdc-convert"
@@ -18,7 +18,7 @@ def main(args=None):
     """
     perform_conversion(
         ENV_SDC_LOGLEVEL, args, CONVERT, DESCRIPTION,
-        available_readers(), available_filters(), available_writers(),
+        available_readers(), available_filters(), available_writers(), aliases=REGISTRY.all_aliases,
         require_reader=True, require_writer=False, generate_plugin_usage=generate_plugin_usage)
 
 
