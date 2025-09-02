@@ -60,19 +60,18 @@ The following sample data formats are supported:
 ### Dataset conversion
 
 ```
-usage: sdc-convert [-h|--help|--help-all|--help-plugin NAME]
-                   [-u INTERVAL] [-b|--force_batch] [--placeholders FILE]
-                   [--load_pipeline FILE] [--dump_pipeline FILE]
-                   [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                   [reader] [filter ...] [writer]
+usage: sdc-convert [-h] [--help-all] [--help-plugin NAME] [-u INTERVAL]
+                   [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-b]
+                   [--placeholders FILE] [--load_pipeline FILE]
+                   [--dump_pipeline FILE]
 
 Tool for converting between spectral data formats.
 
-readers (21):
+readers (22):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   from-storage, from-zip, poll-dir, start
+   from-storage, from-text-file, from-zip, poll-dir, start
 filters (34):
    add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
    discard-by-name, downsample, equi-distance, log, max-records, 
@@ -82,26 +81,23 @@ filters (34):
    set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
    split-records, standard-normal-variate*, standardize, sub-process, 
    tee, trigger
-writers (15):
+writers (16):
    to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
    to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
-   to-storage, to-zip
+   to-storage, to-text-file, to-zip
 
 options:
-  -h, --help            show basic help message and exit
-  --help-all            show basic help message plus help on all plugins and exit
-  --help-plugin NAME    show help message for plugin NAME and exit
-  -u INTERVAL, --update_interval INTERVAL
-                        outputs the progress every INTERVAL records (default: 1000)
+  -h, --help           Show basic help message and exit.
+  --help-all           Show basic help message plus help on all plugins and exit.
+  --help-plugin NAME   Show help message for plugin NAME and exit.
+  -u, --update_interval INTERVAL
+                       Outputs the progress every INTERVAL records (default: 1000).
   -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-                        the logging level to use (default: WARN)
-  -b, --force_batch     processes the data in batches
-  --placeholders FILE
-                        The file with custom placeholders to load (format: key=value).
-  --load_pipeline FILE
-                        The file to load the pipeline command from.
-  --dump_pipeline FILE
-                        The file to dump the pipeline command in.
+                       The logging level to use (default: WARN).
+  -b, --force_batch    Processes the data in batches.
+  --placeholders FILE  The file with custom placeholders to load (format: key=value).
+  --load_pipeline FILE The file to load the pipeline command from.
+  --dump_pipeline FILE The file to dump the pipeline command in.
 ```
 
 ### Executing pipeline multiple times

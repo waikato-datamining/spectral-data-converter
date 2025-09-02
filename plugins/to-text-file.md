@@ -1,18 +1,14 @@
-# set-placeholder
+# to-text-file
 
 * accepts: seppl.AnyData
-* generates: seppl.AnyData
 
-Sets the placeholder to the specified value when data passes through. The value can contain other placeholders, which get expanded each time data passes through. Can use the data passing through instead of specified value as well.
+Stores the incoming data in the specified text file.
 
 ```
-usage: set-placeholder [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                       [-N LOGGER_NAME] [--skip] -p PLACEHOLDER [-v VALUE]
-                       [-u]
+usage: to-text-file [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+                    [-N LOGGER_NAME] [--skip] -p FILE [-a] [-d]
 
-Sets the placeholder to the specified value when data passes through. The
-value can contain other placeholders, which get expanded each time data passes
-through. Can use the data passing through instead of specified value as well.
+Stores the incoming data in the specified text file.
 
 options:
   -h, --help            show this help message and exit
@@ -23,17 +19,15 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
-  -p PLACEHOLDER, --placeholder PLACEHOLDER
-                        The name of the placeholder, without curly brackets.
+  -p FILE, --path FILE  The file to write the data to; Supported placeholders:
+                        {INPUT_PATH}, {INPUT_NAMEEXT}, {INPUT_NAMENOEXT},
+                        {INPUT_EXT}, {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME}
                         (default: None)
-  -v VALUE, --value VALUE
-                        The value of the placeholder, may contain other
-                        placeholders. Supported placeholders: {INPUT_PATH},
-                        {INPUT_NAMEEXT}, {INPUT_NAMENOEXT}, {INPUT_EXT},
-                        {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME} (default:
-                        None)
-  -u, --use_current     Whether to use the data passing through instead of the
-                        specified value. (default: False)
+  -a, --append          Whether to append the file rather than overwrite it.
+                        (default: False)
+  -d, --delete_on_initialize
+                        Whether to remove any existing file when initializing
+                        the writer. (default: False)
 ```
 
 Available placeholders:

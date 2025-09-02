@@ -18,8 +18,10 @@
 * [from-report-sd](from-report-sd.md)
 * [from-spa](from-spa.md)
 * [from-storage](from-storage.md)
+* [from-text-file](from-text-file.md)
 * [from-zip](from-zip.md)
 * [poll-dir](poll-dir.md)
+* [start](start.md)
 
 ## Filters
 * [add-sampledata](add-sampledata.md)
@@ -45,6 +47,7 @@
 * [sample](sample.md)
 * [savitzky-golay](savitzky-golay.md)
 * [savitzky-golay2](savitzky-golay2.md)
+* [set-metadata](set-metadata.md)
 * [set-placeholder](set-placeholder.md)
 * [set-storage](set-storage.md)
 * [simpls](simpls.md)
@@ -70,4 +73,5 @@
 * [to-pyfunc](to-pyfunc.md)
 * [to-report-sd](to-report-sd.md)
 * [to-storage](to-storage.md)
+* [to-text-file](to-text-file.md)
 * [to-zip](to-zip.md)
