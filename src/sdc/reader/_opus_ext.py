@@ -170,7 +170,7 @@ class OPUSExtReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         if self.direct_read:
             self._inputs = []
         else:
-            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.0", resume_from=self.resume_from)
+            self._inputs = None
 
     def _init_reader(self):
         """
@@ -207,6 +207,8 @@ class OPUSExtReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         :return: the data
         :rtype: Iterable
         """
+        if self._inputs is None:
+            self._inputs = locate_files(self.source, input_lists=self.source_list, fail_if_empty=True, default_glob="*.0", resume_from=self.resume_from)
         self._current_input = self._inputs.pop(0)
         self.session.current_input = self._current_input
         self.logger().info("Reading from: " + str(self.session.current_input))
