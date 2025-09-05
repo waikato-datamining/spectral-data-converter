@@ -67,24 +67,25 @@ usage: sdc-convert [-h] [--help-all] [--help-plugin NAME] [-u INTERVAL]
 
 Tool for converting between spectral data formats.
 
-readers (22):
+readers (23):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   from-storage, from-text-file, from-zip, poll-dir, start
-filters (34):
-   add-sampledata, apply-cleaner, center, check-duplicate-filenames, 
-   discard-by-name, downsample, equi-distance, log, max-records, 
-   metadata, metadata-from-name, metadata-to-placeholder, passthrough, 
-   pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
-   row-norm, sample, savitzky-golay, savitzky-golay2, set-metadata, 
+   from-storage, from-text-file, from-zip, list-files, poll-dir, start
+filters (37):
+   add-sampledata, apply-cleaner, block, center, 
+   check-duplicate-filenames, discard-by-name, downsample, 
+   equi-distance, list-to-sequence, log, max-records, metadata, 
+   metadata-from-name, metadata-to-placeholder, passthrough, pca, pls1, 
+   pyfunc-filter, randomize-records, record-window, rename, row-norm, 
+   sample, savitzky-golay, savitzky-golay2, set-metadata, 
    set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
-   split-records, standard-normal-variate*, standardize, sub-process, 
-   tee, trigger
-writers (16):
-   to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, to-csv-sd, 
-   to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, to-report-sd, 
-   to-storage, to-text-file, to-zip
+   split-records, standard-normal-variate*, standardize, stop, 
+   sub-process, tee, trigger
+writers (17):
+   send-email, to-adams, to-arff, to-asc, to-asciixy, to-cal, to-csv, 
+   to-csv-sd, to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, 
+   to-report-sd, to-storage, to-text-file, to-zip
 
 options:
   -h, --help           Show basic help message and exit.

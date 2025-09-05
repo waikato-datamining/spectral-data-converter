@@ -9,4 +9,5 @@ from ._json import JsonSampleDataWriter
 from ._multi import MultiWriter
 from ._nir import NIRWriter
 from ._pyfunc import PythonFunctionWriter
+from ._send_email import SendEmail
 from ._zip import ZipWriter
