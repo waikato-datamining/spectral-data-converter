@@ -20,6 +20,7 @@
 * [from-storage](from-storage.md)
 * [from-text-file](from-text-file.md)
 * [from-zip](from-zip.md)
+* [get-email](get-email.md)
 * [list-files](list-files.md)
 * [poll-dir](poll-dir.md)
 * [start](start.md)
@@ -63,6 +64,7 @@
 * [trigger](trigger.md)
 
 ## Writers
+* [console](console.md)
 * [send-email](send-email.md)
 * [to-adams](to-adams.md)
 * [to-arff](to-arff.md)
