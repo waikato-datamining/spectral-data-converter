@@ -6,13 +6,13 @@ import pickle
 from typing import Dict, List
 
 from seppl import MetaDataHandler, get_metadata
-from seppl.io import Filter as SFilter
+from seppl.io import BatchFilter as SBatchFilter
 from wai.logging import LOGGING_WARNING
 
 from kasperl.api import make_list
 
 
-class Filter(SFilter, abc.ABC):
+class Filter(SBatchFilter, abc.ABC):
     """
     Ancestor for filters.
     """
