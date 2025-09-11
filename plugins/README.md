@@ -40,6 +40,7 @@
 * [metadata](metadata.md)
 * [metadata-from-name](metadata-from-name.md)
 * [metadata-to-placeholder](metadata-to-placeholder.md)
+* [move-files](move-files.md)
 * [passthrough](passthrough.md)
 * [pca](pca.md)
 * [pls1](pls1.md)
