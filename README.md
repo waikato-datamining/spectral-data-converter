@@ -67,19 +67,19 @@ usage: sdc-convert [-h] [--help-all] [--help-plugin NAME] [-u INTERVAL]
 
 Tool for converting between spectral data formats.
 
-readers (24):
+readers (25):
    from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
    from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
    from-storage, from-text-file, from-zip, get-email, list-files, 
-   poll-dir, start
-filters (37):
+   poll-dir, start, watch-dir
+filters (38):
    add-sampledata, apply-cleaner, block, center, 
    check-duplicate-filenames, discard-by-name, downsample, 
    equi-distance, list-to-sequence, log, max-records, metadata, 
-   metadata-from-name, metadata-to-placeholder, passthrough, pca, pls1, 
-   pyfunc-filter, randomize-records, record-window, rename, row-norm, 
-   sample, savitzky-golay, savitzky-golay2, set-metadata, 
+   metadata-from-name, metadata-to-placeholder, move-files, passthrough, 
+   pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
+   row-norm, sample, savitzky-golay, savitzky-golay2, set-metadata, 
    set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
    split-records, standard-normal-variate*, standardize, stop, 
    sub-process, tee, trigger
@@ -113,8 +113,9 @@ usage: sdc-exec [-h] --exec_generator GENERATOR [--exec_dry_run]
 
 Tool for executing a pipeline multiple times, each time with a different set
 of variables expanded. A variable is surrounded by curly quotes (e.g.,
-variable 'i' gets referenced with '{i}'). Available generators: csv-file,
-dirs, list, null, range, text-file
+variable 'i' gets referenced with '{i}'). When supplying multiple generators,
+then these get treated as nested executions. Available generators: csv-file,
+dirs, list, null, prompt, range, text-file
 
 positional arguments:
   pipeline              The pipeline template with variables to expand and
@@ -123,7 +124,8 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --exec_generator GENERATOR
-                        The generator plugin to use, incl. its options.
+                        The generator plugin(s) to use, incl. their options.
+                        Flag needs to be specified for each generator.
                         (default: None)
   --exec_dry_run        Applies the generator to the pipeline template and
                         only outputs it on stdout. (default: False)

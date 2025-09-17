@@ -15,3 +15,4 @@ from ._poll_dir import PollDir
 from ._pyfunc import PythonFunctionReader
 from ._spa import SPAReader
 from ._zip import ZipReader
+from ._watch_dir import WatchDir, EVENTS, EVENT_MODIFIED, EVENT_CREATED
