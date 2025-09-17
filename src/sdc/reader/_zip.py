@@ -197,4 +197,4 @@ class ZipReader(Reader, DirectReader, PlaceholderSupporter):
         :return: True if finished
         :rtype: bool
         """
-        return len(self._inputs) == 0
+        return (self._inputs is not None) and len(self._inputs) == 0
