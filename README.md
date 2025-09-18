@@ -73,9 +73,9 @@ readers (25):
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
    from-storage, from-text-file, from-zip, get-email, list-files, 
    poll-dir, start, watch-dir
-filters (38):
+filters (39):
    add-sampledata, apply-cleaner, block, center, 
-   check-duplicate-filenames, discard-by-name, downsample, 
+   check-duplicate-filenames, copy-files, discard-by-name, downsample, 
    equi-distance, list-to-sequence, log, max-records, metadata, 
    metadata-from-name, metadata-to-placeholder, move-files, passthrough, 
    pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
