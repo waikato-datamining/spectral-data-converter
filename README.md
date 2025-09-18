@@ -83,10 +83,10 @@ filters (38):
    set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
    split-records, standard-normal-variate*, standardize, stop, 
    sub-process, tee, trigger
-writers (18):
-   console, send-email, to-adams, to-arff, to-asc, to-asciixy, to-cal, 
-   to-csv, to-csv-sd, to-dpt, to-json-sd, to-multi, to-nir, to-pyfunc, 
-   to-report-sd, to-storage, to-text-file, to-zip
+writers (19):
+   console, delete-files, send-email, to-adams, to-arff, to-asc, 
+   to-asciixy, to-cal, to-csv, to-csv-sd, to-dpt, to-json-sd, to-multi, 
+   to-nir, to-pyfunc, to-report-sd, to-storage, to-text-file, to-zip
 
 options:
   -h, --help           Show basic help message and exit.
