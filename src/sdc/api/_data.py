@@ -2,10 +2,10 @@ import abc
 import copy
 import logging
 import os.path
-from typing import Dict, Optional, List, Any
+from typing import Dict, Optional, Any
 
+from seppl import MetaDataHandler, LoggingHandler, get_class_name
 from kasperl.api import NameSupporter, SourceSupporter
-from seppl import MetaDataHandler, LoggingHandler
 from wai.logging import set_logging_level, LOGGING_INFO
 
 from kasperl.api import safe_deepcopy
@@ -181,6 +181,15 @@ class Spectrum(MetaDataHandler, NameSupporter, SourceSupporter, LoggingHandler, 
             result["metadata"] = copy.deepcopy(self.get_metadata())
         return result
 
+    def __str__(self) -> str:
+        """
+        Returns a basic description of the container.
+
+        :return: the description
+        :rtype: str
+        """
+        return "name=" + self.spectrum_name + ", type=" + str(get_class_name(self)) + ", metadata=" + str(self.get_metadata())
+
 
 class SampleData(MetaDataHandler, LoggingHandler):
 
@@ -296,3 +305,12 @@ class SampleData(MetaDataHandler, LoggingHandler):
         if sampledata:
             result["sampledata"] = safe_deepcopy(self.sampledata)
         return result
+
+    def __str__(self) -> str:
+        """
+        Returns a basic description of the container.
+
+        :return: the description
+        :rtype: str
+        """
+        return "name=" + self.sampledata_name + ", type=" + str(get_class_name(self))
