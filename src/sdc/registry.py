@@ -20,19 +20,24 @@ DEFAULT_SDC_CLASS_LISTERS = [
 ]
 
 # environment variable with comma-separated list of class listers to provided ignored classes
-ENV_ADC_CLASS_LISTERS_IGNORED = "ADC_CLASS_LISTERS_IGNORED"
+ENV_SDC_CLASS_LISTERS_IGNORED = "SDC_CLASS_LISTERS_IGNORED"
 
 # the default class listers that provide ignored classes
-# can be overridden with ADC_CLASS_LISTERS_IGNORED environment variable
-DEFAULT_ADC_CLASS_LISTERS_IGNORED = [
+# can be overridden with SDC_CLASS_LISTERS_IGNORED environment variable
+DEFAULT_SDC_CLASS_LISTERS_IGNORED = [
     "sdc.class_lister_ignored",
 ]
+
+# environment variable for managing the class cache: on|off|reset
+ENV_SDC_CLASS_CACHE = "SDC_CLASS_CACHE"
 
 REGISTRY = ClassListerRegistry(default_class_listers=DEFAULT_SDC_CLASS_LISTERS,
                                env_class_listers=ENV_SDC_CLASS_LISTERS,
                                env_excluded_class_listers=ENV_SDC_CLASS_LISTERS_EXCL,
-                               ignored_class_listers=DEFAULT_ADC_CLASS_LISTERS_IGNORED,
-                               env_ignored_class_listers=ENV_ADC_CLASS_LISTERS_IGNORED)
+                               ignored_class_listers=DEFAULT_SDC_CLASS_LISTERS_IGNORED,
+                               env_ignored_class_listers=ENV_SDC_CLASS_LISTERS_IGNORED,
+                               app_name="spectral-data-converter",
+                               class_cache_env=ENV_SDC_CLASS_CACHE)
 
 IMG_REGISTRY = "sdc-registry"
 
