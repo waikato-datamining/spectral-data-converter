@@ -29,6 +29,7 @@
 ## Filters
 * [add-sampledata](add-sampledata.md)
 * [apply-cleaner](apply-cleaner.md)
+* [attach-metadata](attach-metadata.md)
 * [block](block.md)
 * [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
@@ -79,6 +80,7 @@
 * [to-csv-sd](to-csv-sd.md)
 * [to-dpt](to-dpt.md)
 * [to-json-sd](to-json-sd.md)
+* [to-metadata](to-metadata.md)
 * [to-multi](to-multi.md)
 * [to-nir](to-nir.md)
 * [to-pyfunc](to-pyfunc.md)

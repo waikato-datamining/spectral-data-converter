@@ -1,6 +1,7 @@
 from ._abstractpls import AbstractPLS, AbstractSingleResponsePLS, AbstractMultiResponsePLS, PREPROCESSING, PREPROCESSING_ENUM, PREPROCESSING_NONE, PREPROCESSING_CENTER, PREPROCESSING_STANDARDIZE
 from ._add_sampledata import AddSampleData
 from ._apply_cleaner import ApplyCleaner
+from ._attach_metadata import AttachMetaData
 from ._center import Center
 from ._downsample import DownSample
 from ._equi_distance import EquiDistance
