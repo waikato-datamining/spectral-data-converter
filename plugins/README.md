@@ -34,6 +34,7 @@
 * [center](center.md)
 * [check-duplicate-filenames](check-duplicate-filenames.md)
 * [copy-files](copy-files.md)
+* [delete-storage](delete-storage.md)
 * [discard-by-name](discard-by-name.md)
 * [downsample](downsample.md)
 * [equi-distance](equi-distance.md)
