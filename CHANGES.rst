@@ -9,7 +9,7 @@ Changelog
 - the `sub-process` filter can be used for processing data with sub-flow of filters, can be conditional based on meta-data evaluation
 - the `metadata-from-name` filter can work on the path now as well (must be present)
 - switched to `kasperl` library for base API and generic pipeline plugins
-- requiring seppl>=0.2.21 now
+- requiring seppl>=0.3.0 now
 - added `@abc.abstractmethod` decorator where appropriate
 - the `sdc-exec` tool now uses all remaining parameters as the pipeline components rather than having
   to specify them via the `-p/--pipeline` parameter, making it easy to simply prefix the `sdc-exec`
