@@ -73,16 +73,16 @@ readers (25):
    from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
    from-storage, from-text-file, from-zip, get-email, list-files, 
    poll-dir, start, watch-dir
-filters (40):
+filters (41):
    add-sampledata, apply-cleaner, attach-metadata, block, center, 
-   check-duplicate-filenames, copy-files, discard-by-name, downsample, 
-   equi-distance, list-to-sequence, log, max-records, metadata, 
-   metadata-from-name, metadata-to-placeholder, move-files, passthrough, 
-   pca, pls1, pyfunc-filter, randomize-records, record-window, rename, 
-   row-norm, sample, savitzky-golay, savitzky-golay2, set-metadata, 
-   set-placeholder, set-storage, simpls, spectrum-to-sampledata, 
-   split-records, standard-normal-variate*, standardize, stop, 
-   sub-process, tee, trigger
+   check-duplicate-filenames, copy-files, delete-storage, 
+   discard-by-name, downsample, equi-distance, list-to-sequence, log, 
+   max-records, metadata, metadata-from-name, metadata-to-placeholder, 
+   move-files, passthrough, pca, pls1, pyfunc-filter, randomize-records, 
+   record-window, rename, row-norm, sample, savitzky-golay, 
+   savitzky-golay2, set-metadata, set-placeholder, set-storage, simpls, 
+   spectrum-to-sampledata, split-records, standard-normal-variate*, 
+   standardize, stop, sub-process, tee, trigger
 writers (20):
    console, delete-files, send-email, to-adams, to-arff, to-asc, 
    to-asciixy, to-cal, to-csv, to-csv-sd, to-dpt, to-json-sd, 

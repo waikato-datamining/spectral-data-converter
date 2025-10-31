@@ -38,7 +38,7 @@ setup(
         "wai_spectralio>=0.0.5",
         "wai_ma",
     ],
-    version="0.0.3",
+    version="0.1.0",
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     entry_points={
