@@ -42,4 +42,4 @@ spectral-data-converter-all
 ===========================
 
 * increment minimum version to newly released one in `setup.py`
-* add note to `CHANGES.rst`
+* add note to `CHANGES.rst` with link to the release
