@@ -1,0 +1,1 @@
+from ._spectrum2d_formatter import Spectrum2DFormatter

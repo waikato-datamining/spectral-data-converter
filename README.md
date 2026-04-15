@@ -67,22 +67,24 @@ usage: sdc-convert [-h] [--help-all] [--help-plugin NAME] [-u INTERVAL]
 
 Tool for converting between spectral data formats.
 
-readers (25):
-   from-adams, from-arff, from-asc, from-asciixy, from-cal, from-csv, 
-   from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, from-nir, 
-   from-opus, from-opus-ext, from-pyfunc, from-report-sd, from-spa, 
-   from-storage, from-text-file, from-zip, get-email, list-files, 
-   poll-dir, start, watch-dir
-filters (41):
+readers (27):
+   cron, from-adams, from-arff, from-asc, from-asciixy, from-cal, 
+   from-csv, from-csv-sd, from-dpt, from-json-sd, from-mps, from-multi, 
+   from-nir, from-opus, from-opus-ext, from-pyfunc, from-report-sd, 
+   from-spa, from-storage, from-text-file, from-zip, get-email, 
+   list-files, poll-dir, shell-exec, start, watch-dir
+filters (46):
    add-sampledata, apply-cleaner, attach-metadata, block, center, 
-   check-duplicate-filenames, copy-files, delete-storage, 
-   discard-by-name, downsample, equi-distance, list-to-sequence, log, 
-   max-records, metadata, metadata-from-name, metadata-to-placeholder, 
-   move-files, passthrough, pca, pls1, pyfunc-filter, randomize-records, 
+   check-duplicate-filenames, copy-files, count-data, delete-storage, 
+   discard-by-name, downsample, equi-distance, get-metadata, 
+   list-to-sequence, log, log-data, log-placeholder, max-records, 
+   metadata, metadata-from-name, metadata-to-placeholder, move-files, 
+   passthrough, pca, pls1, pyfunc-filter, randomize-records, 
    record-window, rename, row-norm, sample, savitzky-golay, 
    savitzky-golay2, set-metadata, set-placeholder, set-storage, simpls, 
-   spectrum-to-sampledata, split-records, standard-normal-variate*, 
-   standardize, stop, sub-process, tee, trigger
+   sleep, spectrum-to-sampledata, split-records, 
+   standard-normal-variate*, standardize, stop, sub-process, tee, 
+   trigger
 writers (20):
    console, delete-files, send-email, to-adams, to-arff, to-asc, 
    to-asciixy, to-cal, to-csv, to-csv-sd, to-dpt, to-json-sd, 
@@ -285,6 +287,7 @@ You can find help screens for the plugins here:
 
 * [Pipeline plugins](plugins/README.md) (readers/filters/writers)
 * [Generator plugins](generators/README.md) (used by `sdc-exec`)
+* [Data formatter plugins](data-formatters/README.md)
 * [Cleaner plugins](cleaners/README.md) (used by `apply-cleaner` filter)
 
 

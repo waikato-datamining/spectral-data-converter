@@ -3,6 +3,7 @@ from ._arff import ARFFWriter
 from ._asc import ASCWriter
 from ._asciixy import ASCIIXYWriter
 from ._cal import CALWriter
+from ._console import ConsoleWriter
 from ._csv import CSVWriter, CSVSampleDataWriter
 from ._dpt import DPTWriter
 from ._json import JsonSampleDataWriter
@@ -11,4 +12,5 @@ from ._multi import MultiWriter
 from ._nir import NIRWriter
 from ._pyfunc import PythonFunctionWriter
 from ._send_email import SendEmail
+from ._text_file import TextFileWriter
 from ._zip import ZipWriter

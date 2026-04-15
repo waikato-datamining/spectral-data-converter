@@ -52,6 +52,7 @@ LIST_FILTERS = "filters"
 LIST_WRITERS = "writers"
 LIST_DIRECT_WRITERS = "direct-writers"
 LIST_GENERATORS = "generators"
+LIST_DATA_FORMATTERS = "data-formatters"
 LIST_CLEANERS = "cleaners"
 LIST_CUSTOM_CLASS_LISTERS = "custom-class-listers"
 LIST_ENV_CLASS_LISTERS = "env-class-listers"
@@ -66,6 +67,7 @@ LIST_TYPES = [
     LIST_WRITERS,
     LIST_DIRECT_WRITERS,
     LIST_GENERATORS,
+    LIST_DATA_FORMATTERS,
     LIST_CLEANERS,
 ]
 
@@ -157,6 +159,16 @@ def available_generators() -> Dict[str, Plugin]:
     return REGISTRY.plugins("kasperl.api.Generator", fail_if_empty=False)
 
 
+def available_data_formatters() -> Dict[str, Plugin]:
+    """
+    Returns all available data formatters.
+
+    :return: the dict of generator objects
+    :rtype: dict
+    """
+    return REGISTRY.plugins("kasperl.api.DataFormatter", fail_if_empty=False)
+
+
 def available_cleaners() -> Dict[str, Plugin]:
     """
     Returns all available cleaners.
@@ -181,6 +193,7 @@ def available_plugins() -> Dict[str, Plugin]:
     result.update(available_writers())
     result.update(available_direct_writers())
     result.update(available_generators())
+    result.update(available_data_formatters())
     result.update(available_cleaners())
     return result
 
@@ -212,7 +225,7 @@ def _list(list_type: str, custom_class_listers: Optional[List[str]] = None, excl
     """
     register_plugins(custom_class_listers=custom_class_listers, excluded_class_listers=excluded_class_listers)
 
-    if list_type in [LIST_PLUGINS, LIST_PIPELINE, LIST_READERS, LIST_DIRECT_READERS, LIST_FILTERS, LIST_WRITERS, LIST_DIRECT_WRITERS, LIST_GENERATORS]:
+    if list_type in [LIST_PLUGINS, LIST_PIPELINE, LIST_READERS, LIST_DIRECT_READERS, LIST_FILTERS, LIST_WRITERS, LIST_DIRECT_WRITERS, LIST_GENERATORS, LIST_DATA_FORMATTERS, LIST_CLEANERS]:
         if list_type == LIST_PLUGINS:
             plugins = available_plugins()
         elif list_type == LIST_PIPELINE:
@@ -229,6 +242,8 @@ def _list(list_type: str, custom_class_listers: Optional[List[str]] = None, excl
             plugins = available_direct_writers()
         elif list_type == LIST_GENERATORS:
             plugins = available_generators()
+        elif list_type == LIST_DATA_FORMATTERS:
+            plugins = available_data_formatters()
         elif list_type == LIST_CLEANERS:
             plugins = available_cleaners()
         else:

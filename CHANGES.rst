@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.1.1 (????-??-??)
+------------------
+
+- added support for data-formatters with `df-spectrum2d` specifically for 2D spectra
+
+
 0.1.0 (2025-10-31)
 ------------------
 
