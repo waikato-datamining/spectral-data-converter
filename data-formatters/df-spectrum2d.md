@@ -18,7 +18,7 @@ options:
                         name by default (default: None)
   -f OUTPUT_FORMAT, --output_format OUTPUT_FORMAT
                         The format to use for the output, available
-                        placeholders: data, spectrum-name, num-waves, min-
-                        wave, max-wave, has-annotations, annotations (default:
-                        data)
+                        placeholders: data, spectrum-name, spectrum-name-
+                        noext, num-waves, min-wave, max-wave, has-annotations,
+                        annotations (default: {data})
 ```

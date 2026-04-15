@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from wai.logging import LOGGING_WARNING
 
@@ -6,6 +7,7 @@ from kasperl.api import DataFormatter
 
 PH_DATA = "data"
 PH_SPECTRUM_NAME = "spectrum-name"
+PH_SPECTRUM_NAME_NOEXT = "spectrum-name-noext"
 PH_NUM_WAVES = "num-waves"
 PH_MIN_WAVE = "min-wave"
 PH_MAX_WAVE = "max-wave"
@@ -14,6 +16,7 @@ PH_ANNOTATIONS = "annotations"
 PLACEHOLDERS = [
     PH_DATA,
     PH_SPECTRUM_NAME,
+    PH_SPECTRUM_NAME_NOEXT,
     PH_NUM_WAVES,
     PH_MIN_WAVE,
     PH_MAX_WAVE,
@@ -96,6 +99,8 @@ class Spectrum2DFormatter(DataFormatter):
                     value = str(data)
                 elif ph == PH_SPECTRUM_NAME:
                     value = data.spectrum_name
+                elif ph == PH_SPECTRUM_NAME_NOEXT:
+                    value = os.path.splitext(data.spectrum_name)[0]
                 elif ph == PH_NUM_WAVES:
                     value = str(len(data.spectrum.waves))
                 elif ph == PH_MIN_WAVE:
