@@ -9,6 +9,7 @@ from ._log import Log
 from ._pca import PCA
 from ._pls1 import PLS1
 from ._pyfunc_filter import PythonFunctionFilter
+from ._rename import Rename
 from ._rownorm import RowNorm
 from ._savitzkygolay import SavitzkyGolay
 from ._savitzkygolay2 import SavitzkyGolay2
