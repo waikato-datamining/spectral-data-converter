@@ -23,12 +23,28 @@ options:
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
   -f FIELD, --field FIELD
-                        The meta-data field to use in the comparison (default:
-                        None)
+                        The meta-data field to set (default: None)
   -v VALUE, --value VALUE
-                        The value to use in the comparison (default: None)
+                        The value to store in the meta-data; in case of type
+                        string, placeholders in the value get automatically
+                        expanded; Supported placeholders: {HOME}, {CWD},
+                        {TMP}, {INPUT_PATH}, {INPUT_NAMEEXT},
+                        {INPUT_NAMENOEXT}, {INPUT_EXT}, {INPUT_PARENT_PATH},
+                        {INPUT_PARENT_NAME} (default: None)
   -t {string,bool,numeric}, --as_type {string,bool,numeric}
                         How to interpret the value (default: string)
   -u, --use_current     Whether to use the data passing through instead of the
                         specified value. (default: False)
 ```
+
+Available placeholders:
+
+* `{HOME}`: The home directory of the current user.
+* `{CWD}`: The current working directory.
+* `{TMP}`: The temp directory.
+* `{INPUT_PATH}`: The directory part of the current input, i.e., `/some/where` of input `/some/where/file.txt`.
+* `{INPUT_NAMEEXT}`: The name (incl extension) of the current input, i.e., `file.txt` of input `/some/where/file.txt`.
+* `{INPUT_NAMENOEXT}`: The name (excl extension) of the current input, i.e., `file` of input `/some/where/file.txt`.
+* `{INPUT_EXT}`: The extension of the current input (incl dot), i.e., `.txt` of input `/some/where/file.txt`.
+* `{INPUT_PARENT_PATH}`: The directory part of the parent directory of the current input, i.e., `/some` of input `/some/where/file.txt`.
+* `{INPUT_PARENT_NAME}`: The name of the parent directory of the current input, i.e., `where` of input `/some/where/file.txt`.

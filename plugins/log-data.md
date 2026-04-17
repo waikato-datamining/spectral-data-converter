@@ -1,17 +1,16 @@
-# to-text-file
+# log-data
 
 * accepts: seppl.AnyData
+* generates: seppl.AnyData
 
-Applies the specified data formatter to the incoming data and stores the result in the specified text file. Any other placeholders will get expanded in the data formatter output as well.
+Logs information about the data passing through, either storing it in the specified file or outputting it on stdout.
 
 ```
-usage: to-text-file [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                    [-N LOGGER_NAME] [--skip] [-f DATA_FORMATTER] -o FILE [-a]
-                    [-d]
+usage: log-data [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
+                [--skip] [-f FORMAT] [-o FILE] [-d]
 
-Applies the specified data formatter to the incoming data and stores the
-result in the specified text file. Any other placeholders will get expanded in
-the data formatter output as well.
+Logs information about the data passing through, either storing it in the
+specified file or outputting it on stdout.
 
 options:
   -h, --help            show this help message and exit
@@ -22,16 +21,23 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
-  -f DATA_FORMATTER, --data_formatter DATA_FORMATTER
-                        The data formatter to apply (default: df-simple-
-                        string)
+  -f FORMAT, --log_format FORMAT
+                        The format to use for logging; {DATE}: for the current
+                        data (YYYY-MM-DD), {TIME}: for the current time
+                        (HH:MM:SS.SSSSSS), {TS}: for the current date/time
+                        (YYYY-MM-DD HH:MM:SS.SSSSSS), {NAME}: for
+                        NameSupporter data, {SOURCE}: for SourceSupporter
+                        data, {HAS_ANNOTATION}/{ANNOTATION}: for
+                        AnnotationHandler data, {META.<key>}: for
+                        MetaDataHandler data (<key> is the key in the meta-
+                        data); use \t for tab and \n for new-line (default:
+                        {TS}: {NAME})
   -o FILE, --output_file FILE
-                        The file to write the data to; Supported placeholders:
-                        {HOME}, {CWD}, {TMP}, {INPUT_PATH}, {INPUT_NAMEEXT},
-                        {INPUT_NAMENOEXT}, {INPUT_EXT}, {INPUT_PARENT_PATH},
-                        {INPUT_PARENT_NAME} (default: None)
-  -a, --append          Whether to append the file rather than overwrite it.
-                        (default: False)
+                        The file to write the logging data to; Supported
+                        placeholders: {HOME}, {CWD}, {TMP}, {INPUT_PATH},
+                        {INPUT_NAMEEXT}, {INPUT_NAMENOEXT}, {INPUT_EXT},
+                        {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME} (default:
+                        None)
   -d, --delete_on_initialize
                         Whether to remove any existing file when initializing
                         the writer. (default: False)

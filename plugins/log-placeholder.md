@@ -1,15 +1,17 @@
-# console
+# log-placeholder
 
 * accepts: seppl.AnyData
+* generates: seppl.AnyData
 
-Prints the data to stdout using the supplied data formatter. Any other placeholders will get expanded as well.
+Outputs the values of the specified placeholders. Logging must be set to INFO for the output to show.
 
 ```
-usage: console [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-N LOGGER_NAME]
-               [--skip] [-f DATA_FORMATTER]
+usage: log-placeholder [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+                       [-N LOGGER_NAME] [--skip] -p PLACEHOLDER
+                       [PLACEHOLDER ...]
 
-Prints the data to stdout using the supplied data formatter. Any other
-placeholders will get expanded as well.
+Outputs the values of the specified placeholders. Logging must be set to INFO
+for the output to show.
 
 options:
   -h, --help            show this help message and exit
@@ -20,9 +22,9 @@ options:
                         name by default (default: None)
   --skip                Disables the plugin, removing it from the pipeline.
                         (default: False)
-  -f DATA_FORMATTER, --data_formatter DATA_FORMATTER
-                        The data formatter to apply (default: df-simple-
-                        string)
+  -p PLACEHOLDER [PLACEHOLDER ...], --placeholder PLACEHOLDER [PLACEHOLDER ...]
+                        The name of the placeholders, without curly brackets.
+                        (default: None)
 ```
 
 Available placeholders:
