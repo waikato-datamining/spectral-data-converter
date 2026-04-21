@@ -1,16 +1,16 @@
 import argparse
 from typing import List
 
-from seppl.placeholders import InputBasedPlaceholderSupporter
+from kasperl.api import SplittableBatchWriter, make_list
 from seppl.io import DirectBatchWriter
+from seppl.variables import InputBasedVariableSupporter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
 
-from kasperl.api import SplittableBatchWriter, make_list
 from sdc.api import Spectrum2D, SpectralIOWriter, DefaultExtensionWriter
 
 
-class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,
@@ -162,7 +162,7 @@ class ARFFWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Def
         if self.output_file is None:
             raise Exception("No output file specified!")
 
-        output_file = self.session.expand_placeholders(self.output_file)
+        output_file = self.session.expand_variables(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 

@@ -2,7 +2,7 @@ import argparse
 import os
 from typing import List
 
-from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.variables import InputBasedVariableSupporter, variable_list
 from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.asc import Writer as SWriter
@@ -11,7 +11,7 @@ from kasperl.api import SplittableStreamWriter, make_list
 from sdc.api import Spectrum2D, SpectralIOWriter, DefaultExtensionWriter
 
 
-class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_dir: str = None, instrument_name: str = None, accessory_name: str = None,
                  data_points: int = None, first_x_point: float = None, last_x_point: float = None, descending: bool = None,
@@ -91,7 +91,7 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, De
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + variable_list(obj=self), required=False)
         parser.add_argument("--instrument_name", type=str, help="The instrument name to use in the header", required=False, default="<not implemented>")
         parser.add_argument("--accessory_name", type=str, help="The accessory name to use in the header", required=False, default="ABB-BOMEM MB160D")
         parser.add_argument("--data_points", type=int, help="The number of data points to output, -1 for all", required=False, default=-1)
@@ -181,7 +181,7 @@ class ASCWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, De
             raise Exception("No output directory specified!")
 
         for item in make_list(data):
-            sub_dir = self.session.expand_placeholders(self.output_dir)
+            sub_dir = self.session.expand_variables(self.output_dir)
             if self.splitter is not None:
                 split = self.splitter.next(item=item.spectrum_name)
                 sub_dir = os.path.join(sub_dir, split)

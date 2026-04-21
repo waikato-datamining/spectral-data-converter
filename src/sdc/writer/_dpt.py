@@ -2,7 +2,7 @@ import argparse
 import os
 from typing import List
 
-from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.variables import InputBasedVariableSupporter, variable_list
 from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.dpt import Writer as SWriter
@@ -11,7 +11,7 @@ from kasperl.api import SplittableStreamWriter, make_list
 from sdc.api import Spectrum2D, add_locale_option, SpectralIOWriter, DefaultExtensionWriter
 
 
-class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_dir: str = None, descending: bool = None, locale: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -78,7 +78,7 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, De
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .asc files in. Any defined splits get added beneath there. " + variable_list(obj=self), required=False)
         parser.add_argument("--descending", action="store_true", help="Outputs the wave numbers in descending order")
         add_locale_option(parser)
         return parser
@@ -148,7 +148,7 @@ class DPTWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, De
             raise Exception("No output directory specified!")
 
         for item in make_list(data):
-            sub_dir = self.session.expand_placeholders(self.output_dir)
+            sub_dir = self.session.expand_variables(self.output_dir)
             if self.splitter is not None:
                 split = self.splitter.next(item=item.spectrum_name)
                 sub_dir = os.path.join(sub_dir, split)

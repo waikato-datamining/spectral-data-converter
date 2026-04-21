@@ -263,7 +263,7 @@ class TrainableBatchFilter(BatchFilter, abc.ABC):
             self._first_batch = True
             # load from disk?
             if self._supports_serialization() and (self.load_from is not None):
-                path = self.session.expand_placeholders(self.load_from)
+                path = self.session.expand_variables(self.load_from)
                 if os.path.exists(path) and os.path.isfile(path):
                     self.logger().info("Loading filter from: %s" % path)
                     with open(path, "rb") as fp:
@@ -281,7 +281,7 @@ class TrainableBatchFilter(BatchFilter, abc.ABC):
         # save to disk?
         if self._supports_serialization():
             if self._first_batch and (self.save_to is not None):
-                path = self.session.expand_placeholders(self.save_to)
+                path = self.session.expand_variables(self.save_to)
                 pdir = os.path.dirname(path)
                 if not os.path.exists(pdir):
                     self.logger().info("Creating dir: %s" % pdir)

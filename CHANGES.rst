@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - added support for data-formatters with `df-spectrum2d` specifically for 2D spectra
+- using `seppl.variables` now
 
 
 0.1.0 (2025-10-31)

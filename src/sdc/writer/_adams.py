@@ -3,7 +3,7 @@ import os
 from typing import List, Dict, Any
 
 from javaproperties import Properties, dump, dumps
-from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.variables import InputBasedVariableSupporter, variable_list
 from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
@@ -13,7 +13,7 @@ from kasperl.api import SplittableStreamWriter, make_list
 from sdc.api import Spectrum2D, SplittableSampleDataStreamWriter, SpectralIOWriter, DefaultExtensionWriter
 
 
-class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_dir: str = None, output_sampledata: bool = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -77,7 +77,7 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, 
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .spec files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .spec files in. Any defined splits get added beneath there. " + variable_list(obj=self), required=False)
         parser.add_argument("--output_sampledata", action="store_true", help="Outputs the sampledata as well")
         return parser
 
@@ -142,7 +142,7 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, 
             raise Exception("No output directory specified!")
 
         for item in make_list(data):
-            sub_dir = self.session.expand_placeholders(self.output_dir)
+            sub_dir = self.session.expand_variables(self.output_dir)
             if self.splitter is not None:
                 split = self.splitter.next(item=item.spectrum_name)
                 sub_dir = os.path.join(sub_dir, split)
@@ -167,7 +167,7 @@ class AdamsWriter(SplittableStreamWriter, SpectralIOWriter, DirectStreamWriter, 
         self._writer.write_fp([x.spectrum for x in make_list(data)], fp, as_bytes)
 
 
-class ReportSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class ReportSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_dir: str = None,
                  split_names: List[str] = None, split_ratios: List[int] = None, split_group: str = None,
@@ -227,7 +227,7 @@ class ReportSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWrite
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .report files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .report files in. Any defined splits get added beneath there. " + variable_list(obj=self), required=False)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -276,7 +276,7 @@ class ReportSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWrite
             raise Exception("No output directory specified!")
 
         for item in make_list(data):
-            sub_dir = self.session.expand_placeholders(self.output_dir)
+            sub_dir = self.session.expand_variables(self.output_dir)
             if self.splitter is not None:
                 split = self.splitter.next(item=item.sampledata_name)
                 sub_dir = os.path.join(sub_dir, split)

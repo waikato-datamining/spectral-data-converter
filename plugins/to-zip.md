@@ -24,7 +24,7 @@ options:
                         (default: False)
   -o OUTPUT, --output OUTPUT
                         The zip file to store the spectra or sample data files
-                        in. Supported placeholders: {HOME}, {CWD}, {TMP}
+                        in. Supported variables: {HOME}, {CWD}, {TMP}
                         (default: None)
   -c {stored,deflated,bzip2,lzma}, --compression {stored,deflated,bzip2,lzma}
                         The compression to use. (default: stored)
@@ -37,7 +37,7 @@ options:
                         may provide. (default: None)
 ```
 
-Available placeholders:
+Available variables:
 
 * `{HOME}`: The home directory of the current user.
 * `{CWD}`: The current working directory.

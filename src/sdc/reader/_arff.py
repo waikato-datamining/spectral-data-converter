@@ -3,14 +3,14 @@ import os
 from typing import List, Iterable, Union
 
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.arff import Reader as SReader
 
 from sdc.api import SpectralIOReader, Spectrum2D
 
 
-class ARFFReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
+class ARFFReader(SpectralIOReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, spectral_data: str = None, sample_data: str = None, sample_data_prefix: str = None,
@@ -92,8 +92,8 @@ class ARFFReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the ARFF file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ARFF files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the ARFF file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the ARFF files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.arff'", required=False)
         parser.add_argument("--sample_id", type=str, help="The 1-based index of the sample ID attribute.", required=False, default="1")
         parser.add_argument("--spectral_data", type=str, help="The range of attributes containing the spectral data (1-based).", required=False, default="2-last")

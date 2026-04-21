@@ -3,13 +3,13 @@ import json
 from typing import List, Iterable, Union
 
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import placeholder_list, PlaceholderSupporter
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 
 from sdc.api import SampleDataReader, SampleData
 
 
-class JsonSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
+class JsonSampleDataReader(SampleDataReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, direct_read: bool = False,
@@ -62,8 +62,8 @@ class JsonSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter)
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the sample data file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the sample data files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the sample data file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the sample data files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.json'", required=False)
         return parser
 

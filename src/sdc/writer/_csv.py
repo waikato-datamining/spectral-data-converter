@@ -3,7 +3,7 @@ import csv
 from io import StringIO
 from typing import List
 
-from seppl.placeholders import InputBasedPlaceholderSupporter
+from seppl.variables import InputBasedVariableSupporter
 from seppl.io import DirectBatchWriter
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Writer as SWriter, PLACEHOLDERS, PH_WAVE_NUMBER
@@ -13,7 +13,7 @@ from sdc.api import Spectrum2D, SplittableSampleDataBatchWriter, SampleData, SAM
     SpectralIOWriter, DefaultExtensionWriter
 
 
-class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None, wave_numbers_format: str = None,
@@ -165,7 +165,7 @@ class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Defa
         if self.output_file is None:
             raise Exception("No output file specified!")
 
-        output_file = self.session.expand_placeholders(self.output_file)
+        output_file = self.session.expand_variables(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 
@@ -183,7 +183,7 @@ class CSVWriter(SplittableBatchWriter, SpectralIOWriter, DirectBatchWriter, Defa
         self._writer.write_fp([x.spectrum for x in data], fp, as_bytes)
 
 
-class CSVSampleDataWriter(SplittableSampleDataBatchWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedPlaceholderSupporter):
+class CSVSampleDataWriter(SplittableSampleDataBatchWriter, DirectBatchWriter, DefaultExtensionWriter, InputBasedVariableSupporter):
 
     def __init__(self, output_file: str = None, sample_id: str = None, sample_data: List[str] = None,
                  sample_data_prefix: str = None,
@@ -303,7 +303,7 @@ class CSVSampleDataWriter(SplittableSampleDataBatchWriter, DirectBatchWriter, De
         if self.output_file is None:
             raise Exception("No output file specified!")
 
-        output_file = self.session.expand_placeholders(self.output_file)
+        output_file = self.session.expand_variables(self.output_file)
         self.logger().info("Writing sample data to: %s" % output_file)
 
         with open(output_file, "w") as fp:

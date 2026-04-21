@@ -3,7 +3,7 @@ from typing import List, Iterable, Union, Dict, Any
 
 from javaproperties import load
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.adams import DATATYPE_SUFFIX
 from wai.spectralio.adams import Reader as SReader
@@ -12,7 +12,7 @@ from sdc.api import SpectralIOReader, SampleDataReader, SampleData
 from sdc.api import Spectrum2D
 
 
-class AdamsReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
+class AdamsReader(SpectralIOReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,
@@ -73,8 +73,8 @@ class AdamsReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the spectral file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the spectral files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the spectral file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the spectral files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.spec'", required=False)
         return parser
 
@@ -177,7 +177,7 @@ class AdamsReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         return (self._inputs is not None) and len(self._inputs) == 0
 
 
-class ReportSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
+class ReportSampleDataReader(SampleDataReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, direct_read: bool = False,
@@ -230,8 +230,8 @@ class ReportSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporte
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the sample data file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the sample data files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the sample data file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the sample data files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.report'", required=False)
         return parser
 

@@ -62,7 +62,7 @@ The following sample data formats are supported:
 ```
 usage: sdc-convert [-h] [--help-all] [--help-plugin NAME] [-u INTERVAL]
                    [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-b]
-                   [--placeholders FILE] [--load_pipeline FILE]
+                   [--variables FILE] [--load_pipeline FILE]
                    [--dump_pipeline FILE]
 
 Tool for converting between spectral data formats.
@@ -73,18 +73,18 @@ readers (27):
    from-nir, from-opus, from-opus-ext, from-pyfunc, from-report-sd, 
    from-spa, from-storage, from-text-file, from-zip, get-email, 
    list-files, poll-dir, shell-exec, start, watch-dir
-filters (46):
+filters (50):
    add-sampledata, apply-cleaner, attach-metadata, block, center, 
    check-duplicate-filenames, copy-files, count-data, delete-storage, 
    discard-by-name, downsample, equi-distance, get-metadata, 
-   list-to-sequence, log, log-data, log-placeholder, max-records, 
-   metadata, metadata-from-name, metadata-to-placeholder, move-files, 
-   passthrough, pca, pls1, pyfunc-filter, randomize-records, 
-   record-window, rename, row-norm, sample, savitzky-golay, 
-   savitzky-golay2, set-metadata, set-placeholder, set-storage, simpls, 
-   sleep, spectrum-to-sampledata, split-records, 
-   standard-normal-variate*, standardize, stop, sub-process, tee, 
-   trigger
+   list-to-sequence, log, log-data, log-placeholder*, log-variable, 
+   max-records, metadata, metadata-from-name, metadata-to-placeholder*, 
+   metadata-to-variable, move-files, passthrough, pca, pls1, 
+   pyfunc-filter, randomize-records, record-window, rename, row-norm, 
+   sample, sanitize-name, savitzky-golay, savitzky-golay2, set-metadata, 
+   set-placeholder*, set-storage, set-variable, simpls, sleep, 
+   spectrum-to-sampledata, split-records, standard-normal-variate*, 
+   standardize, stop, sub-process, tee, trigger
 writers (20):
    console, delete-files, send-email, to-adams, to-arff, to-asc, 
    to-asciixy, to-cal, to-csv, to-csv-sd, to-dpt, to-json-sd, 
@@ -100,7 +100,7 @@ options:
   -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                        The logging level to use (default: WARN).
   -b, --force_batch    Processes the data in batches.
-  --placeholders FILE  The file with custom placeholders to load (format: key=value).
+  --variables FILE     The file with custom variables to load (format: key=value).
   --load_pipeline FILE The file to load the pipeline command from.
   --dump_pipeline FILE The file to dump the pipeline command in.
 ```
@@ -109,7 +109,7 @@ options:
 
 ```
 usage: sdc-exec [-h] --exec_generator GENERATOR [--exec_dry_run]
-                [--exec_prefix PREFIX] [--exec_placeholders FILE]
+                [--exec_prefix PREFIX] [--exec_variables FILE]
                 [--exec_format {cmdline,file}]
                 [--exec_logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                 ...
@@ -118,7 +118,7 @@ Tool for executing a pipeline multiple times, each time with a different set
 of variables expanded. A variable is surrounded by curly quotes (e.g.,
 variable 'i' gets referenced with '{i}'). When supplying multiple generators,
 then these get treated as nested executions. Available generators: csv-file,
-dirs, list, null, prompt, range, text-file
+dirs, files, list, null, prompt, range, text-file
 
 positional arguments:
   pipeline              The pipeline template with variables to expand and
@@ -134,8 +134,8 @@ options:
                         only outputs it on stdout. (default: False)
   --exec_prefix PREFIX  The string to prefix the pipeline with when in dry-run
                         mode. (default: None)
-  --exec_placeholders FILE
-                        The file with custom placeholders to load (format:
+  --exec_variables FILE
+                        The file with custom variables to load (format:
                         key=value). (default: None)
   --exec_format {cmdline,file}
                         The format that the pipeline is in. The format
@@ -145,8 +145,9 @@ options:
                         This file format allows spreading the pipeline
                         arguments over multiple lines: it simply joins all
                         lines into a single command-line before splitting it
-                        into individual arguments for execution. (default:
-                        cmdline)
+                        into individual arguments for execution; any line
+                        starting with # is interpreted as commend and removed
+                        before joining. (default: cmdline)
   --exec_logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         The logging level to use. (default: WARN)
 ```

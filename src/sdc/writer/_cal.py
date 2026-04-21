@@ -171,7 +171,7 @@ class CALWriter(NIRWriter):
         if self.output_file is None:
             raise Exception("No output file specified!")
 
-        output_file = self.session.expand_placeholders(self.output_file)
+        output_file = self.session.expand_variables(self.output_file)
         self.logger().info("Writing spectra to: %s" % output_file)
         self._writer.write([x.spectrum for x in data], output_file)
 

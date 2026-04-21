@@ -1,10 +1,10 @@
-import argparse
 import csv
+import argparse
 import os
 from typing import List, Iterable, Union
 
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.variables import VariableSupporter, variable_list
 from simple_range import Index, Range
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.csv import Reader as SReader
@@ -12,7 +12,7 @@ from wai.spectralio.csv import Reader as SReader
 from sdc.api import SpectralIOReader, SampleDataReader, Spectrum2D, SampleData, SAMPLE_ID
 
 
-class CSVReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
+class CSVReader(SpectralIOReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, spectral_data: str = None, sample_data: str = None, sample_data_prefix: str = None,
@@ -94,8 +94,8 @@ class CSVReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the CSV file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the CSV files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the CSV file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the CSV files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.csv'", required=False)
         parser.add_argument("--sample_id", type=str, help="The 1-based index of the sample ID column.", required=False, default="1")
         parser.add_argument("--spectral_data", type=str, help="The range of columns containing the spectral data (1-based).", required=False, default="2-last")
@@ -240,7 +240,7 @@ class CSVReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         return (self._inputs is not None) and len(self._inputs) == 0
 
 
-class CSVSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
+class CSVSampleDataReader(SampleDataReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None, resume_from: str = None,
                  sample_id: str = None, sample_data: str = None, sample_data_prefix: str = None, direct_read: bool = False,
@@ -302,8 +302,8 @@ class CSVSampleDataReader(SampleDataReader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the CSV file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the CSV files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the CSV file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the CSV files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.csv'", required=False)
         parser.add_argument("--sample_id", type=str, help="The 1-based index of the sample ID column.", required=False, default="1")
         parser.add_argument("--sample_data", type=str, help="The range of columns containing the reference values (1-based).", required=False, default="2-last")

@@ -3,7 +3,7 @@ import json
 import os
 from typing import List
 
-from seppl.placeholders import placeholder_list
+from seppl.variables import variable_list
 from seppl.io import DirectStreamWriter
 from wai.logging import LOGGING_WARNING
 
@@ -74,7 +74,7 @@ class JsonSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter,
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The directory to store the .json files in. Any defined splits get added beneath there. " + placeholder_list(obj=self), required=False)
+        parser.add_argument("-o", "--output", type=str, help="The directory to store the .json files in. Any defined splits get added beneath there. " + variable_list(obj=self), required=False)
         parser.add_argument("--indent", type=int, help="The indent to use for pretty-printing the JSON instead of optimal file size.", default=None, required=False)
         return parser
 
@@ -99,7 +99,7 @@ class JsonSampleDataWriter(SplittableSampleDataStreamWriter, DirectStreamWriter,
             raise Exception("No output directory specified!")
 
         for item in make_list(data):
-            sub_dir = self.session.expand_placeholders(self.output_dir)
+            sub_dir = self.session.expand_variables(self.output_dir)
             if self.splitter is not None:
                 split = self.splitter.next(item=item.sampledata_name)
                 sub_dir = os.path.join(sub_dir, split)

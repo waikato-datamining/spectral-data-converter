@@ -7,14 +7,14 @@ from zipfile import ZipFile
 
 from seppl import init_initializable, Initializable
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 
 from kasperl.api import Reader, parse_reader
 from sdc.api import SampleData, Spectrum2D
 
 
-class ZipReader(Reader, DirectReader, PlaceholderSupporter):
+class ZipReader(Reader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, pattern: str = None, reader: str = None, direct_read: bool = False,
@@ -74,8 +74,8 @@ class ZipReader(Reader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the zip file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the zip files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the zip file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the zip files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.zip'", required=False)
         parser.add_argument("-p", "--pattern", type=str, help="Glob expression matching the files to extract, e.g., '*.spec'", required=False)
         parser.add_argument("-r", "--reader", type=str, help="The command-line of the direct reader to use for reading the spectra or sample data from the zip archive.", required=True)

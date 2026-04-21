@@ -36,8 +36,8 @@ options:
                         None)
   -o OUTPUT, --output OUTPUT
                         The directory to store the .json files in. Any defined
-                        splits get added beneath there. Supported
-                        placeholders: {HOME}, {CWD}, {TMP} (default: None)
+                        splits get added beneath there. Supported variables:
+                        {HOME}, {CWD}, {TMP} (default: None)
   --indent INDENT       The indent to use for pretty-printing the JSON instead
                         of optimal file size. (default: None)
 ```

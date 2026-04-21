@@ -2,14 +2,14 @@ import argparse
 from typing import List, Iterable, Union
 
 from seppl.io import locate_files, DirectReader
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 from wai.spectralio.opus_ext import Reader as SReader
 
 from sdc.api import SpectralIOReader, Spectrum2D
 
 
-class OPUSExtReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
+class OPUSExtReader(SpectralIOReader, DirectReader, VariableSupporter):
 
     def __init__(self, source: Union[str, List[str]] = None, source_list: Union[str, List[str]] = None,
                  resume_from: str = None, instrument: str = None, format: str = None, keep_format: bool = None,
@@ -91,8 +91,8 @@ class OPUSExtReader(SpectralIOReader, DirectReader, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-i", "--input", type=str, help="Path to the OPUS file(s) to read; glob syntax is supported; " + placeholder_list(obj=self), required=False, nargs="*")
-        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the OPUS files to use; " + placeholder_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-i", "--input", type=str, help="Path to the OPUS file(s) to read; glob syntax is supported; " + variable_list(obj=self), required=False, nargs="*")
+        parser.add_argument("-I", "--input_list", type=str, help="Path to the text file(s) listing the OPUS files to use; " + variable_list(obj=self), required=False, nargs="*")
         parser.add_argument("--resume_from", type=str, help="Glob expression matching the file to resume from, e.g., '*/012345.0'", required=False)
         parser.add_argument("--spectrum_block_type", type=str, help="The block type of the spectrum to extract, in hex notation", required=False, default="100f")
         parser.add_argument("--operation", type=str, help="The command-line operation to get the sample ID from, e.g., 'MeasureSample'", required=False, default="MeasureSample")

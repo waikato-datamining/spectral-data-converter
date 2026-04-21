@@ -39,11 +39,10 @@ options:
                         None)
   -o OUTPUT, --output OUTPUT
                         The directory to store the .asc files in. Any defined
-                        splits get added beneath there. Supported
-                        placeholders: {HOME}, {CWD}, {TMP}, {INPUT_PATH},
-                        {INPUT_NAMEEXT}, {INPUT_NAMENOEXT}, {INPUT_EXT},
-                        {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME} (default:
-                        None)
+                        splits get added beneath there. Supported variables:
+                        {HOME}, {CWD}, {TMP}, {INPUT_PATH}, {INPUT_NAMEEXT},
+                        {INPUT_NAMENOEXT}, {INPUT_EXT}, {INPUT_PARENT_PATH},
+                        {INPUT_PARENT_NAME} (default: None)
   --instrument_name INSTRUMENT_NAME
                         The instrument name to use in the header (default:
                         <not implemented>)
@@ -61,7 +60,7 @@ options:
                         False)
 ```
 
-Available placeholders:
+Available variables:
 
 * `{HOME}`: The home directory of the current user.
 * `{CWD}`: The current working directory.

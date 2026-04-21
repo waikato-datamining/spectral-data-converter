@@ -7,7 +7,7 @@ from typing import List
 
 from seppl import Initializable, init_initializable
 from seppl.io import DirectStreamWriter, DirectWriter, DirectBatchWriter
-from seppl.placeholders import placeholder_list, PlaceholderSupporter
+from seppl.variables import VariableSupporter, variable_list
 from wai.logging import LOGGING_WARNING
 
 from kasperl.api import StreamWriter, parse_writer, make_list
@@ -34,7 +34,7 @@ DEFAULT_BINARY_EXT = ".bin"
 DEFAULT_TEXT_EXT = ".txt"
 
 
-class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, PlaceholderSupporter):
+class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, VariableSupporter):
 
     def __init__(self, output_file: str = None, compression: str = None, writer: str = None, extension: str = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
@@ -111,7 +111,7 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output", type=str, help="The zip file to store the spectra or sample data files in. " + placeholder_list(obj=self), required=True)
+        parser.add_argument("-o", "--output", type=str, help="The zip file to store the spectra or sample data files in. " + variable_list(obj=self), required=True)
         parser.add_argument("-c", "--compression", choices=COMPRESSION, help="The compression to use.", default=COMPRESSION_STORED, required=False)
         parser.add_argument("-w", "--writer", type=str, help="The direct writer to use for writing the data in the zip file.", required=True)
         parser.add_argument("-e", "--extension", type=str, help="The extension to use for the files in the zip file, overrides any default extension that the direct writer may provide.", required=False)
@@ -163,7 +163,7 @@ class ZipWriter(StreamWriter, DirectStreamWriter, DefaultExtensionWriter, Placeh
         :param data: the data to write (single record or iterable of records)
         """
         if self._fp is None:
-            self._fp = open(self.session.expand_placeholders(self.output_file), "wb")
+            self._fp = open(self.session.expand_variables(self.output_file), "wb")
         self.write_stream_fp(data, self._fp, True)
 
     def write_stream_fp(self, data, fp, as_bytes: bool):
