@@ -6,7 +6,8 @@ Changelog
 
 - added support for data-formatters with `df-spectrum2d` specifically for 2D spectra
 - using `seppl.variables` now
-- requiring seppl>=0.3.1 now
+- requires seppl>=0.3.1 now
+- requires kasperl>=0.0.2 now
 
 
 0.1.0 (2025-10-31)
