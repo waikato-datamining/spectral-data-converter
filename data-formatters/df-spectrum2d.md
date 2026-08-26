@@ -20,5 +20,6 @@ options:
                         The format to use for the output, available
                         placeholders: data, spectrum-name, spectrum-name-
                         noext, num-waves, min-wave, max-wave, has-annotations,
-                        annotations (default: {data})
+                        annotations, has-metadata; for metadata fields use
+                        metadata:<fieldname> (default: {data})
 ```
