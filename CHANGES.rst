@@ -8,6 +8,7 @@ Changelog
 - using `seppl.variables` now
 - requires seppl>=0.3.1 now
 - requires kasperl>=0.0.2 now
+- fixed duplication of data for filters `rename` and `sanitize-name` to handle in-memory items
 
 
 0.1.0 (2025-10-31)
