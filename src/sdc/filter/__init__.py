@@ -2,6 +2,7 @@ from ._abstractpls import AbstractPLS, AbstractSingleResponsePLS, AbstractMultiR
 from ._add_sampledata import AddSampleData
 from ._apply_cleaner import ApplyCleaner
 from ._attach_metadata import AttachMetaData
+from ._block import Block
 from ._center import Center
 from ._downsample import DownSample
 from ._equi_distance import EquiDistance
@@ -17,6 +18,7 @@ from ._savitzkygolay2 import SavitzkyGolay2
 from ._simpls import SIMPLS
 from ._spectrum_to_sampledata import SpectrumToSampleData
 from ._standardize import Standardize
+from ._stop import Stop
 from ._sub_process import SubProcess
 from ._tee import Tee
 from ._trigger import Trigger

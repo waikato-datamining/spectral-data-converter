@@ -30,6 +30,7 @@
 
 ## Filters
 * [add-sampledata](add-sampledata.md)
+* [annotations-to-metadata](annotations-to-metadata.md)
 * [apply-cleaner](apply-cleaner.md)
 * [attach-metadata](attach-metadata.md)
 * [block](block.md)
